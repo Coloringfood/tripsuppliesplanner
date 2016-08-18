@@ -1,0 +1,14 @@
+{
+  "name": "tripsuppliesplanner",
+  "version": "1.0.0",
+  "description": "dynamic list to show supplies",
+  "main": "app.js",
+  "scripts": {
+    "test": "tests"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
