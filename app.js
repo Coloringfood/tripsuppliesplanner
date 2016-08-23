@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var v1 = require('./routes/v1');
 
 var app = express();
 var debug = require('debug')('tripsuppliesplanner:server:app');
@@ -23,8 +22,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/v1', v1);
+
+var renderIndex = function (req, res) {
+    res.sendFile(path.resolve(__dirname, 'index.html'));
+};
+app.get('/*', renderIndex);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
