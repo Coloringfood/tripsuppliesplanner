@@ -5,6 +5,7 @@ class ItemsPage extends React.Component {
         super(props);
         this.state = props;
     }
+
     render() {
         var test = 0;
         return (

@@ -60,7 +60,7 @@ class Html extends React.Component {
             <div id="content" dangerouslySetInnerHTML={{__html: contentHtml}}/>
 
             <script src="/main.js"></script>
-            <script dangerouslySetInnerHTML={{__html: initScript}} />
+            <script dangerouslySetInnerHTML={{__html: initScript}}/>
 
             </body>
             </html>

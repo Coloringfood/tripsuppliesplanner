@@ -5,7 +5,7 @@ class NavList extends React.Component {
         var i = 0,
             that = this;
         var createItem = function (itemText) {
-            var listItem = <li key={i++} ><a href="#" onClick={that.props.update}>{itemText}</a></li>;
+            var listItem = <li key={i++}><a href="#" onClick={that.props.update}>{itemText}</a></li>;
             if (that.props.activePage == itemText) {
                 listItem =
                     <li key={i++} className="active"><a href="#">{itemText} <span
@@ -52,7 +52,8 @@ class NavBar extends React.Component {
                         </div>
 
                         <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <NavList pages={this.pages} activePage={this.state.curLocation} update={this.props.onNavClick}/>
+                            <NavList pages={this.pages} activePage={this.state.curLocation}
+                                     update={this.props.onNavClick}/>
                         </div>
                     </div>
                 </nav>

@@ -2,7 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var NavBar = require('./NavBar');
-var ItemsPage= require('./pages/Items');
+var ItemsPage = require('./pages/Items');
 var PackingPage = require('./pages/Packing');
 var TodoPage = require('./pages/Todo');
 
@@ -39,6 +39,9 @@ class PlannerApp extends React.Component {
         super(props);
         this.onNavClick = this.onNavClick.bind(this);
         this.curLocation = "todo";
+    }
+
+    componentDidMount() {
         this.changePage();
     }
 
@@ -49,7 +52,7 @@ class PlannerApp extends React.Component {
 
     changePage() {
         console.log(this.curLocation);
-        if(typeof window !== 'undefined') {
+        if (typeof window !== 'undefined') {
             var pageNode = document.getElementById("pageContent");
             ReactDOM.unmountComponentAtNode(pageNode);
             ReactDOM.render(<RenderPage page={this.curLocation}/>, pageNode);
