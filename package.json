@@ -4,7 +4,8 @@
   "description": "dynamic list to show supplies",
   "main": "app.js",
   "scripts": {
-    "start": "browserify -t babelify --standalone main views/main.js -o public/main.js && node ./bin/www"
+    "start": "browserify -t babelify --standalone main views/main.js -o public/main.js && node ./bin/www",
+    "compile": "browserify -t babelify --standalone main views/main.js -o public/main.js"
   },
   "author": "",
   "license": "ISC",

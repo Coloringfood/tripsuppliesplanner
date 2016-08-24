@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var v1 = require('./routes/v1');
+var webpages = require('./routes/webpages');
 
 var app = express();
 var debug = require('debug')('tripsuppliesplanner:server:app');
@@ -27,17 +28,7 @@ app.use('/v1', v1);
 
 
 // React Setup
-app.get('/', function (req, res) {
-    var initialState = {
-        items: [
-            'document your code',
-            'drop the kids off at the pool',
-            '</script><script>alert(666)</script>'
-        ],
-        text: ''
-    };
-    res.render('Html', {data: initialState});
-});
+app.get('/', webpages);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

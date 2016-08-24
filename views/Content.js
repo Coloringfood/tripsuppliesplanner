@@ -1,46 +1,60 @@
 var React = require('react');
+var NavBar = require('./NavBar');
+var TodoPage = require('./pages/Todo');
 
-class TodoList extends React.Component {
+
+class RenderPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.page = props.page;
+    }
+
     render() {
-        var i = 0;
-        var createItem = function(itemText) {
-            return <li key={i++}>{itemText}</li>;
-        };
-        return <ul>{this.props.items.map(createItem)}</ul>;
+        console.log("Rendering New Page");
+        var items = [
+            'document your code',
+            'drop the kids off at the pool',
+            '</script><script>alert(666)</script>'
+        ];
+
+        var page = <div>Nothing to see</div>;
+        if (this.page == "items") {
+            page = <button />
+        } else if (this.page == "todo") {
+            page = <TodoPage txt="Space" items={items}/>;
+        }
+
+        return page;
     }
 }
 
-class TodoApp extends React.Component {
+class PlannerApp extends React.Component {
     constructor(props) {
         super(props);
-        this.onChange = this.onChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = props;
+        this.onNavClick = this.onNavClick.bind(this);
+        this.curLocation = "todo";
+        this.changePage();
     }
-    onChange(e) {
-        this.setState({text: e.target.value});
+
+    onNavClick(e) {
+        this.curLocation = e.target.innerHTML;
+        this.changePage();
     }
-    handleSubmit(e) {
-        e.preventDefault();
-        var nextItems = this.state.items.concat([this.state.text]);
-        var nextText = '';
-        this.setState({items: nextItems, text: nextText});
+
+    changePage() {
+        console.log(this.curLocation);
+        this.page = <RenderPage page={this.curLocation}/>
     }
+
     render() {
         return (
             <div className="container">
-                <h3>TODO List</h3>
-                <TodoList items={this.state.items} />
-                <form className="form-inline" onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Write task" onChange={this.onChange} value={this.state.text} />
-                        &nbsp;
-                    </div>
-                    <button className="btn btn-primary">{'Add #' + (this.state.items.length + 1)}</button>
-                </form>
+                <NavBar curLocation={this.curLocation} onNavClick={this.onNavClick}/>
+                <h3>{this.curLocation}</h3>
+                {this.page}
             </div>
         );
     }
 }
 
-module.exports = TodoApp;
+module.exports = PlannerApp;
