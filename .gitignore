@@ -38,3 +38,6 @@ jspm_packages
 
 # Intellij files
 .idea/
+
+# React generated Files
+public/main.js

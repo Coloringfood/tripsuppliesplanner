@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('tripsuppliesplanner:server:www');
 var http = require('http');
+debug("Starting");
 
 /**
  * Get port from environment and store in Express.
