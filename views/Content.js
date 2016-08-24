@@ -1,5 +1,9 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
+
 var NavBar = require('./NavBar');
+var ItemsPage= require('./pages/Items');
+var PackingPage = require('./pages/Packing');
 var TodoPage = require('./pages/Todo');
 
 
@@ -19,9 +23,11 @@ class RenderPage extends React.Component {
 
         var page = <div>Nothing to see</div>;
         if (this.page == "items") {
-            page = <button />
+            page = <ItemsPage />
         } else if (this.page == "todo") {
             page = <TodoPage txt="Space" items={items}/>;
+        } else if (this.page == "packing") {
+            page = <PackingPage />;
         }
 
         return page;
@@ -43,15 +49,24 @@ class PlannerApp extends React.Component {
 
     changePage() {
         console.log(this.curLocation);
-        this.page = <RenderPage page={this.curLocation}/>
+        if(typeof window !== 'undefined') {
+            var pageNode = document.getElementById("pageContent");
+            ReactDOM.unmountComponentAtNode(pageNode);
+            ReactDOM.render(<RenderPage page={this.curLocation}/>, pageNode);
+
+            var navNode = document.getElementById("nav");
+            ReactDOM.unmountComponentAtNode(navNode);
+            ReactDOM.render(<NavBar curLocation={this.curLocation} onNavClick={this.onNavClick}/>, navNode);
+        }
     }
 
     render() {
+        console.log("rendering");
         return (
             <div className="container">
-                <NavBar curLocation={this.curLocation} onNavClick={this.onNavClick}/>
+                <div id="nav"></div>
                 <h3>{this.curLocation}</h3>
-                {this.page}
+                <div id="pageContent"></div>
             </div>
         );
     }

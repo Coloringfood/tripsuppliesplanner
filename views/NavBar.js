@@ -30,7 +30,8 @@ class NavBar extends React.Component {
         this.pages = [
             "todo",
             "items",
-            'packing'
+            'packing',
+            'nothing'
         ]
     }
 

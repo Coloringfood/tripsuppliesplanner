@@ -6,11 +6,12 @@ class ItemsPage extends React.Component {
         this.state = props;
     }
     render() {
+        var test = 0;
         return (
             <div className="container">
                 <h3>ITEMS PAGE</h3>
                 <div>Props:</div>
-                <div>{this.state}</div>
+                <div>{test}</div>
             </div>
         );
     }
