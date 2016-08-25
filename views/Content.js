@@ -38,7 +38,8 @@ class PlannerApp extends React.Component {
     constructor(props) {
         super(props);
         this.onNavClick = this.onNavClick.bind(this);
-        this.curLocation = "todo";
+        this.changePage = this.changePage.bind(this);
+        this.curLocation = "items";
     }
 
     componentDidMount() {
@@ -66,10 +67,10 @@ class PlannerApp extends React.Component {
     render() {
         console.log("rendering");
         return (
-            <div className="container">
-                <div id="nav"></div>
-                <h3>{this.curLocation}</h3>
-                <div id="pageContent"></div>
+            <div className="container-fluid">
+                <div className="row" id="nav"></div>
+                <div className="row"><h3>{this.curLocation}</h3></div>
+                <div className="row" id="pageContent"></div>
             </div>
         );
     }
