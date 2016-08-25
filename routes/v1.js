@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
+var items = require('./../models/itemsModel');
 
 var Items = [
     "Blah 1",
