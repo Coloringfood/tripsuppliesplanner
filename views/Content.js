@@ -22,7 +22,7 @@ class RenderPage extends React.Component {
 
         var page = <div>Nothing to see</div>;
         if (this.state.page == "items") {
-            page = <ItemsPage/>
+            page = <ItemsPage items={[]}/>
         } else if (this.state.page == "todo") {
             page = <TodoPage txt="Space" items={items}/>;
         } else if (this.state.page == "packing") {
