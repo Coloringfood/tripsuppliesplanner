@@ -4,24 +4,35 @@ var Items = require('./../components/ItemsGenerator');
 class ItemsPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = props;
-        this.update = this.update.bind(this);
+        this.state = props
+        // TODO Find a way to get the items from API
         this.items = [
             "Test",
             "Again"
-        ]
-    }
-
-    update(e) {
+        ];
+        this.handleSubmit = this.handleSubmit.bind(this);
 
     }
+
+    handleSubmit(e) {
+        // TODO Make API Call to add element
+    }
+
 
     render() {
-        var test = 0;
         return (
             <div className="col-lg-12">
                 <h3>ITEMS PAGE</h3>
-                <Items items={this.items} />
+                <form className="form-inline" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                        <input id="newText" type="text" className="form-control" placeholder="Write task"/>
+                        &nbsp;
+                    </div>
+                    <button className="btn btn-primary">
+                        {'Add #' + (this.items.length + 1)}
+                    </button>
+                </form>
+                <Items items={this.items}/>
             </div>
         );
     }

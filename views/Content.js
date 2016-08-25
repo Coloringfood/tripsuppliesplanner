@@ -10,11 +10,10 @@ var TodoPage = require('./pages/Todo');
 class RenderPage extends React.Component {
     constructor(props) {
         super(props);
-        this.page = props.page;
+        this.state = props;
     }
 
     render() {
-        console.log("Rendering New Page");
         var items = [
             'document your code',
             'drop the kids off at the pool',
@@ -22,12 +21,12 @@ class RenderPage extends React.Component {
         ];
 
         var page = <div>Nothing to see</div>;
-        if (this.page == "items") {
-            page = <ItemsPage />
-        } else if (this.page == "todo") {
+        if (this.state.page == "items") {
+            page = <ItemsPage/>
+        } else if (this.state.page == "todo") {
             page = <TodoPage txt="Space" items={items}/>;
-        } else if (this.page == "packing") {
-            page = <PackingPage />;
+        } else if (this.state.page == "packing") {
+            page = <PackingPage/>;
         }
 
         return page;
@@ -52,11 +51,10 @@ class PlannerApp extends React.Component {
     }
 
     changePage() {
-        console.log(this.curLocation);
         if (typeof window !== 'undefined') {
             var pageNode = document.getElementById("pageContent");
             ReactDOM.unmountComponentAtNode(pageNode);
-            ReactDOM.render(<RenderPage page={this.curLocation}/>, pageNode);
+            ReactDOM.render(<RenderPage page={this.curLocation} globals={this.globals}/>, pageNode);
 
             var navNode = document.getElementById("nav");
             ReactDOM.unmountComponentAtNode(navNode);
@@ -65,7 +63,6 @@ class PlannerApp extends React.Component {
     }
 
     render() {
-        console.log("rendering");
         return (
             <div className="container-fluid">
                 <div className="row" id="nav"></div>

@@ -13,9 +13,9 @@ class TodoList extends React.Component {
 class TodoPage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = props;
         this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state = props;
     }
 
     onChange(e) {
@@ -32,7 +32,7 @@ class TodoPage extends React.Component {
     render() {
         return (
             <div className="container">
-                <h3>TODO List</h3>
+                <h3>TO-DO List</h3>
                 <TodoList items={this.state.items}/>
                 <form className="form-inline" onSubmit={this.handleSubmit}>
                     <div className="form-group">
