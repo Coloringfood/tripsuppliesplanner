@@ -9,9 +9,10 @@ var ApiResource = {
             body: JSON.stringify(body)
         };
         options.headers['Content-Type'] = "application/json";
+        console.log(options);
         var uri = url + path;
-        return fetch(uri)
-            .then(result =>{
+        return fetch(uri, options)
+            .then(result => {
                 if (result.ok) {
                     return result.json()
                 } else { // response wasn't successful so dispatch an error
@@ -32,34 +33,34 @@ var ApiResource = {
 };
 
 /*fetch('/recipes', {
-    method: 'POST',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-        recipeName,
-        instructions,
-        ingredients
-    })
-}).then((res) => {
-    // If response was successful parse the json and dispatch an update
-    if (res.ok) {
-        res.json().then((recipe) => {
-            dispatch({
-                type: 'UPDATE_RECIPE',
-                recipe
-            });
-        });
-    } else { // response wasn't successful so dispatch an error
-        res.json().then((err) => {
-            dispatch({
-                type: 'ERROR_RECIPE',
-                message: err.reason,
-                status: err.status
-            });
-        });
-    }
-});*/
+ method: 'POST',
+ headers: {
+ 'Accept': 'application/json',
+ 'Content-Type': 'application/json'
+ },
+ body: JSON.stringify({
+ recipeName,
+ instructions,
+ ingredients
+ })
+ }).then((res) => {
+ // If response was successful parse the json and dispatch an update
+ if (res.ok) {
+ res.json().then((recipe) => {
+ dispatch({
+ type: 'UPDATE_RECIPE',
+ recipe
+ });
+ });
+ } else { // response wasn't successful so dispatch an error
+ res.json().then((err) => {
+ dispatch({
+ type: 'ERROR_RECIPE',
+ message: err.reason,
+ status: err.status
+ });
+ });
+ }
+ });*/
 
 module.exports = ApiResource;

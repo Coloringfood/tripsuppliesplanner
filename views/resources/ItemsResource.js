@@ -1,9 +1,9 @@
-var api = require('./../resources/ApiResource');
+var ApiResource = require('./../resources/ApiResource');
 
 var ItemsResource = {};
 
-ItemsResource.getAllItems = () => {
-    return api.call('/list');
-};
+ItemsResource.getAllItems = () => ApiResource.call('/list');
+
+ItemsResource.addItem = (item) => ApiResource.call('/list', 'PUT', {}, {value: item});
 
 module.exports = ItemsResource;

@@ -1,4 +1,7 @@
-var React = require('react');
+var React = require('react'),
+    Loader = require('react-loader');
+
+
 var ItemsResource = require('./../resources/ItemsResource');
 var Items = require('./../components/ItemsGenerator');
 
@@ -11,16 +14,25 @@ class ItemsPage extends React.Component {
         this.updateItems = this.updateItems.bind(this);
         this.getAllItems = this.getAllItems.bind(this);
     }
+
     componentDidMount() {
         this.getAllItems();
     }
 
     handleSubmit(e) {
+        console.log("handleSubmit");
         e.preventDefault();
-        // TODO Make API Call to add element
+        this.setState({loaded: false});
+        var that = this;
+        return ItemsResource.addItem(document.getElementById('newText').value).then((response) => {
+            console.log(response);
+            that.updateItems(response);
+        })
     }
 
-    getAllItems(){
+    getAllItems() {
+        console.log("getAllItems");
+        this.setState({loaded: false});
         var that = this;
         return ItemsResource.getAllItems().then((response) => {
             console.log(response);
@@ -29,7 +41,7 @@ class ItemsPage extends React.Component {
     }
 
     updateItems(newItems) {
-        this.setState({items: newItems});
+        this.setState({items: newItems, loaded: true});
     }
 
 
@@ -47,7 +59,10 @@ class ItemsPage extends React.Component {
                         {'Add #' + (this.state.items.length + 1)}
                     </button>
                 </form>
-                <Items items={this.state.items}/>
+
+                <Loader loaded={this.state.loaded}>
+                    <Items items={this.state.items}/>
+                </Loader>
             </div>
         );
     }
