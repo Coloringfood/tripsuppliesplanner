@@ -6,7 +6,7 @@ var Items = [
     "Blah 1",
     "Blah 2",
     "Awesome"
-]
+];
 
 router.route('/list')
     .get(function (req, res, next) {
@@ -14,7 +14,7 @@ router.route('/list')
         res.json(Items);
     })
     .put(function (req, res, next) {
-        Items.push(req.body);
+        Items.push(req.body.value);
         res.send(Items);
     });
 
