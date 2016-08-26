@@ -42,3 +42,4 @@ jspm_packages
 # React generated Files
 public/main.js
 /mongoDB/
+/config/config.json
