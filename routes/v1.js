@@ -24,7 +24,7 @@ router.route('/list')
     .put(function (req, res, next) {
         Items.push(req.body.value);
         // res.send(Items);
-        itemsMode.insert(req.body.value)
+        itemsModel.insert(req.body)
             .then(function (result) {
                 res.json(result);
             })
