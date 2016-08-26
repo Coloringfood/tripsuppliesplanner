@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
-var items = require('./../models/itemsModel');
+var itemsModel = require('./../models/itemsModel');
 
 var Items = [
     "Blah 1",
@@ -12,11 +12,25 @@ var Items = [
 router.route('/list')
     .get(function (req, res, next) {
         debug('GET /list');
-        res.json(Items);
+        // res.json(Items);
+        itemsModel.find({})
+            .then(function (results) {
+                res.json(results);
+            })
+            .catch(function (e) {
+                next(e);
+            })
     })
     .put(function (req, res, next) {
         Items.push(req.body.value);
-        res.send(Items);
+        // res.send(Items);
+        itemsMode.insert(req.body.value)
+            .then(function (result) {
+                res.json(result);
+            })
+            .catch(function (e) {
+                next(e);
+            })
     });
 
 /* GET home page. */
