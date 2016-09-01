@@ -4,10 +4,11 @@ class Item extends React.Component {
     render() {
         var i = -1;
         var createRow = function (itemText) {
+            console.log("itemText: ", itemText);
             return (
                 <tr key={++i}>
                     <th>{i}</th>
-                    <td>{itemText}</td>
+                    <td>{itemText.value}</td>
                 </tr>
             );
         };
