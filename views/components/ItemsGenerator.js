@@ -3,12 +3,12 @@ var React = require('react');
 class Item extends React.Component {
     render() {
         var i = -1;
-        var createRow = function (itemText) {
-            console.log("itemText: ", itemText);
+        var createRow = function (item) {
             return (
                 <tr key={++i}>
-                    <th>{i}</th>
-                    <td>{itemText.value}</td>
+                    <th>{item._id}</th>
+                    <td>{item.value}</td>
+                    <td>{item.status}</td>
                 </tr>
             );
         };
@@ -18,6 +18,7 @@ class Item extends React.Component {
                 <tr>
                     <th>#</th>
                     <th>Name</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
