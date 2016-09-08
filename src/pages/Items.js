@@ -16,14 +16,10 @@ module.exports = React.createClass({
     componentDidMount() {
         this.getAllItems();
     },
-    getAllItems() {
-        console.log("getAllItems");
-        this.setState({loaded: false});
-        var that = this;
-        return ItemsResource.getAllItems().then((response) => {
-            console.log(response);
-            that.updateItems(response);
-        })
+    getAllItems(response) {
+        console.log(response);
+        this.setState({loaded: false, edited: ""});
+        return ItemsResource.getAllItems().then(this.updateItems);
     },
     updateItems(newItems) {
         console.log("newItems: ", newItems);
@@ -35,32 +31,23 @@ module.exports = React.createClass({
             return;
         }
         this.setState({loaded: false});
-        var that = this;
-        return ItemsResource.addItem(this.state.edited.trim()).then((response) => {
-            console.log(response);
-            that.setState({edited: ""});
-            that.getAllItems();
-        })
+        return ItemsResource.addItem(this.state.edited.trim()).then(this.getAllItems)
     },
     remove(item) {
-        this.setState({items: _.reject(this.state.items, item)});
+        this.setState({loaded: false});
+        return ItemsResource.removeItem(item).then(this.getAllItems)
     },
     toggleChecked(index) {
-        var items = _.cloneDeep(this.state.items);
-        items[index].done = !items[index].done;
-        this.setState({items: items});
-    },
-    clearDone() {
-        this.setState({items: this.getPending()});
+        var item = this.state.items[index];
+        item.done = !item.done;
+        this.setState({loaded: false});
+        return ItemsResource.updateItem(item).then(this.getAllItems)
     },
     getDone() {
         return _.filter(this.state.items, {done: true});
     },
     getPending() {
-        return _.filter(this.state.items, {done: false});
-    },
-    countTodos(done) {
-        return _.filter(this.state.items, {done: done}).length;
+        return _.filter(this.state.items, (o) => !o.done);
     },
     inputKeyDown(e) {
         if (e.keyCode == ENTER_KEY) {

@@ -1,6 +1,6 @@
 {
   "database": {
-    "host": "192.168.1.121",
+    "host": "localhost",
     "port": "27017",
     "database": "tripsuppliesplanner"
   }

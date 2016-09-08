@@ -13,6 +13,5 @@
     <input key="myinput" class="new-todo" placeholder="What needs to be done?" type="text"
            onKeyDown="{this.inputKeyDown}"
            valueLink="{this.linkState('edited')}"/>
-    <button onClick="{this.add}">Add</button><br/>
-    <button onClick="{this.clearDone}">Clear done</button>
+    <button onClick="{this.add}">Add</button>
 </Loader>
