@@ -38,7 +38,7 @@ class PlannerApp extends React.Component {
         super(props);
         this.onNavClick = this.onNavClick.bind(this);
         this.changePage = this.changePage.bind(this);
-        this.curLocation = "todo";
+        this.curLocation = "items";
     }
 
     componentDidMount() {
