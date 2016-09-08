@@ -1,4 +1,6 @@
-<rt-require dependency="./Todo" as="Todo"/>
+<rt-require dependency="./pages/Todo" as="Todo"/>
+<rt-require dependency="./pages/Items" as="Items"/>
 <div>
-    <Todo class="todo"></Todo>
+    <!--<Todo class="todo"></Todo>-->
+    <Items class="todo"></Items>
 </div>

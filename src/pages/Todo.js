@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import template from './Todo.rt';
 import LinkedStateMixin from 'react-addons-linked-state-mixin';
-require('./assets/style.scss');
+require('./../assets/style.scss');
 
 const ENTER_KEY = 13;
 

@@ -1,0 +1,18 @@
+<rt-require dependency="react-loader" as="Loader"/>
+<Loader loaded={this.state.loaded}>
+    <strong>{this.getDone().length}</strong> done,
+    <strong>{this.getPending().length}</strong> pending
+    <br/>
+    <div class="todo-item" rt-repeat="item in this.state.items" key="{item.key}">
+        <img src="src/assets/delete.png"
+             onClick="()=>this.remove(item)"
+             title="Remove Todo" />
+        <input type="checkbox" checked="{item.done}" onChange="()=>this.toggleChecked(itemIndex)"/>
+        <span rt-class="{done: item.done}">{item.value}</span>
+    </div>
+    <input key="myinput" class="new-todo" placeholder="What needs to be done?" type="text"
+           onKeyDown="{this.inputKeyDown}"
+           valueLink="{this.linkState('edited')}"/>
+    <button onClick="{this.add}">Add</button><br/>
+    <button onClick="{this.clearDone}">Clear done</button>
+</Loader>
