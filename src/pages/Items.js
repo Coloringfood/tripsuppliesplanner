@@ -7,7 +7,7 @@ require('./../assets/style.scss');
 const ENTER_KEY = 13;
 
 module.exports = React.createClass({
-    displayName: 'Todo',
+    displayName: 'Items',
     mixins: [LinkedStateMixin],
     getInitialState() {
         return {edited: '', items: [], counter: 0};
@@ -17,7 +17,7 @@ module.exports = React.createClass({
         this.getAllItems();
     },
     getAllItems(response) {
-        console.log(response);
+        console.log("response: " + response);
         this.setState({loaded: false, edited: ""});
         return ItemsResource.getAllItems().then(this.updateItems);
     },

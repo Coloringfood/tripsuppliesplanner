@@ -1,4 +1,4 @@
-var url = 'http://localhost:3000/v1';
+var url = '/v1';
 
 var ApiResource = {
     call: (path, method, header, body) => {

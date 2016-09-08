@@ -1,6 +1,8 @@
+<rt-require dependency="./NavBar" as="NavBar"/>
 <rt-require dependency="./pages/Todo" as="Todo"/>
 <rt-require dependency="./pages/Items" as="Items"/>
-<div>
+<div class="container-fluid">
     <!--<Todo class="todo"></Todo>-->
-    <Items class="todo"></Items>
+    <NavBar class="row" curLocation="todo"/>
+    <Items class="row todo"></Items>
 </div>

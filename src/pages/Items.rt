@@ -3,7 +3,7 @@
     <strong>{this.getDone().length}</strong> done,
     <strong>{this.getPending().length}</strong> pending
     <br/>
-    <div class="todo-item" rt-repeat="item in this.state.items" key="{item.key}">
+    <div class="todo-item" rt-repeat="item in this.state.items" key="{item._id}">
         <img src="src/assets/delete.png"
              onClick="()=>this.remove(item)"
              title="Remove Todo" />
