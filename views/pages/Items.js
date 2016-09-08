@@ -26,7 +26,7 @@ class ItemsPage extends React.Component {
         var that = this;
         return ItemsResource.addItem(document.getElementById('newText').value).then((response) => {
             console.log(response);
-            that.updateItems(response);
+            that.getAllItems();
         })
     }
 
