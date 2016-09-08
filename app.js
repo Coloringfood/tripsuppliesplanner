@@ -29,6 +29,7 @@ app.use('/v1', v1);
 
 // React Setup
 app.get('/', webpages);
+app.use('/src', express.static('src'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

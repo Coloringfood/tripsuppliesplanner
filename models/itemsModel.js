@@ -67,6 +67,22 @@ var itemsModel = {
                         Promise.reject(e);
                     });
             })
+    },
+    updateId: (id, item) => {
+        return getItemsCollection()
+            .then(function (dbResult) {
+                return dbResult.collection.updateById(id, item)
+                    .then(function (result) {
+                        debug("update result: %o", result);
+
+                        dbResult.db.close();
+                        return result;
+                    })
+                    .catch(function (e) {
+                        dbResult.db.close();
+                        Promise.reject(e);
+                    });
+            })
     }
 };
 

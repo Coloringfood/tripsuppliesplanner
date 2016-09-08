@@ -1,50 +1,80 @@
-var React = require('react');
+import React, {Component} from 'react';
+import LinkedStateMixin from 'react-addons-linked-state-mixin';
+import * as _ from 'lodash';
 
-class TodoList extends React.Component {
-    render() {
-        var i = 0;
-        var createItem = function (itemText) {
-            return <li key={i++}>{itemText}</li>;
-        };
-        return <ul>{this.props.items.map(createItem)}</ul>;
-    }
-}
+const ENTER_KEY = 13;
 
-class TodoPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = props;
-        this.onChange = this.onChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
+module.exports = React.createClass({
+    displayName: 'Todo',
+    mixins: [LinkedStateMixin],
+    getInitialState() {
+        console.log("getInitialState");
+        return {edited: '', todos: [], counter: 0};
+    },
+    add() {
+        if (this.state.edited.trim().length === 0) {
+            return;
+        }
+        var newTodo = {value: this.state.edited, done: false, key: this.state.counter};
+        this.setState({todos: this.state.todos.concat(newTodo), edited: '', counter: this.state.counter + 1});
+    },
+    remove(todo) {
+        this.setState({todos: _.reject(this.state.todos, todo)});
+    },
+    toggleChecked(index) {
+        var todos = _.cloneDeep(this.state.todos);
+        todos[index].done = !todos[index].done;
+        this.setState({todos: todos});
+    },
+    clearDone() {
+        this.setState({todos: this.getPending()});
+    },
+    getDone() {
+        return _.filter(this.state.todos, {done: true});
+    },
+    getPending() {
+        return _.filter(this.state.todos, {done: false});
+    },
+    countTodos(done) {
+        return _.filter(this.state.todos, {done: done}).length;
+    },
+    inputKeyDown(e) {
+        if (e.keyCode == ENTER_KEY) {
+            e.preventDefault();
+            this.add();
+        }
+    },
     onChange(e) {
-        this.setState({text: e.target.value});
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        var nextItems = this.state.items.concat([this.state.text]);
-        var nextText = '';
-        this.setState({items: nextItems, text: nextText});
-    }
-
+        this.setState({edited: e.target.value});
+    },
     render() {
+        function repeatItem1(todo, itemIndex) {
+            console.log("todo + itemIndex: ", todo, itemIndex);
+            // return React.createElement('li', {}, item);
+            var completed = todo.done ? "done":"";
+            return (
+                <div className="todo-item" key={todo.key}>
+                    <img src="src/assets/delete.png"
+                         onClick={()=>this.remove(todo)}
+                         title="Remove Todo"/>
+                    <input type="checkbox" checked={todo.done} onChange={()=>this.toggleChecked(todoIndex)}/>
+                    <span className={completed}>{todo.value}</span>
+                </div>
+            )
+        }
         return (
-            <div className="container">
-                <h3>TO-DO List</h3>
-                <TodoList items={this.state.items}/>
-                <form className="form-inline" onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Write task" onChange={this.onChange}
-                               value={this.state.text}/>
-                        &nbsp;
-                    </div>
-                    <button className="btn btn-primary">{'Add #' + (this.state.items.length + 1)}</button>
-                </form>
+            <div>
+                <strong>{this.getDone().length}</strong> done,
+                <strong>{this.getPending().length}</strong> pending
+                <br/>
+                {_.map(this.state.todos, repeatItem1.bind(this))}
+                <input key="myinput" className="new-todo" placeholder="What needs to be done?" type="text"
+                       onKeyDown={this.inputKeyDown} value={this.state.edited}
+                       onChange={this.onChange}/>
+                <button onClick={this.add}>Add</button>
+                <br/>
+                <button onClick={this.clearDone}>Clear done</button>
             </div>
-        );
+        )
     }
-}
-
-module.exports = TodoPage;
+});

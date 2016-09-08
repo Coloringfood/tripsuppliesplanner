@@ -4,7 +4,8 @@
   "description": "dynamic list to show supplies",
   "main": "app.js",
   "scripts": {
-    "start": "browserify -t babelify --standalone main views/main.js -o public/main.js && node ./bin/www",
+    "start": "node ./bin/www",
+    "compile_start": "browserify -t babelify --standalone main views/main.js -o public/main.js && node ./bin/www",
     "compile": "browserify -t babelify --standalone main views/main.js -o public/main.js"
   },
   "author": "",
@@ -21,12 +22,14 @@
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "express-react-views": "^0.10.2",
+    "lodash": "^4.15.0",
     "mongo-bluebird": "0.0.6",
     "mongodb": "^2.2.8",
     "mongodb-bluebird": "^0.1.1",
     "morgan": "~1.7.0",
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
+    "react": "^15.3.1",
+    "react-addons-linked-state-mixin": "^15.3.1",
+    "react-dom": "^15.3.1",
     "react-loader": "^2.4.0",
     "serve-favicon": "~2.3.0"
   }
