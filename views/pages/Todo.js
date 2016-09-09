@@ -8,7 +8,6 @@ module.exports = React.createClass({
     displayName: 'Todo',
     mixins: [LinkedStateMixin],
     getInitialState() {
-        console.log("getInitialState");
         return {edited: '', todos: [], counter: 0};
     },
     add() {
@@ -49,7 +48,6 @@ module.exports = React.createClass({
     },
     render() {
         function repeatItem1(todo, itemIndex) {
-            console.log("todo + itemIndex: ", todo, itemIndex);
             // return React.createElement('li', {}, item);
             var completed = todo.done ? "done":"";
             return (
