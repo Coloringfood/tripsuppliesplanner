@@ -40,3 +40,4 @@ jspm_packages
 .idea/
 /mongoDB/
 /config/config.json
+/public/assets/ext/
