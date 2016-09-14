@@ -1,7 +1,6 @@
 {
   "name": "PowerDialer UI",
   "dependencies": {
-    "ISComponents": "~1.4.16",
     "html5shiv": "~3.7.3",
     "ngstorage": "~0.3.10"
   },
