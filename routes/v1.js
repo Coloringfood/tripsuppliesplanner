@@ -3,9 +3,9 @@ var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
 var itemsService = require('./../services/items');
 
-router.route('/list')
+router.route('/items')
     .get(function (req, res, next) {
-        debug('GET /list');
+        debug('GET /item');
         itemsService.getAllItems({})
             .then(function (results) {
                 res.json(results);
@@ -24,10 +24,10 @@ router.route('/list')
             })
     });
 
-router.route('/list/:listId')
+router.route('/items/:itemId')
     .put(function (req, res, next) {
         console.log(req.body.item);
-        itemsService.updateItem(req.params.listId, req.body.item)
+        itemsService.updateItem(req.params.itemId, req.body.item)
             .then(function (result) {
                 res.json(result);
             })
@@ -36,7 +36,7 @@ router.route('/list/:listId')
             })
     })
     .delete(function (req, res, next) {
-        itemsService.deleteItem(req.params.listId)
+        itemsService.deleteItem(req.params.itemId)
             .then(function (result) {
                 res.json(result);
             })
