@@ -1,21 +1,21 @@
 module.exports = items = {};
-import * as Promise from 'bluebird';
+var Promise = require('bluebird');
 
-items.getAllItems = () => {
+items.getAllItems = function () {
     return Promise.resolve([
         "test",
         "test2"
     ])
 };
 
-items.addItem = (item) => {
+items.addItem = function (item) {
     return Promise.resolve(item)
 };
 
-items.updateItem = (id, item) => {
+items.updateItem = function (id, item) {
     return Promise.resolve(item);
 };
 
-items.deleteItem = (id) =>{
+items.deleteItem = function (id) {
     return Promise.resolve("removed id: " + id)
 };
