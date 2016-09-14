@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Trip Supplies Planner</title>
+    <link rel="profile" href="http://www.w3.org/2005/10/profile"/>
+    <link rel="icon" type="image/png" href="./static/assets/images/favicon.png">
+    <!-- build:style vendor -->
+
+    <link rel="stylesheet" type="text/css" href="./static/assets/ext/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./static/assets/ext/ng-grid/ng-grid.css" />
+    <link rel="stylesheet" type="text/css" href="./static/assets/ext/ISComponents/dist/isComponents.css"/>
+    <!-- /build -->
+    <!-- build:style app -->
+    <link rel="stylesheet" href="./static/assets/css/base.css">
+    <!-- /build -->
+
+    <base href="/">
+</head>
+
+<body ng-app="tripsuppliesplannerApp" class="ng-cloak">
+<div ng-view></div>
+<!-- build:script vendor -->
+<script type="text/javascript" src="./static/assets/ext/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular/angular.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-route/angular-route.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-touch/angular-touch.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-sanitize/angular-sanitize.js"></script>
+<script type="text/javascript" src="./static/assets/ext/angular-cookies/angular-cookies.js"></script>
+<script type="text/javascript" src="./static/assets/ext/ngstorage/ngStorage.js"></script>
+<script type="text/javascript" src="./static/assets/ext/lodash/lodash.js"></script>
+<script type="text/javascript" src="./static/assets/ext/restangular/dist/restangular.js"></script>
+<script type="text/javascript" src="./static/assets/ext/ng-grid/build/ng-grid.debug.js"></script>
+
+<!-- /build -->
+<!-- build:script app -->
+<script type="text/javascript" src="./static/common/constants.js"></script>
+<script type="text/javascript" src="./static/common/TripSuppliesPlannerApp.js"></script>
+<script type="text/javascript" src="./static/common/restangularFactory.js"></script>
+<script type="text/javascript" src="./static/tripsuppliesplanner/DialerListsController.js"></script>
+<script type="text/javascript" src="./static/tripsuppliesplanner/services/DialerListApiService.js"></script>
+<!-- /build -->
+</body>
+</html>
