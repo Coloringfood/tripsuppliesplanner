@@ -38,3 +38,5 @@ jspm_packages
 
 # Intellij files
 .idea/
+/mongoDB/
+/config/config.json
