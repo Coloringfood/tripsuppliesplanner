@@ -1,4 +1,4 @@
 {
   "registry": "http://bower.lan",
-  "directory": "assets/ext"
+  "directory": "public/assets/ext"
 }

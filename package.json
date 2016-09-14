@@ -4,7 +4,9 @@
   "description": "dynamic list to show supplies",
   "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "preinstall": "npm i -g bower grunt-cli",
+    "postinstall": "bower install --allow-root && grunt build:dev"
   },
   "author": "",
   "license": "ISC",
@@ -17,5 +19,19 @@
     "morgan": "~1.7.0",
     "sequelize": "^3.24.3",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.3",
+    "csswring": "^4.2.1",
+    "grunt": "^0.4.5",
+    "grunt-angular-gettext": "^2.1.11",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-exec": "^0.4.6",
+    "grunt-mkdir": "^1.0.0",
+    "grunt-ng-constant": "^2.0.1",
+    "grunt-postcss": "^0.7.2",
+    "grunt-sass": "^1.1.0",
+    "load-grunt-tasks": "^3.4.1"
   }
 }

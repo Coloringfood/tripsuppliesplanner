@@ -56,7 +56,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        config: grunt.file.readJSON('config/config.json'),
+        config: grunt.file.readJSON('config/ui-config.json'),
 
         ngconstant: {
             options: {
@@ -109,26 +109,6 @@ module.exports = function (grunt) {
                     ],
                     reporter: 'checkstyle',
                     reporterOutput: 'build/code/lint/js/checkstyle.xml'
-                }
-            }
-        },
-
-        karma: {
-            unit: {
-                configFile: 'karma.conf.js',
-                browsers: ['PhantomJS'],
-                reporters: ['progress', 'coverage'],
-                singleRun: true
-            },
-            bamboo: {
-                configFile: 'karma.conf.js',
-                browsers: ['PhantomJS'],
-                reporters: ['progress', 'coverage', 'junit'],
-                singleRun: true,
-                coverageReporter: {
-                    reporters: [
-                        {type: 'html', dir: '../../build/tests/karma/html'}
-                    ]
                 }
             }
         },
@@ -325,19 +305,10 @@ module.exports = function (grunt) {
         'compile'
     ]);
     grunt.registerTask('build:dev', ['build', 'ngconstant']);
-    grunt.registerTask('ci', ['quality', 'test', 'doc']);
     grunt.registerTask('clean', ['clean:build', 'clean:gen']);
     grunt.registerTask('compile', ['sass:dist', 'postcss:dist', 'nggettext_compile']);
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('e2e', ['protractor:smoke']);
-    grunt.registerTask('pdepend', ['shell:pdepend']);
-    grunt.registerTask('phpmdMk', ['mkdir:phpmd', 'phpmd']);
     grunt.registerTask('prepare', ['mkdir:build']);
-    grunt.registerTask('quality', [
-        'prepare',
-        'jshint:all'
-    ]);
-    grunt.registerTask('test', ['karma:unit']);
 
     require('load-grunt-tasks')(grunt, {
         pattern: ['grunt-*', '!grunt-template-jasmine-istanbul', '!grunt-template-jasmine-requirejs']
