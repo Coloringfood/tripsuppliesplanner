@@ -1,7 +1,5 @@
 @import 'base';
 
-@include bases($lmp-color-1, $lmp-color-2, $lmp-color-3, $lmp-color-4);
-
 .modal-footer {
     text-align: center;
 }
@@ -22,5 +20,5 @@
 .padding {
     padding-left: 20px;
     padding-right: 20px;
-    color: $color-font;
+    color: #0000FF;
 }

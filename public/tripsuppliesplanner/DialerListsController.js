@@ -2,15 +2,15 @@ powerdialerApp.controller('DialerListsController',
     [
         '$scope',
         '$window',
-        'DialerListApiService',
-        function ($scope, $window, dialerListApiService) {
+        'RestangularFactory',
+        function ($scope, $window, RestangularFactory) {
             'use strict';
             
             var vm = this;
             vm.name = "Dialer Lists";
 
             vm.getDialerListData = function (queryData) {
-                return dialerListApiService.getLists()
+                return RestangularFactory.getLists()
                     .then(function (data) {
                         var tableData = {};
                         tableData.data = data;

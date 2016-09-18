@@ -11,18 +11,16 @@ module.exports = function (grunt) {
         js: {
             not: {
                 autogen: [
-                    '!views/common/constants.js',
-                    '!views/PowerDialer.min.js'
+                    '!public/common/constants.js',
+                    '!public/PowerDialer.min.js'
                 ],
                 external: [
-                    '!views/assets/ext/**/*.js',
+                    '!public/assets/ext/**/*.js',
                     '!Gruntfile.js',
                 ]
             },
             all: [
-                'views/**/*.js',
-                'server/**/*.js',
-                'utils/**/*.js'
+                'public/**/*.js'
             ],
             deps: [
                 // Dependencies for Unit Test
@@ -49,7 +47,7 @@ module.exports = function (grunt) {
         },
         html: {
             all: [
-                'views/**/*.html'
+                'public/**/*.html'
             ]
         }
     };
@@ -61,7 +59,7 @@ module.exports = function (grunt) {
         ngconstant: {
             options: {
                 name: 'constants',
-                dest: 'views/common/constants.js',
+                dest: 'public/common/constants.js',
                 wrap: '"use strict";\n\n {%= __ngModule %}',
                 constants: {
                     ENV: '<%= config %>'
@@ -89,8 +87,8 @@ module.exports = function (grunt) {
 
             // auto generate files (from gen task)
             gen: [
-                'views/common/constants.js',
-                'views/PowerDialer.min.js'
+                'public/common/constants.js',
+                'public/TripSuppliesPlanner.min.js'
             ]
         },
 
@@ -100,7 +98,7 @@ module.exports = function (grunt) {
                     style: 'expanded'
                 },
                 files: {
-                    'views/assets/css/base.css': 'views/assets/sass/main.scss'
+                    'public/assets/css/base.css': 'public/assets/sass/main.scss'
                 }
             }
         },

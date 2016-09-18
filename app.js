@@ -27,10 +27,6 @@ app.use('/static/', express.static(path.join(__dirname, 'public')));
 app.use('*', default_route);
 app.use('/v1', v1);
 
-var renderIndex = function (req, res) {
-    res.sendFile(path.resolve(__dirname, 'index.html'));
-};
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     var err = new Error('Not Found');

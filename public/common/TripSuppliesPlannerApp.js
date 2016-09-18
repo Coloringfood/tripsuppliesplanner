@@ -24,6 +24,10 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
         $routeProvider
 
             // routes
+            .when('/', {
+                templateUrl: '/static/tripsuppliesplanner/home.html',
+                controller: 'HomeController as vm'
+            })
             .when('/dialerlist', {
                 templateUrl: '/static/tripsuppliesplanner/dialer_lists.html',
                 controller: 'DialerListsController as vm'
