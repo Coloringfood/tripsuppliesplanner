@@ -43,3 +43,4 @@ jspm_packages
 /public/assets/ext/
 /public/config/config.json
 /public/common/constants.js
+/config/ui-config.json

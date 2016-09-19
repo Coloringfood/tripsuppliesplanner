@@ -3,8 +3,15 @@ var Promise = require('bluebird');
 
 items.getAllItems = function () {
     return Promise.resolve([
-        "test",
-        "test2"
+        {
+            id: 0,
+            name: "First",
+            categories: "1,2,3"
+        },{
+            id: 1,
+            name: "second",
+            categories: "2,4,6"
+        }
     ])
 };
 

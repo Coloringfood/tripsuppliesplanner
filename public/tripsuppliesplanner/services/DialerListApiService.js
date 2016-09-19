@@ -22,10 +22,18 @@ powerdialerApp.factory(
                 return data;
             }
 
+            DialerListApiService.getAllItems = function (){
+                return restangularFactory.one('items').get().then(function (returnedData){
+                    console.log("getAllItems: ", returnedData);
+                    return returnedData
+                })
+            };
+
             DialerListApiService.saveItem = function (itemData) {
                 var convertedItem = convertItemForApi(ruleData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + ruleData.id).then(function (returnedData) {
+                    console.log("saveItem: ", returnedData);
                     return returnedData;
                 });
             };
@@ -33,6 +41,7 @@ powerdialerApp.factory(
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.one('items').all(itemId).post(convertedItem).then(function (returnedData) {
+                    console.log("createRule: ", returnedData);
                     return returnedData;
                 });
             };

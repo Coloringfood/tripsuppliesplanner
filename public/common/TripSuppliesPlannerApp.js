@@ -24,18 +24,14 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
         $routeProvider
 
             // routes
-            .when('/', {
-                templateUrl: '/static/tripsuppliesplanner/home.html',
+            .when('/itemspage', {
+                templateUrl: '/static/tripsuppliesplanner/views/items_page.html',
+                controller: 'ItemsPageController as vm'
+            })
+            .otherwise({
+                templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'
-            })
-            .when('/dialerlist', {
-                templateUrl: '/static/tripsuppliesplanner/dialer_lists.html',
-                controller: 'DialerListsController as vm'
-            })
-            // .when('/editdialerlist', {
-            //     templateUrl: '/static/tripsuppliesplanner/edit_dialer_list.html',
-            //     controller: 'EditDialerListController as vm'
-            // });
+            });
 
         $locationProvider.html5Mode(true).hashPrefix('!');
     }
