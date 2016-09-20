@@ -26,8 +26,8 @@ powerdialerApp.factory(
             DialerListApiService.getAllItems = function () {
                 return restangularFactory.one('items').get().then(function (returnedData) {
                     console.log("getAllItems: ", returnedData);
-                    return returnedData
-                })
+                    return returnedData;
+                });
             };
 
             DialerListApiService.saveItem = function (itemData, itemId) {
@@ -39,7 +39,7 @@ powerdialerApp.factory(
                 });
             };
 
-            DialerListApiService.createItem = function (itemData, itemId) {
+            DialerListApiService.createItem = function (itemData) {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.all('items').post(convertedItem).then(function (returnedData) {

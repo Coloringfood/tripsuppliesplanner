@@ -1,10 +1,10 @@
 powerdialerApp.controller('ItemsPageController',
     [
         '$scope',
-        '$window',
         'DialerListApiService',
         'Notification',
-        function ($scope, $window, DialerListApiService, NotificationProvider) {
+        '$uibModal',
+        function ($scope, DialerListApiService, NotificationProvider, $uibModal) {
             'use strict';
 
             var vm = this;
@@ -42,8 +42,21 @@ powerdialerApp.controller('ItemsPageController',
             };
 
             vm.editItem = function (item) {
-                console.log(item);
-                NotificationProvider.info("Edit Item Called");
+                var modalInstance = $uibModal.open({
+                    templateUrl: '/public/tripsuppliesplanner/views/edit_item_modal.html',
+                    controller: 'EditItemModalController',
+                    controllerAs: 'vm',
+                    resolve: {
+                        item: function () {
+                            return item;
+                        }
+                    }
+                });
+                modalInstance.result.then(function (result) {
+                    NotificationProvider.success(result);
+                }).catch(function (reason) {
+                    NotificationProvider.info(reason);
+                });
             };
 
             vm.deleteItem = function (item) {

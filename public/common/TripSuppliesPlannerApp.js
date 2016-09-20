@@ -11,7 +11,8 @@ var powerdialerApp = angular.module('tripsuppliesplannerApp',
         'ngTouch',
         'ngStorage',
         'restangular',
-        'ui-notification'
+        'ui-notification',
+        'ui.bootstrap'
     ]);
 
 powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider', '$routeProvider', 'RestangularProvider', 'NotificationProvider',
