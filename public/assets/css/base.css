@@ -7,6 +7,9 @@
   .full-screen-modal .modal-dialog .cell-height {
     height: 25px; }
 
+body {
+  padding-top: 70px; }
+
 .modal-footer {
   text-align: center; }
 
