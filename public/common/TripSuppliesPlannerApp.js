@@ -10,11 +10,12 @@ var powerdialerApp = angular.module('tripsuppliesplannerApp',
         'ngAnimate',
         'ngTouch',
         'ngStorage',
-        'restangular'
+        'restangular',
+        'ui-notification'
     ]);
 
-powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider', '$routeProvider', 'RestangularProvider',
-    function ($compileProvider, $httpProvider, $locationProvider, $routeProvider, RestangularProvider) {
+powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider', '$routeProvider', 'RestangularProvider', 'NotificationProvider',
+    function ($compileProvider, $httpProvider, $locationProvider, $routeProvider, RestangularProvider, NotificationProvider) {
         'use strict';
 
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|data|blob):/);
@@ -34,6 +35,16 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
             });
 
         $locationProvider.html5Mode(true).hashPrefix('!');
+
+        NotificationProvider.setOptions({
+            delay: 10000,
+            startTop: 20,
+            startRight: 20,
+            verticalSpacing: 20,
+            horizontalSpacing: 20,
+            positionX: 'right',
+            positionY: 'top'
+        });
     }
 ]);
 

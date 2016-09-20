@@ -14,34 +14,43 @@ powerdialerApp.factory(
 
             var DialerListApiService = {};
 
+            function convertItemForApi(itemData) {
+                return itemData;
+            }
+
             function appendUserInfo(data) {
-                // data.user_id = 1;
-                // data.user_name = "Joe Tester";
-                // data.owner_id = 1;
-                // data.company_id = 1;
+                data.created_by = "Fiddlesticks";
                 return data;
             }
 
-            DialerListApiService.getAllItems = function (){
-                return restangularFactory.one('items').get().then(function (returnedData){
+            DialerListApiService.getAllItems = function () {
+                return restangularFactory.one('items').get().then(function (returnedData) {
                     console.log("getAllItems: ", returnedData);
                     return returnedData
                 })
             };
 
-            DialerListApiService.saveItem = function (itemData) {
-                var convertedItem = convertItemForApi(ruleData);
+            DialerListApiService.saveItem = function (itemData, itemId) {
+                var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
-                return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + ruleData.id).then(function (returnedData) {
+                return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + itemId).then(function (returnedData) {
                     console.log("saveItem: ", returnedData);
                     return returnedData;
                 });
             };
-            DialerListApiService.createRule = function (itemData, itemId) {
+
+            DialerListApiService.createItem = function (itemData, itemId) {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
-                return restangularFactory.one('items').all(itemId).post(convertedItem).then(function (returnedData) {
-                    console.log("createRule: ", returnedData);
+                return restangularFactory.all('items').post(convertedItem).then(function (returnedData) {
+                    console.log("createItem: ", returnedData);
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.deleteItem = function (itemId) {
+                return restangularFactory.one('items').all(itemId).remove().then(function (returnedData) {
+                    console.log("deleteItem: ", returnedData);
                     return returnedData;
                 });
             };
