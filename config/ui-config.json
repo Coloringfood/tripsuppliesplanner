@@ -1,5 +1,5 @@
 {
   "backend": {
-    "host": "http://localhost:3000/v1/"
+    "host": "http://localhost:3011/v1/"
   }
 }
