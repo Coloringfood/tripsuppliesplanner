@@ -49,12 +49,23 @@ app.use(function (req, res, next) {
 // error handlers
 
 app.use(function (err, req, res, next) {
-    debug("err handler: %o", err);
-    res.status(err.status || 500);
-    res.send('error', {
-        message: err.message,
-        error: {}
-    });
+    debug('next called: %o', err);
+    var status = (typeof err.status === 'undefined') ? 500 : err.status;
+    var unspecifiedErrorMessage = "The server experienced an error, see logs";
+    if (typeof err.showMessage === 'undefined') {
+        err.showMessage = (typeof err.defaultMessage === 'undefined') ? unspecifiedErrorMessage : err.defaultMessage;
+    } else if (err.name == 'UnauthorizedError') {
+        err.showMessage = err.name;
+    }
+    var response = {
+        error: err.errors || true,
+        message: err.showMessage,
+        status: status
+    };
+    res.status(status)
+        .send(response);
+
+    debug('Error: %o', response);
 });
 
 module.exports = app;

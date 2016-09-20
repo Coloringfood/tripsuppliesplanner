@@ -2,8 +2,8 @@ powerdialerApp.controller('HomeController',
     [
         '$scope',
         '$window',
-        'RestangularFactory',
-        function ($scope, $window, RestangularFactory) {
+        'DialerListApiService',
+        function ($scope, $window, DialerListApiService) {
             'use strict';
 
             var vm = this;

@@ -1,35 +1,34 @@
-var db = require('./mappingDatabase');
-var customDataTypes = require('../../custom_data_types/sequelize-mysql-timestamp');
+var db = require('./database');
 var categories = require('./categories');
 
 var itemsSchema = {
-    country_code: {
+    id: {
+        type: db.INTEGER.UNSIGNED,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    name: {
         type: db.STRING(30),
         allowNull: false
     },
-    area_code: {
-        type: db.STRING(30),
+    created_by: {
+        type: db.STRING,
         allowNull: false
-    },
-    time_zone: {
-        type: db.STRING(12)
-    },
-    categories_id: {
-        type: db.INTEGER.UNSIGNED
-    },
-    date_created: {
-        type: customDataTypes.TIMESTAMP,
-        allowNull: false,
-        defaultValue: db.NOW
     }
 };
 
-var items = db.connection.define('phone_number_area_code_map', itemsSchema, {
+var items = db.connection.define('items', itemsSchema, {
     freezeTableName: true,
-    timestamps: false
+    timestamps: true,
+    paranoid: true,
+    underscored: true
 });
 
 items.belongsToMany(categories, {through: 'item_categories'});
 categories.belongsToMany(items, {through: 'item_categories'});
+
+// Was used to generate the SQL statements
+//db.connection.sync();
 
 module.exports = items;

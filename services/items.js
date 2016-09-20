@@ -1,28 +1,77 @@
 module.exports = items = {};
-var Promise = require('bluebird');
+var Promise = require('bluebird'),
+    debug = require('debug')('tripsuppliesplanner:services:items'),
+    itemsTable = require('../models/items');
+
+var ITEM_NOT_FOUND = "item_not_found";
 
 items.getAllItems = function () {
-    return Promise.resolve([
-        {
-            id: 0,
-            name: "First",
-            categories: "1,2,3"
-        },{
-            id: 1,
-            name: "second",
-            categories: "2,4,6"
+    debug("getAllItems");
+    return itemsTable.findAll().then(function (allItemsResult){
+        return allItemsResult;
+    });
+};
+
+items.getItem = function (id) {
+    debug("getItem");
+    return itemsTable.find({
+        where: {
+            id: id
         }
-    ])
+    }).then(function (findResult){
+        if(findResult == null){
+            return Promise.reject({
+                errors: ITEM_NOT_FOUND,
+                location: "items.getItem",
+                showMessage: "Item ID: " + id + " not found",
+                status: 404
+            });
+        }
+        return findResult;
+    })
 };
 
 items.addItem = function (item) {
-    return Promise.resolve(item)
+    debug("addItem");
+    return itemsTable.create(item).then(function (createResult){
+        return createResult;
+    });
 };
 
 items.updateItem = function (id, item) {
-    return Promise.resolve(item);
+    debug("updateItem");
+    return itemsTable.update(item, {
+        where: {
+            id: id
+        }
+    }).then(function (updateResult){
+        if(updateResult[0] == 0){
+            return Promise.reject({
+                errors: ITEM_NOT_FOUND,
+                location: "items.updateItem",
+                showMessage: "Item ID: " + id + " not found",
+                status: 404
+            });
+        }
+        return updateResult;
+    });
 };
 
 items.deleteItem = function (id) {
-    return Promise.resolve("removed id: " + id)
+    debug("deleteItem");
+    return itemsTable.destroy({
+        where: {
+            id: id
+        }
+    }).then(function (destroyResults){
+        if(destroyResults === 0){
+            return Promise.reject({
+                errors: ITEM_NOT_FOUND,
+                location: "items.updateItem",
+                showMessage: "Item ID: " + id + " not found",
+                status: 404
+            });
+        }
+        return destroyResults;
+    });
 };
