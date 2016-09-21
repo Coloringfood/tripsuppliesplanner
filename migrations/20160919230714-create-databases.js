@@ -164,7 +164,7 @@ module.exports = {
               \`deleted_at\` datetime DEFAULT NULL,
               PRIMARY KEY (\`id\`),
               KEY \`vacations_ibfk_1\` (\`created_by_id\`),
-              CONSTRAINT \`vacations_ibfk_1\` FOREIGN KEY (\`created_by_id\`) REFERENCES \`users\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE
+              CONSTRAINT \`vacations_ibfk_1\` FOREIGN KEY (\`created_by_id\`) REFERENCES \`users\` (\`id\`) ON DELETE NO ACTION ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
             -- Dumping data for table tripsuppliesplanner.vacations: ~0 rows (approximately)
