@@ -1,5 +1,4 @@
 var db = require('./database');
-var people = require('./users');
 
 var familiesSchema = {
     id: {
@@ -26,9 +25,6 @@ var families = db.connection.define('families', familiesSchema, {
     paranoid: true,
     underscored: true
 });
-
-families.belongsTo(people, {foreignKey: 'mother_id', as: "mother"});
-families.belongsTo(people, {foreignKey: 'father_id', as: "father"});
 
 
 module.exports = families;

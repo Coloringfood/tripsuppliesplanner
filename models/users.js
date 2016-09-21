@@ -13,7 +13,7 @@ var usersSchema = {
         type: db.STRING(30),
         allowNull: false
     },
-    age: {
+    age_id: { // jshint ignore:line
         type: db.INTEGER.UNSIGNED,
         allowNull: false
     },
@@ -34,6 +34,9 @@ var users = db.connection.define('users', usersSchema, {
 });
 
 users.belongsTo(families, {foreignKey: 'family_id', as:'family'});
-users.belongsTo(ages, {foreignKey: 'age', as:'age'});
+users.belongsTo(ages, {foreignKey: 'age_id', as:'age'});
+
+families.belongsTo(users, {foreignKey: 'mother_id', as: "mother"});
+families.belongsTo(users, {foreignKey: 'father_id', as: "father"});
 
 module.exports = users;

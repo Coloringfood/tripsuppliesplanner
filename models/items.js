@@ -37,7 +37,7 @@ var items = db.connection.define('items', itemsSchema, {
     underscored: true
 });
 
-items.hasOne(user, {foreignKey: 'created_by_id'});
+items.belongsTo(user, {foreignKey: 'created_by_id'});
 
 var itemsPerAgeSchema = {
         days: {

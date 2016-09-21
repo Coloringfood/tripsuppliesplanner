@@ -14,15 +14,15 @@ var vacationsSchema = {
         allowNull: false
     },
     start_date: { // jshint ignore:line
-        type: db.DATETIME,
+        type: db.DATE,
         allowNull: false
     },
     end_date: { // jshint ignore:line
-        type: db.DATETIME,
+        type: db.DATE,
         allowNull: false
     },
     created_by_id: { // jshint ignore:line
-        type: db.INTEGER,
+        type: db.INTEGER.UNSIGNED,
         allowNull: false
     }
 };
@@ -60,10 +60,7 @@ var vacationsParticipantsSchema = {},
 vacations.belongsToMany(participants, {through: vacationsParticipants});
 participants.belongsToMany(vacations, {through: vacationsParticipants, as: "participants"});
 
-participants.hasMany(vacations, {through: "created_by_id", as: "creator"});
+vacations.belongsTo(participants, {foreignKey: "created_by_id", as: "creator"});
 
-
-// Was used to generate the SQL statements
-db.connection.sync();
 
 module.exports = vacations;

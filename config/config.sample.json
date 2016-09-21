@@ -1,7 +1,7 @@
 {
   "database": {
     "connectionLimit": 10,
-    "database": "tripsuppliesplanner",
+    "database": "trip_supplies_planner",
     "dialect": "mysql",
     "host": "localhost",
     "password": "d3v3nv",
