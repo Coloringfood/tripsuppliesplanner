@@ -76,9 +76,9 @@ module.exports = {
             CREATE TABLE IF NOT EXISTS \`items\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
-              \`personal\` tinyint(1) DEFAULT NULL,
-              \`required\` tinyint(1) DEFAULT NULL,
-              \`always_needed\` tinyint(1) DEFAULT NULL,
+              \`personal\` tinyint(1) NOT NULL DEFAULT '0',
+              \`required\` tinyint(1) NOT NULL DEFAULT '1',
+              \`always_needed\` tinyint(1) NOT NULL DEFAULT '0',
               \`created_by_id\` int(10) unsigned DEFAULT NULL,
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
