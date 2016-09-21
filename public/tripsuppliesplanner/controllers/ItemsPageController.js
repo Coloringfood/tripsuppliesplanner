@@ -13,7 +13,7 @@ powerdialerApp.controller('ItemsPageController',
             vm.newItem = {};
 
             function updateList() {
-                DialerListApiService.getAllItems().then(function (Items) {
+                return DialerListApiService.getAllItems().then(function (Items) {
                     vm.itemsList = Items;
                 }).catch(function (error) {
                     console.log("Getting Items Error: ", error);
@@ -28,10 +28,12 @@ powerdialerApp.controller('ItemsPageController',
             vm.createItem = function () {
                 return DialerListApiService.createItem(vm.newItem)
                     .then(function (result) {
-                        NotificationProvider.success({
-                            message: "Successfully created " + result.name
+                        updateList().then(function (){
+                            NotificationProvider.success({
+                                message: "Successfully created " + result.name
+                            });
+                            vm.newItem = "";
                         });
-                        updateList();
                     })
                     .catch(function (error) {
                         console.log("Save Error: ", error);
@@ -54,6 +56,7 @@ powerdialerApp.controller('ItemsPageController',
                 });
                 modalInstance.result.then(function (result) {
                     NotificationProvider.success(result);
+                    updateList();
                 }).catch(function (reason) {
                     NotificationProvider.info(reason);
                 });
