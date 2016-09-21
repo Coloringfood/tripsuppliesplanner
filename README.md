@@ -1,7 +1,7 @@
 # tripsuppliesplanner
 
 ### setup
-Have NPM installed
+Have NPM installed with at least Node version 6.6.0 (http://node.green/ supporting EC6 features)
 ```
 npm install
 ```

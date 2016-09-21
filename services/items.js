@@ -6,14 +6,14 @@ var Promise = require('bluebird'),
 
 var ITEM_NOT_FOUND = "item_not_found";
 
-items.getAllItems = function () {
+items.getAllItems = () => {
     debug("getAllItems");
     return itemsTable.findAll().then(function (allItemsResult) {
         return allItemsResult;
     });
 };
 
-items.getItem = function (id) {
+items.getItem = (id) => {
     debug("getItem");
     return itemsTable.find({
         where: {
@@ -32,14 +32,14 @@ items.getItem = function (id) {
     });
 };
 
-items.addItem = function (item) {
+items.addItem = (item) => {
     debug("addItem");
     return itemsTable.create(item).then(function (createResult) {
         return createResult;
     });
 };
 
-items.updateItem = function (id, item) {
+items.updateItem = (id, item) => {
     debug("updateItem");
     return itemsTable.update(item, {
         where: {
@@ -58,7 +58,7 @@ items.updateItem = function (id, item) {
     });
 };
 
-items.deleteItem = function (id) {
+items.deleteItem = (id) => {
     debug("deleteItem");
     return itemsTable.destroy({
         where: {
