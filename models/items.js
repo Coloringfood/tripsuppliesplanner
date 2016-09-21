@@ -1,5 +1,6 @@
 var db = require('./database');
-var categories = require('./categories');
+var user = require('./users'),
+    ages = require('./ages');
 
 var itemsSchema = {
     id: {
@@ -12,9 +13,20 @@ var itemsSchema = {
         type: db.STRING(30),
         allowNull: false
     },
-    created_by: {
-        type: db.STRING,
-        allowNull: false
+    personal: {
+        type: db.BOOLEAN,
+        default: false
+    },
+    required: {
+        type: db.BOOLEAN,
+        default: true
+    },
+    always_needed: { // jshint ignore:line
+        type: db.BOOLEAN,
+        default: false
+    },
+    created_by_id: { // jshint ignore:line
+        type: db.INTEGER.UNSIGNED
     }
 };
 
@@ -25,10 +37,23 @@ var items = db.connection.define('items', itemsSchema, {
     underscored: true
 });
 
-items.belongsToMany(categories, {through: 'item_categories'});
-categories.belongsToMany(items, {through: 'item_categories'});
+items.hasOne(user, {foreignKey: 'created_by_id'});
 
-// Was used to generate the SQL statements
-//db.connection.sync();
+var itemsPerAgeSchema = {
+        days: {
+            type: db.INTEGER.UNSIGNED
+        },
+        items: {
+            type: db.STRING
+        }
+    },
+    itemsPerAge = db.connection.define('items_per_age', itemsPerAgeSchema, {
+        freezeTableName: true,
+        timestamps: true,
+        paranoid: true,
+        underscored: true
+    });
+items.belongsToMany(ages, {through: itemsPerAge});
+ages.belongsToMany(items, {through: itemsPerAge});
 
 module.exports = items;
