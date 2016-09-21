@@ -1,14 +1,28 @@
 var items = module.exports = {};
 var Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
-    vacationsTable = require('./../models/vacations'),
+    factorsTable = require('./../models/factors'),
+    agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items');
 
 var ITEM_NOT_FOUND = "item_not_found";
+var ITEMS_INCLUDE = [
+    {
+        model: agesTable,
+        attributes: [
+            "id",
+            "name"
+        ]
+    }
+];
 
 items.getAllItems = () => {
     debug("getAllItems");
-    return itemsTable.findAll().then(function (allItemsResult) {
+    return itemsTable.findAll(
+        {
+            include: ITEMS_INCLUDE
+        }
+    ).then(function (allItemsResult) {
         return allItemsResult;
     });
 };
@@ -18,7 +32,8 @@ items.getItem = (id) => {
     return itemsTable.find({
         where: {
             id: id
-        }
+        },
+        include: ITEMS_INCLUDE
     }).then(function (findResult) {
         if (findResult === null) {
             return Promise.reject({
@@ -35,7 +50,22 @@ items.getItem = (id) => {
 items.addItem = (item) => {
     debug("addItem");
     return itemsTable.create(item).then(function (createResult) {
-        return createResult;
+        var returnValue = createResult.dataValues;
+        returnValue.ages = [];
+        return Promise.map(item.ages, (age) => {
+            return agesTable.find({
+                where: {
+                    name: age.name
+                }
+            }).then(function (ageResult){
+                return createResult.addAges(ageResult, age.items_per_age)
+                    .then(function (result) {
+                        returnValue.ages.push(result);
+                    });
+            });
+        }).then(function (){
+            return createResult;
+        });
     });
 };
 

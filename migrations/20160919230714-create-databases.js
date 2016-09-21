@@ -21,7 +21,8 @@ module.exports = {
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
               \`deleted_at\` datetime DEFAULT NULL,
-              PRIMARY KEY (\`id\`)
+              PRIMARY KEY (\`id\`),
+	          UNIQUE INDEX \`Unique_name\` (\`name\`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
             -- Dumping data for table tripsuppliesplanner.ages: ~0 rows (approximately)

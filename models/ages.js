@@ -9,7 +9,8 @@ var agesSchema = {
     },
     name: { // ["Baby", "Toddler", "Kid", "Adult"]
         type: db.STRING(30),
-        allowNull: false
+        allowNull: false,
+        unique: true
     }
 };
 

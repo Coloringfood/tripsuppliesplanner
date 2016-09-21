@@ -56,4 +56,6 @@ var itemsPerAgeSchema = {
 items.belongsToMany(ages, {through: itemsPerAge});
 ages.belongsToMany(items, {through: itemsPerAge});
 
+items.itemsPerAgeTable = itemsPerAge;
+
 module.exports = items;
