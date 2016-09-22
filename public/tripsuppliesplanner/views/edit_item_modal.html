@@ -3,8 +3,62 @@
 </div>
 <div class="modal-body" id="modal-body">
     <div class="row">
-        <div class="col-sm-4">Name: </div>
+        <div class="col-sm-4">Name:</div>
         <div class="col-sm-8"><input type="text" ng-model="vm.newItem.name"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Age/Quantity</div>
+        <div class="col-sm-8">
+            <div ng-repeat="age in vm.newItem.ages" class="row">
+                <div class="col-sm-12">{{age.name}}</div>
+                <div class="col-sm-12">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{active: age.view==vm.types[0]}">
+                            <a ng-class="{active: age.view==vm.types[0]}" ng-click="vm.switchView(vm.types[0], age)">
+                                Vacation Type
+                            </a>
+                        </li>
+                        <li ng-class="{active: age.view==vm.types[1]}">
+                            <a ng-class="{active: age.view==vm.types[1]}" ng-click="vm.switchView(vm.types[1], age)">
+                                Activities
+                            </a>
+                        </li>
+                        <li ng-class="{active: age.view==vm.types[2]}">
+                            <a ng-class="{active: age.view==vm.types[2]}" ng-click="vm.switchView(vm.types[2], age)">
+                                Other
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="vacationtype" class="tab-pane fade"
+                             ng-class="{active: age.view==vm.types[0], in: age.view==vm.types[0]}">
+                            <div class="row">
+                                <div ng-repeat="factor in vm.factors[vm.types[0]]" class="col-sm-6">
+                                    {{factor.name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="activities" class="tab-pane fade"
+                             ng-class="{active: age.view==vm.types[1], in: age.view==vm.types[1]}">
+                            <div class="row">
+                                <div ng-repeat="factor in vm.factors[vm.types[1]]" class="col-sm-6">
+                                    {{factor.name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div id="other" class="tab-pane fade"
+                             ng-class="{active: age.view==vm.types[2], in: age.view==vm.types[2]}">
+                            <div class="row">
+                                <div ng-repeat="factor in vm.factors[vm.types[2]]" class="col-sm-6">
+                                    {{factor.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal-footer">

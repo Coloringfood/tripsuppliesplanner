@@ -10,7 +10,29 @@ powerdialerApp.controller('EditItemModalController',
 
             vm.item = item;
             vm.newItem = angular.copy(item);
-            console.log("vm.newItem: ", vm.newItem);
+            vm.view = "Vacation Type";
+            vm.types = [
+                'Vacation Type',
+                'Activities',
+                'Other'
+            ];
+            vm.factors = {
+                'Vacation Type': [],
+                'Activities': [],
+                'Other': []
+            };
+            vm.switchView = function (newView, age) {
+                age.view = newView;
+            };
+
+            DialerListApiService.getAllFactors()
+                .then(function (factors) {
+                    var factorsLength = factors.length;
+                    for (var i = 0; i < factorsLength; i++) {
+                        var factor = factors[i];
+                        vm.factors[factor.type].push(factor);
+                    }
+                });
 
             vm.ok = function () {
                 var returnPromise;

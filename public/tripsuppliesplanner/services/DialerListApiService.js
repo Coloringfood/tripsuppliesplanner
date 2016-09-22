@@ -55,6 +55,13 @@ powerdialerApp.factory(
                 });
             };
 
+            DialerListApiService.getAllFactors = function () {
+                return restangularFactory.one('factors').get().then(function (returnedData) {
+                    console.log("getAllFactors: ", returnedData);
+                    return returnedData;
+                });
+            };
+
             return DialerListApiService;
         }
     ]

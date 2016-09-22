@@ -3,6 +3,7 @@ var expressValidator = require('express-validator');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
 var itemsService = require('../services/items');
+var factorsService = require('../services/factors');
 
 router.use(expressValidator({
     customValidators: {
@@ -121,7 +122,6 @@ router.route('/items')
                     res.status(201).send();
                 })
                 .catch((e) => {
-                    console.log("e: ", e);
                     next(e);
                 });
         }
@@ -152,6 +152,17 @@ router.route('/items/:itemId')
     })
     .delete((req, res, next) => {
         itemsService.deleteItem(req.params.itemId)
+            .then((result) => {
+                res.json(result);
+            })
+            .catch((e) => {
+                next(e);
+            });
+    });
+
+router.route('/factors')
+    .get((req, res, next) => {
+        factorsService.getAllFactors()
             .then((result) => {
                 res.json(result);
             })
