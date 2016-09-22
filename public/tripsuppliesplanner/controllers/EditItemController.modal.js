@@ -8,7 +8,6 @@ powerdialerApp.controller('EditItemModalController',
             'use strict';
             var vm = this;
 
-            vm.item = item;
             vm.newItem = angular.copy(item);
             vm.view = "Vacation Type";
             vm.types = [
@@ -36,8 +35,8 @@ powerdialerApp.controller('EditItemModalController',
 
             vm.ok = function () {
                 var returnPromise;
-                if (vm.item.id) {
-                    returnPromise = DialerListApiService.saveItem(vm.newItem, vm.item.id)
+                if (item.id) {
+                    returnPromise = DialerListApiService.saveItem(vm.newItem, item.id)
                         .then(function (result) {
                             return {
                                 message: "Successfully saved " + result.name,
