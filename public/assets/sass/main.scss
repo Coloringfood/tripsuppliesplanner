@@ -22,3 +22,10 @@
     padding-right: 20px;
     color: #0000FF;
 }
+
+.in-between-bordered:not(:last-child):after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid #ccc;
+    margin: 0 15px;
+}

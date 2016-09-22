@@ -8,7 +8,7 @@ powerdialerApp.controller('ItemsPageController',
             'use strict';
 
             var vm = this;
-            vm.name = "Trip Supplies Planner";
+            vm.name = "Items";
             vm.itemsList = [];
             vm.newItem = {};
 
@@ -25,25 +25,7 @@ powerdialerApp.controller('ItemsPageController',
 
             updateList();
 
-            vm.createItem = function () {
-                return DialerListApiService.createItem(vm.newItem)
-                    .then(function (result) {
-                        updateList().then(function (){
-                            NotificationProvider.success({
-                                message: "Successfully created " + result.name
-                            });
-                            vm.newItem = "";
-                        });
-                    })
-                    .catch(function (error) {
-                        console.log("Save Error: ", error);
-                        NotificationProvider.error({
-                            title: "Error Saving Item"
-                        });
-                    });
-            };
-
-            vm.editItem = function (item) {
+            function openEditModal(item) {
                 var modalInstance = $uibModal.open({
                     templateUrl: '/public/tripsuppliesplanner/views/edit_item_modal.html',
                     controller: 'EditItemModalController',
@@ -55,11 +37,25 @@ powerdialerApp.controller('ItemsPageController',
                     }
                 });
                 modalInstance.result.then(function (result) {
-                    NotificationProvider.success(result);
+                    console.log("MODAL RESULT: ", result);
+                    if (result.success) {
+                        NotificationProvider.success(result.message);
+                    }
+                    else {
+                        NotificationProvider.error(result.message);
+                    }
                     updateList();
                 }).catch(function (reason) {
                     NotificationProvider.info(reason);
                 });
+            }
+
+            vm.createItem = function () {
+                openEditModal({});
+            };
+
+            vm.editItem = function (item) {
+                openEditModal(item);
             };
 
             vm.deleteItem = function (item) {

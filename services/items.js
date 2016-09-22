@@ -1,7 +1,6 @@
 var items = module.exports = {};
 var Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
-    factorsTable = require('./../models/factors'),
     agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items');
 
@@ -22,7 +21,15 @@ items.getAllItems = () => {
         {
             include: ITEMS_INCLUDE
         }
-    ).then(function (allItemsResult) {
+    ).catch(function (error) {
+        return Promise.reject({
+            error: error,
+            message: "sequelize_error",
+            location: "items.getAllItems sequelize findall",
+            showMessage: error.showMessage || "Error trying to find all items",
+            status: error.status || 500
+        });
+    }).then(function (allItemsResult) {
         return allItemsResult;
     });
 };
@@ -34,6 +41,14 @@ items.getItem = (id) => {
             id: id
         },
         include: ITEMS_INCLUDE
+    }).catch(function (error) {
+        return Promise.reject({
+            error: error,
+            message: "sequelize_error",
+            location: "items.getItem sequelize find",
+            showMessage: error.showMessage || "Error trying to find item id: " + id,
+            status: error.status || 500
+        });
     }).then(function (findResult) {
         if (findResult === null) {
             return Promise.reject({
@@ -49,24 +64,28 @@ items.getItem = (id) => {
 
 items.addItem = (item) => {
     debug("addItem");
-    return itemsTable.create(item).then(function (createResult) {
-        var returnValue = createResult.dataValues;
-        returnValue.ages = [];
-        return Promise.map(item.ages, (age) => {
-            return agesTable.find({
-                where: {
-                    name: age.name
-                }
-            }).then(function (ageResult){
-                return createResult.addAges(ageResult, age.items_per_age)
+    return itemsTable.create(item)
+        .catch(function (error) {
+            return Promise.reject({
+                error: error,
+                message: "sequelize_error",
+                location: "items.addItem sequelize create",
+                showMessage: error.showMessage || "Error creating item",
+                status: error.status || 500
+            });
+        })
+        .then(function (createResult) {
+            var returnValue = createResult.dataValues;
+            returnValue.ages = [];
+            return Promise.map(item.ages, (age) => {
+                return addAgeToItem(createResult, age)
                     .then(function (result) {
                         returnValue.ages.push(result);
                     });
+            }).then(function () {
+                return createResult;
             });
-        }).then(function (){
-            return createResult;
         });
-    });
 };
 
 items.updateItem = (id, item) => {
@@ -75,6 +94,14 @@ items.updateItem = (id, item) => {
         where: {
             id: id
         }
+    }).catch(function (error) {
+        return Promise.reject({
+            error: error,
+            message: "sequelize_error",
+            location: "items.updateItem sequelize update",
+            showMessage: error.showMessage || "Error trying to update item: " + id,
+            status: error.status || 500
+        });
     }).then(function (updateResult) {
         if (updateResult[0] === 0) {
             return Promise.reject({
@@ -106,3 +133,38 @@ items.deleteItem = (id) => {
         return destroyResults;
     });
 };
+
+function addAgeToItem(item, age) {
+    return agesTable.find({
+        where: {
+            name: age.name
+        }
+    }).catch(function (error) {
+        return Promise.reject({
+            error: error,
+            message: "sequelize_error",
+            location: "itemsaddItem sequelize find age",
+            showMessage: error.showMessage || "Error trying to find age: " + age.name,
+            status: error.status || 500
+        });
+    }).then(function (ageResult) {
+        if (!ageResult) {
+            return Promise.reject({
+                message: ITEM_NOT_FOUND,
+                location: "items.addItem findAge empty",
+                showMessage: "The requested age (" + age.name + ") was not found",
+                status: 400
+            });
+        }
+        return item.addAges(ageResult, age.items_per_age)
+            .catch(function (error) {
+                return Promise.reject({
+                    error: error,
+                    message: "sequelize_error",
+                    location: "addAgeToItem sequelize addAges",
+                    showMessage: error.showMessage || "Error trying to add Age to Item",
+                    status: error.status || 500
+                });
+            });
+    });
+}

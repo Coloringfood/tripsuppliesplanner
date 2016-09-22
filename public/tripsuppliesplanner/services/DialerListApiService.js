@@ -19,7 +19,7 @@ powerdialerApp.factory(
             }
 
             function appendUserInfo(data) {
-                data.created_by = "Fiddlesticks";
+                data.user_id = 0; // jshint ignore:line
                 return data;
             }
 
