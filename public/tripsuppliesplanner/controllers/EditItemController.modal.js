@@ -9,6 +9,8 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this;
 
             vm.newItem = angular.copy(item);
+            vm.newItem.factors = [];
+            console.log("newItem: ", vm.newItem);
             vm.view = "Vacation Type";
             vm.types = [
                 'Vacation Type',
@@ -71,6 +73,7 @@ powerdialerApp.controller('EditItemModalController',
             };
 
             vm.cancel = function () {
+                console.log("vm.newItem: ", vm.newItem);
                 $uibModalInstance.dismiss("clicked cancel button");
             };
         }

@@ -22,7 +22,13 @@
              ng-class="{active: view==types[0], in: view==types[0]}">
             <div class="row">
                 <div ng-repeat="factor in factors[types[0]]" class="col-sm-6">
-                    {{factor.name}}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
+                                   ng-click="selectFactor(factor.id)">
+                            {{factor.name}}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,7 +36,13 @@
              ng-class="{active: view==types[1], in: view==types[1]}">
             <div class="row">
                 <div ng-repeat="factor in factors[types[1]]" class="col-sm-6">
-                    {{factor.name}}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
+                                   ng-click="selectFactor(factor.id)">
+                            {{factor.name}}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,7 +50,13 @@
              ng-class="{active: view==types[2], in: view==types[2]}">
             <div class="row">
                 <div ng-repeat="factor in factors[types[2]]" class="col-sm-6">
-                    {{factor.name}}
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
+                                   ng-click="selectFactor(factor.id)">
+                            {{factor.name}}
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

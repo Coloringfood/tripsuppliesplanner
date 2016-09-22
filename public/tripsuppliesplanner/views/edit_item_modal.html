@@ -10,9 +10,29 @@
         <div class="col-sm-4">Age/Quantity</div>
         <div class="col-sm-8">
             <div ng-repeat="age in vm.newItem.ages" class="row">
-                <div class="col-sm-12">{{age.name}}</div>
-                <edit-factors factors="vm.factors"></edit-factors>
+                <div class="col-sm-2">{{age.name}}</div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Items</span>
+                        <input type="text" class="form-control" placeholder="9 logs"
+                               ng-model="age.items_per_age.items">
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon2">Days</span>
+                        <input type="number" class="form-control" placeholder="2"
+                               ng-model="age.items_per_age.days">
+                    </div>
+                </div>
+
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Factors</div>
+        <div class="col-sm-8">
+            <edit-factors factors="vm.factors" selected="vm.newItem.factors"></edit-factors>
         </div>
     </div>
 </div>
