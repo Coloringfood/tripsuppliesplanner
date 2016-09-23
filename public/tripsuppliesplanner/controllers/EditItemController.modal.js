@@ -9,7 +9,6 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this;
 
             vm.newItem = angular.copy(item);
-            console.log("newItem: ", vm.newItem);
             vm.view = "Vacation Type";
             vm.types = [
                 'Vacation Type',
@@ -21,6 +20,7 @@ powerdialerApp.controller('EditItemModalController',
                 'Activities': [],
                 'Other': []
             };
+
             vm.switchView = (newView, age) => {
                 age.view = newView;
             };
@@ -34,8 +34,20 @@ powerdialerApp.controller('EditItemModalController',
                     }
                 });
 
+            vm.setFactorType = (type) => {
+                vm.newFactor.type = type;
+            };
             vm.createFactor = () => {
-                vm.showNewFactor = !vm.showNewFactor;
+                if (vm.showNewFactor) {
+                    console.log("vm.newFactor: ", vm.newFactor);
+                    if (vm.newFactor.name && fm.newFactor.type) {
+                        console.log("Saving Factor");
+                        vm.showNewFactor = false;
+                    }
+                } else {
+                    vm.newFactor = {};
+                    vm.showNewFactor = true;
+                }
                 console.log("clicked");
             };
 

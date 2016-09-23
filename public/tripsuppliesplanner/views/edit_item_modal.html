@@ -1,26 +1,36 @@
 <div class="modal-header">
-    <div class="col-sm-6">
+    <div class="col-sm-3">
         <h3 class="modal-title" id="modal-title">Editing Item {{vm.item.name}}</h3>
     </div>
-    <div class="col-sm-6 text-right">
-        <div class="col-md-8">
+    <div class="col-sm-9 text-right" ng-class="{'navbar-inverse padded':vm.showNewFactor}">
+        <div class="col-md-5">
             <div class="input-group" ng-show="vm.showNewFactor">
                 <span class="input-group-addon">
-                    <div class="dropdown">
-                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
-                      <span class="caret"></span></button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">HTML</a></li>
-                        <li><a href="#">CSS</a></li>
-                        <li><a href="#">JavaScript</a></li>
-                      </ul>
-                    </div>
+                    Name
                 </span>
-                <input type="text" class="form-control" placeholder="2"
-                       ng-model="vm.newFactor">
+                <input type="text" class="form-control" placeholder="Name of Factor"
+                       ng-model="vm.newFactor.name">
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
+            <div class="input-group" ng-show="vm.showNewFactor">
+                <span class="input-group-addon">
+                    Type
+                </span>
+                <div class="btn-group input-group-btn" uib-dropdown is-open="status.isopen">
+                    <button class="btn btn-primary" type="button" id="single-button" uib-dropdown-toggle>
+                        {{vm.newFactor.type}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+                        <li ng-repeat="choice in vm.types" ng-click="vm.setFactorType(choice)">
+                            {{choice}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
             <button type="button" class="btn btn-default" ng-click="vm.createFactor()">
                 Create Factor
             </button>
