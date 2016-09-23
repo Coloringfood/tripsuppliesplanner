@@ -4,7 +4,8 @@ powerdialerApp.controller('EditItemModalController',
         '$uibModalInstance',
         'item',
         'DialerListApiService',
-        function ($scope, $uibModalInstance, item, DialerListApiService) {
+        'Notification',
+        function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider) {
             'use strict';
             var vm = this;
 
@@ -43,6 +44,8 @@ powerdialerApp.controller('EditItemModalController',
                     if (vm.newFactor.name && fm.newFactor.type) {
                         console.log("Saving Factor");
                         vm.showNewFactor = false;
+                    } else {
+                        NotificationProvider.error("Please fill out all the factor information");
                     }
                 } else {
                     vm.newFactor = {};

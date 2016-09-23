@@ -58,7 +58,7 @@ powerdialerApp.controller('ItemsPageController',
             }
 
             vm.createItem = () => {
-                openEditModal({});
+                openEditModal({factors:[]});
             };
 
             vm.editItem = (item) => {
