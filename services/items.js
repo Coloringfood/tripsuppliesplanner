@@ -53,7 +53,7 @@ items.getAllItems = () => {
         return Promise.map(allItemsResult, convertItemForUI)
             .then(function (results) {
                 console.log(results);
-                return results
+                return results;
             });
     });
 };
@@ -101,12 +101,19 @@ items.addItem = (item) => {
         .then(function (createResult) {
             var returnValue = createResult.dataValues;
             returnValue.ages = [];
-            return Promise.map(item.ages, (age) => {
+            var itemsPromise = Promise.map(item.ages, (age) => {
                 return addAgeToItem(createResult, age)
-                    .then(function (result) {
+                    .then((result) => {
                         returnValue.ages.push(result);
                     });
-            }).then(function () {
+            });
+
+            var factorsPromise = updateItemFactors(createResult, item.factors)
+                .then(function (newFactors) {
+                    returnValue.factors = newFactors;
+                });
+
+            return Promise.all([itemsPromise, factorsPromise]).then(function () {
                 return createResult;
             });
         });
@@ -163,7 +170,7 @@ function addAgeToItem(item, age) {
         where: {
             name: age.name
         }
-    }).catch(function (error) {
+    }).catch((error) => {
         return Promise.reject({
             error: error,
             message: "sequelize_error",
@@ -171,7 +178,7 @@ function addAgeToItem(item, age) {
             showMessage: error.showMessage || "Error trying to find age: " + age.name,
             status: error.status || 500
         });
-    }).then(function (ageResult) {
+    }).then((ageResult) => {
         if (!ageResult) {
             return Promise.reject({
                 message: ITEM_NOT_FOUND,
@@ -180,13 +187,81 @@ function addAgeToItem(item, age) {
                 status: 400
             });
         }
-        return item.addAges(ageResult, age.items_per_age)
-            .catch(function (error) {
+        return item.addAges(ageResult, age.items_per_age) // jshint ignore:line
+            .catch((error) => {
                 return Promise.reject({
                     error: error,
                     message: "sequelize_error",
                     location: "addAgeToItem sequelize addAges",
                     showMessage: error.showMessage || "Error trying to add Age to Item",
+                    status: error.status || 500
+                });
+            });
+    });
+}
+
+function updateItemFactors(item, factors) {
+    debug("updateItemFactors");
+    var updatedFactors = [];
+    return factorsTable.findAll({
+        attributes: ["id"],
+        include: [{
+            model: itemsTable,
+            where: {id: item.id},
+            attributes: ["id"],
+            through: {
+                attributes: ["updated_at"]
+            }
+        }]
+    }).then(function (foundFactors) {
+        console.log("foundFactors: ", foundFactors);
+        return Promise.map(foundFactors, (factor) => {
+            //TODO: TEST that this does work
+            var index = factors.indexOf(factor.id);
+            if (index === -1) {
+                debug("removing factor id %o from item", factor.id);
+                return item.removeFactor(factor);
+            } else {
+                debug("keeping factor id %o on item", factor.id);
+                updatedFactors.push(factor.id);
+                return factors.splice(index, 1);
+            }
+        });
+    }).then(function () {
+        return Promise.map(factors, (factorId)=> {
+            debug("adding factor id %o to item", factorId);
+            return addFactorToItem(item, factorId)
+                .then((result) => {
+                    updatedFactors.push(result);
+                });
+        });
+    }).then(function () {
+        return updatedFactors;
+    });
+}
+
+function addFactorToItem(item, factorId) {
+    return factorsTable.find({
+        where: {
+            id: factorId
+        }
+    }).then((factorResult)=> {
+        if (!factorResult) {
+            return Promise.reject({
+                message: ITEM_NOT_FOUND,
+                location: "items.addFeature findfeature empty",
+                showMessage: "The requested feature (" + factorId + ") was not found",
+                status: 400
+            });
+        }
+
+        return item.addFactors(factorResult)
+            .catch((error) => {
+                return Promise.reject({
+                    error: error,
+                    message: "sequelize_error",
+                    location: "addFeatureToItem sequelize addfeature",
+                    showMessage: error.showMessage || "Error trying to add Feature to Item",
                     status: error.status || 500
                 });
             });

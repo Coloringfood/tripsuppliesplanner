@@ -51,7 +51,7 @@ router.use((req, res, next) => {
         if (typeof req.body.factors === 'object' && Array.isArray(req.body.factors)) {
             var featuresLength = req.body.factors.length;
             for (var i = 0; i < featuresLength; i++) {
-                validateCategoryData('factors[' + i + '].');
+                validateCategoryData('factors[' + i + ']');
             }
         }
         validateAuditTrail('');
@@ -70,10 +70,7 @@ router.use((req, res, next) => {
 
     function validateCategoryData(baseLocation) {
         debug('validatingCategoryData for %o', baseLocation);
-        req.assert(baseLocation + 'name', 'This optional field should be a string').isString();
-        req.assert(baseLocation + 'name', 'This optional field should be 100 characters or less').len(0, 30);
-        req.assert(baseLocation + 'type', 'the type must be one of ["Vacation Type", "Activities", "Other"]')
-            .isInList(['Vacation Type', 'Activities', 'Other']);
+        req.assert(baseLocation, 'This optional field should be a string').isInt();
     }
 
     var validateAuditTrail = function (baseLocation) {
