@@ -33,3 +33,18 @@
 .row {
   padding-bottom: 5px
 }
+
+body {
+  font-size: 12px;
+}
+
+ul.no-indent {
+  padding-left: 10px;
+  &.no-bullet {
+    padding-left: 0;
+  }
+}
+
+ul.no-bullet {
+  list-style: none;
+}

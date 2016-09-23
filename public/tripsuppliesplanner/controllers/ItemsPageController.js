@@ -4,16 +4,18 @@ powerdialerApp.controller('ItemsPageController',
         'DialerListApiService',
         'Notification',
         '$uibModal',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal) {
+        '$q',
+        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q) {
             'use strict';
 
             var vm = this;
             vm.name = "Items";
             vm.itemsList = [];
             vm.newItem = {};
+            vm.factors = [];
 
             function updateList() {
-                return DialerListApiService.getAllItems().then(function (Items) {
+                var itemsPromise = DialerListApiService.getAllItems().then(function (Items) {
                     vm.itemsList = Items;
                 }).catch(function (error) {
                     console.log("Getting Items Error: ", error);
@@ -21,6 +23,10 @@ powerdialerApp.controller('ItemsPageController',
                         message: "Error Getting All Items"
                     });
                 });
+                var factorsPromise = DialerListApiService.getAllFactors().then(function (factors){
+                    vm.factors = factors;
+                });
+                return $q.all([itemsPromise, factorsPromise]);
             }
 
             updateList();
@@ -30,6 +36,7 @@ powerdialerApp.controller('ItemsPageController',
                     templateUrl: '/public/tripsuppliesplanner/views/edit_item_modal.html',
                     controller: 'EditItemModalController',
                     controllerAs: 'vm',
+                    size: "lg",
                     resolve: {
                         item: function () {
                             return item;
@@ -50,15 +57,15 @@ powerdialerApp.controller('ItemsPageController',
                 });
             }
 
-            vm.createItem = function () {
+            vm.createItem = () => {
                 openEditModal({});
             };
 
-            vm.editItem = function (item) {
+            vm.editItem = (item) => {
                 openEditModal(item);
             };
 
-            vm.deleteItem = function (item) {
+            vm.deleteItem = (item) => {
                 return DialerListApiService.deleteItem(item.id)
                     .then(function () {
                         NotificationProvider.success({

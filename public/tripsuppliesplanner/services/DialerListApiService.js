@@ -19,12 +19,16 @@ powerdialerApp.factory(
                 return itemData;
             }
 
+            function convertFactorForApi(factorData) {
+                return factorData;
+            }
+
             function appendUserInfo(data) {
                 data.user_id = 0; // jshint ignore:line
                 return data;
             }
 
-            DialerListApiService.getAllItems = function () {
+            DialerListApiService.getAllItems = () => {
                 return restangularFactory.one('items').get().then(function (returnedData) {
                     if (debugging) {
                         console.log("getAllItems: ", returnedData);
@@ -33,7 +37,7 @@ powerdialerApp.factory(
                 });
             };
 
-            DialerListApiService.saveItem = function (itemData, itemId) {
+            DialerListApiService.saveItem = (itemData, itemId) => {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + itemId).then(function (returnedData) {
@@ -44,7 +48,7 @@ powerdialerApp.factory(
                 });
             };
 
-            DialerListApiService.createItem = function (itemData) {
+            DialerListApiService.createItem = (itemData) => {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.all('items').post(convertedItem).then(function (returnedData) {
@@ -55,7 +59,7 @@ powerdialerApp.factory(
                 });
             };
 
-            DialerListApiService.deleteItem = function (itemId) {
+            DialerListApiService.deleteItem = (itemId) => {
                 return restangularFactory.one('items').all(itemId).remove().then(function (returnedData) {
                     if (debugging) {
                         console.log("deleteItem: ", returnedData);
@@ -64,10 +68,21 @@ powerdialerApp.factory(
                 });
             };
 
-            DialerListApiService.getAllFactors = function () {
+            DialerListApiService.getAllFactors = () => {
                 return restangularFactory.one('factors').get().then(function (returnedData) {
                     if (debugging) {
                         console.log("getAllFactors: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.createFactor = (factorData) => {
+                var convertedFactor = convertFactorForApi(factorData);
+                convertedFactor = appendUserInfo(convertedFactor);
+                return restangularFactory.all('factor').post(convertedFactor).then(function (returnedData) {
+                    if (debugging) {
+                        console.log("createFactor: ", returnedData);
                     }
                     return returnedData;
                 });

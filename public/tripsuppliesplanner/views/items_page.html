@@ -20,7 +20,7 @@
                             <th></th>
                             <th>Name</th>
                             <th>Ages</th>
-                            <th>Categories</th>
+                            <th>Factors</th>
                             <th>Details</th>
                         </tr>
                         <tr ng-repeat="item in vm.itemsList track by item.id">
@@ -36,7 +36,9 @@
                                     <div class="col-sm-3">Days: {{age.items_per_age.days}}</div>
                                 </div>
                             </td>
-                            <td>{{item.categories}}</td>
+                            <td>
+                                <view-factors factors="vm.factors" selected="item.factors"></view-factors>
+                            </td>
                             <td>
                                 <ul>
                                     <li>{{item.required ? "Required for packing" : "Optional packing"}}</li>

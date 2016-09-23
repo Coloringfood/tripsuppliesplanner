@@ -9,7 +9,6 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this;
 
             vm.newItem = angular.copy(item);
-            vm.newItem.factors = [];
             console.log("newItem: ", vm.newItem);
             vm.view = "Vacation Type";
             vm.types = [
@@ -22,7 +21,7 @@ powerdialerApp.controller('EditItemModalController',
                 'Activities': [],
                 'Other': []
             };
-            vm.switchView = function (newView, age) {
+            vm.switchView = (newView, age) => {
                 age.view = newView;
             };
 
@@ -35,7 +34,12 @@ powerdialerApp.controller('EditItemModalController',
                     }
                 });
 
-            vm.ok = function () {
+            vm.createFactor = () => {
+                vm.showNewFactor = !vm.showNewFactor;
+                console.log("clicked");
+            };
+
+            vm.ok = () => {
                 var returnPromise;
                 if (item.id) {
                     returnPromise = DialerListApiService.saveItem(vm.newItem, item.id)
@@ -72,7 +76,7 @@ powerdialerApp.controller('EditItemModalController',
                 });
             };
 
-            vm.cancel = function () {
+            vm.cancel = () => {
                 console.log("vm.newItem: ", vm.newItem);
                 $uibModalInstance.dismiss("clicked cancel button");
             };

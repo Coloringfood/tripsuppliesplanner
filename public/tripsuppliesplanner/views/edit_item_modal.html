@@ -1,27 +1,55 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Editing Item {{vm.item.name}}</h3>
+    <div class="col-sm-6">
+        <h3 class="modal-title" id="modal-title">Editing Item {{vm.item.name}}</h3>
+    </div>
+    <div class="col-sm-6 text-right">
+        <div class="col-md-8">
+            <div class="input-group" ng-show="vm.showNewFactor">
+                <span class="input-group-addon">
+                    <div class="dropdown">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">HTML</a></li>
+                        <li><a href="#">CSS</a></li>
+                        <li><a href="#">JavaScript</a></li>
+                      </ul>
+                    </div>
+                </span>
+                <input type="text" class="form-control" placeholder="2"
+                       ng-model="vm.newFactor">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-default" ng-click="vm.createFactor()">
+                Create Factor
+            </button>
+        </div>
+    </div>
 </div>
 <div class="modal-body" id="modal-body">
     <div class="row">
-        <div class="col-sm-4">Name:</div>
-        <div class="col-sm-8"><input type="text" ng-model="vm.newItem.name"></div>
+        <div class="col-sm-3">Name:</div>
+        <div class="col-sm-9">
+            <input type="text" ng-model="vm.newItem.name">
+        </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">Age/Quantity</div>
-        <div class="col-sm-8">
+        <div class="col-sm-3">Age/Quantity (need to add button and change age)</div>
+        <div class="col-sm-9">
             <div ng-repeat="age in vm.newItem.ages" class="row">
-                <div class="col-sm-2">{{age.name}}</div>
-                <div class="col-sm-5">
+                <div class="col-md-2">{{age.name}}</div>
+                <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">Items</span>
-                        <input type="text" class="form-control" placeholder="9 logs"
+                        <span class="input-group-addon">Items</span>
+                        <input type="text" class="form-control" placeholder="Enter Amount"
                                ng-model="age.items_per_age.items">
                     </div>
                 </div>
-                <div class="col-sm-5">
+                <div class="col-md-5">
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon2">Days</span>
-                        <input type="number" class="form-control" placeholder="2"
+                        <span class="input-group-addon">Days</span>
+                        <input type="number" class="form-control" placeholder="Days per Amount"
                                ng-model="age.items_per_age.days">
                     </div>
                 </div>
@@ -30,8 +58,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">Factors</div>
-        <div class="col-sm-8">
+        <div class="col-sm-3">Factors</div>
+        <div class="col-sm-9">
             <edit-factors factors="vm.factors" selected="vm.newItem.factors"></edit-factors>
         </div>
     </div>

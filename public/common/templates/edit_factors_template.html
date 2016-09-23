@@ -1,7 +1,7 @@
 <div class="col-sm-12">
     <ul class="nav nav-tabs">
         <li ng-class="{active: view==types[0]}">
-            <a ng-class="{active: view==vtypes[0]}" ng-click="switchView(types[0], age)">
+            <a ng-class="{active: view==types[0]}" ng-click="switchView(types[0], age)">
                 Vacation Type
             </a>
         </li>
@@ -24,8 +24,8 @@
                 <div ng-repeat="factor in factors[types[0]]" class="col-sm-6">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
-                                   ng-click="selectFactor(factor.id)">
+                            <input type="checkbox" ng-model="factor.selected"
+                                   ng-click="selectFactor(factor)">
                             {{factor.name}}
                         </label>
                     </div>
@@ -38,8 +38,8 @@
                 <div ng-repeat="factor in factors[types[1]]" class="col-sm-6">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
-                                   ng-click="selectFactor(factor.id)">
+                            <input type="checkbox" ng-model="factor.selected"
+                                   ng-click="selectFactor(factor)">
                             {{factor.name}}
                         </label>
                     </div>
@@ -52,8 +52,8 @@
                 <div ng-repeat="factor in factors[types[2]]" class="col-sm-6">
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" value="{{factorSelected(factor.id)}}"
-                                   ng-click="selectFactor(factor.id)">
+                            <input type="checkbox" ng-model="factor.selected"
+                                   ng-click="selectFactor(factor)">
                             {{factor.name}}
                         </label>
                     </div>

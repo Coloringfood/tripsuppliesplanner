@@ -2,7 +2,8 @@ var items = module.exports = {};
 var Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
     agesTable = require('./../models/ages'),
-    itemsTable = require('./../models/items');
+    itemsTable = require('./../models/items'),
+    factorsTable = require('./../models/factors');
 
 var ITEM_NOT_FOUND = "item_not_found";
 var ITEMS_INCLUDE = [
@@ -12,8 +13,27 @@ var ITEMS_INCLUDE = [
             "id",
             "name"
         ]
+    },
+    {
+        model: factorsTable,
+        attributes: [
+            "id"
+        ],
+        required: false
     }
 ];
+
+function convertItemForUI(item) {
+    var itemData = item.dataValues;
+    var convertedSelected = [];
+    var selectedLength = itemData.factors.length;
+    for (var i = 0; i < selectedLength; i++) {
+        var factor = itemData.factors[i];
+        convertedSelected.push(factor.id);
+    }
+    itemData.factors = convertedSelected;
+    return itemData;
+}
 
 items.getAllItems = () => {
     debug("getAllItems");
@@ -30,7 +50,11 @@ items.getAllItems = () => {
             status: error.status || 500
         });
     }).then(function (allItemsResult) {
-        return allItemsResult;
+        return Promise.map(allItemsResult, convertItemForUI)
+            .then(function (results) {
+                console.log(results);
+                return results
+            });
     });
 };
 
