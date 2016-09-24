@@ -52,7 +52,6 @@ items.getAllItems = () => {
     }).then(function (allItemsResult) {
         return Promise.map(allItemsResult, convertItemForUI)
             .then(function (results) {
-                console.log(results);
                 return results;
             });
     });
@@ -101,19 +100,21 @@ items.addItem = (item) => {
         .then(function (createResult) {
             var returnValue = createResult.dataValues;
             returnValue.ages = [];
-            var itemsPromise = Promise.map(item.ages, (age) => {
+            var agesPromise = Promise.map(item.ages, (age) => {
                 return addAgeToItem(createResult, age)
                     .then((result) => {
                         returnValue.ages.push(result);
                     });
             });
 
-            var factorsPromise = updateItemFactors(createResult, item.factors)
-                .then(function (newFactors) {
-                    returnValue.factors = newFactors;
-                });
+            var factorsPromise = Promise.map(item.factors, (factor) => {
+                return addFactorToItem(createResult, factor)
+                    .then((result) => {
+                        returnValue.ages.push(result);
+                    });
+            });
 
-            return Promise.all([itemsPromise, factorsPromise]).then(function () {
+            return Promise.all([agesPromise, factorsPromise]).then(function () {
                 return createResult;
             });
         });
@@ -142,7 +143,23 @@ items.updateItem = (id, item) => {
                 status: 404
             });
         }
-        return updateResult;
+        return items.getItem(id).then(function (itemResult) {
+            var returnValue = itemResult.dataValues;
+
+
+            var agesPromise = updateItemAges(itemResult, item.ages)
+                .then(function (newFactors) {
+                    returnValue.factors = newFactors;
+                });
+
+            var factorsPromise = updateItemFactors(itemResult, item.factors)
+                .then(function (newFactors) {
+                    returnValue.factors = newFactors;
+                });
+            return Promise.all([agesPromise, factorsPromise]).then(function () {
+                return returnValue;
+            });
+        });
     });
 };
 
@@ -164,6 +181,65 @@ items.deleteItem = (id) => {
         return destroyResults;
     });
 };
+
+function updateItemAges(item, ages) {
+    debug("updateItemAges");
+    var agesNames = [];
+
+    var agesLength = ages.length;
+    for (var i = 0; i < agesLength; i++) {
+        var age = ages[i];
+        agesNames.push(age.name);
+    }
+
+    var updatedAges = [];
+    return agesTable.findAll({
+        include: [{
+            model: itemsTable,
+            where: {id: item.id},
+            attributes: ["id"],
+            through: {
+                attributes: []
+            }
+        }]
+    }).then(function (foundAges) {
+        var removed = 0;
+        return Promise.map(foundAges, (age) => {
+            //TODO: TEST that this does work
+            var index = agesNames.indexOf(age.name);
+            if (index === -1) {
+                debug("removing age %o from item", age.name);
+                return item.removeAges(age);
+            } else {
+                debug("updating age %o relationship with item", age.name);
+                var updateAgeInfo = ages[index].items_per_age;
+                if (!updateAgeInfo.days) {
+                    updateAgeInfo.days = null;
+                }
+                if (!updateAgeInfo.items) {
+                    updateAgeInfo.items = null;
+                }
+
+                return item.ages[index].items_per_age.update(updateAgeInfo).then(function () {
+                    updatedAges.push(age);
+                    removed++;
+                    ages.splice(index - removed, 1);
+                    agesNames.splice(index - removed, 1);
+                });
+            }
+        });
+    }).then(function () {
+        return Promise.map(ages, (age)=> {
+            debug("adding age id %o to item", age.id);
+            return addFactorToItem(item, age.id)
+                .then((result) => {
+                    updatedAges.push(result);
+                });
+        });
+    }).then(function () {
+        return updatedAges;
+    });
+}
 
 function addAgeToItem(item, age) {
     return agesTable.find({
@@ -210,17 +286,16 @@ function updateItemFactors(item, factors) {
             where: {id: item.id},
             attributes: ["id"],
             through: {
-                attributes: ["updated_at"]
+                attributes: []
             }
         }]
     }).then(function (foundFactors) {
-        console.log("foundFactors: ", foundFactors);
         return Promise.map(foundFactors, (factor) => {
             //TODO: TEST that this does work
             var index = factors.indexOf(factor.id);
             if (index === -1) {
                 debug("removing factor id %o from item", factor.id);
-                return item.removeFactor(factor);
+                return item.removeFactors(factor);
             } else {
                 debug("keeping factor id %o on item", factor.id);
                 updatedFactors.push(factor.id);
@@ -229,7 +304,6 @@ function updateItemFactors(item, factors) {
         });
     }).then(function () {
         return Promise.map(factors, (factorId)=> {
-            debug("adding factor id %o to item", factorId);
             return addFactorToItem(item, factorId)
                 .then((result) => {
                     updatedFactors.push(result);
@@ -248,9 +322,9 @@ function addFactorToItem(item, factorId) {
     }).then((factorResult)=> {
         if (!factorResult) {
             return Promise.reject({
-                message: ITEM_NOT_FOUND,
-                location: "items.addFeature findfeature empty",
-                showMessage: "The requested feature (" + factorId + ") was not found",
+                message: "factor_not_found",
+                location: "items.addFactor findFactor empty",
+                showMessage: "The requested Factor (" + factorId + ") was not found",
                 status: 400
             });
         }
@@ -260,8 +334,8 @@ function addFactorToItem(item, factorId) {
                 return Promise.reject({
                     error: error,
                     message: "sequelize_error",
-                    location: "addFeatureToItem sequelize addfeature",
-                    showMessage: error.showMessage || "Error trying to add Feature to Item",
+                    location: "addFactorToItem sequelize addFactor",
+                    showMessage: error.showMessage || "Error trying to add Factor to Item",
                     status: error.status || 500
                 });
             });
