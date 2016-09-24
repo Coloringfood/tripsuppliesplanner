@@ -24,7 +24,7 @@ powerdialerApp.controller('ItemsPageController',
                         message: "Error Getting All Items"
                     });
                 });
-                var factorsPromise = DialerListApiService.getAllFactors().then(function (factors){
+                var factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                 });
                 return $q.all([itemsPromise, factorsPromise]);
@@ -51,16 +51,15 @@ powerdialerApp.controller('ItemsPageController',
                     else {
                         NotificationProvider.error(result.message);
                     }
-                    updateList().then(function (){
-                        $window.location.reload();
-                    });
+                    $window.location.reload();
+
                 }).catch(function (reason) {
                     NotificationProvider.info(reason);
                 });
             }
 
             vm.createItem = () => {
-                openEditModal({factors:[]});
+                openEditModal({factors: []});
             };
 
             vm.editItem = (item) => {
