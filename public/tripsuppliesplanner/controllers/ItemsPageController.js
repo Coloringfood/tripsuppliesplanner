@@ -5,7 +5,8 @@ powerdialerApp.controller('ItemsPageController',
         'Notification',
         '$uibModal',
         '$q',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q) {
+        '$window',
+        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window) {
             'use strict';
 
             var vm = this;
@@ -15,8 +16,8 @@ powerdialerApp.controller('ItemsPageController',
             vm.factors = [];
 
             function updateList() {
-                var itemsPromise = DialerListApiService.getAllItems().then(function (Items) {
-                    vm.itemsList = Items;
+                var itemsPromise = DialerListApiService.getAllItems().then(function (items) {
+                    vm.itemsList = items;
                 }).catch(function (error) {
                     console.log("Getting Items Error: ", error);
                     NotificationProvider.error({
@@ -44,14 +45,15 @@ powerdialerApp.controller('ItemsPageController',
                     }
                 });
                 modalInstance.result.then(function (result) {
-                    console.log("MODAL RESULT: ", result);
                     if (result.success) {
                         NotificationProvider.success(result.message);
                     }
                     else {
                         NotificationProvider.error(result.message);
                     }
-                    updateList();
+                    updateList().then(function (){
+                        $window.location.reload();
+                    });
                 }).catch(function (reason) {
                     NotificationProvider.info(reason);
                 });

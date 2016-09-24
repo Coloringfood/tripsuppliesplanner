@@ -37,7 +37,6 @@ powerdialerApp.directive('editFactors',
                     }
 
                     scope.selectFactor = function (factor) {
-                        console.log(scope.selected);
                         var index = scope.selected.indexOf(factor.id);
                         if (index > -1) {
                             scope.selected.splice(index, 1);
@@ -46,10 +45,6 @@ powerdialerApp.directive('editFactors',
                             scope.selected.push(factor.id);
                             factor.selected = true;
                         }
-                        console.log("----------------------------------------");
-                        console.log(scope.selected);
-                        console.log("----------------------------------------");
-                        console.log("factor.selected: ", factor.selected);
                     };
                 }
             };
