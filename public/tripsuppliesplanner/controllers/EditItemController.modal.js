@@ -49,9 +49,7 @@ powerdialerApp.controller('EditItemModalController',
             };
             vm.createFactor = () => {
                 if (vm.showNewFactor) {
-                    console.log("vm.newFactor: ", vm.newFactor);
                     if (vm.newFactor.name && vm.newFactor.type) {
-                        console.log("Saving Factor");
                         DialerListApiService.createFactor(vm.newFactor).then(function () {
                             vm.showNewFactor = false;
                             updateFactors().then(function () {
