@@ -26,14 +26,23 @@ powerdialerApp.controller('EditItemModalController',
                 age.view = newView;
             };
 
-            DialerListApiService.getAllFactors()
-                .then(function (factors) {
-                    var factorsLength = factors.length;
-                    for (var i = 0; i < factorsLength; i++) {
-                        var factor = factors[i];
-                        vm.factors[factor.type].push(factor);
-                    }
-                });
+            function updateFactors() {
+                return DialerListApiService.getAllFactors()
+                    .then(function (factors) {
+                        vm.factors = {
+                            'Vacation Type': [],
+                            'Activities': [],
+                            'Other': []
+                        };
+                        var factorsLength = factors.length;
+                        for (var i = 0; i < factorsLength; i++) {
+                            var factor = factors[i];
+                            vm.factors[factor.type].push(factor);
+                        }
+                    });
+            }
+
+            updateFactors();
 
             vm.setFactorType = (type) => {
                 vm.newFactor.type = type;
@@ -41,9 +50,16 @@ powerdialerApp.controller('EditItemModalController',
             vm.createFactor = () => {
                 if (vm.showNewFactor) {
                     console.log("vm.newFactor: ", vm.newFactor);
-                    if (vm.newFactor.name && fm.newFactor.type) {
+                    if (vm.newFactor.name && vm.newFactor.type) {
                         console.log("Saving Factor");
-                        vm.showNewFactor = false;
+                        DialerListApiService.createFactor(vm.newFactor).then(function () {
+                            vm.showNewFactor = false;
+                            updateFactors().then(function () {
+                                NotificationProvider.success("Factor created");
+                            });
+                        }).catch(() => {
+                            NotificationProvider.error("Error trying to save factor");
+                        });
                     } else {
                         NotificationProvider.error("Please fill out all the factor information");
                     }

@@ -24,7 +24,7 @@ powerdialerApp.factory(
             }
 
             function appendUserInfo(data) {
-                data.user_id = 0; // jshint ignore:line
+                data.user_id = 1; // jshint ignore:line
                 return data;
             }
 
@@ -80,7 +80,7 @@ powerdialerApp.factory(
             DialerListApiService.createFactor = (factorData) => {
                 var convertedFactor = convertFactorForApi(factorData);
                 convertedFactor = appendUserInfo(convertedFactor);
-                return restangularFactory.all('factor').post(convertedFactor).then(function (returnedData) {
+                return restangularFactory.all('factors').post([convertedFactor]).then(function (returnedData) {
                     if (debugging) {
                         console.log("createFactor: ", returnedData);
                     }

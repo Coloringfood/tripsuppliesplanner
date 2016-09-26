@@ -5,8 +5,8 @@ var Promise = require('bluebird'),
     agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items');
 
-var ITEM_NOT_FOUND = "item_not_found";
-var ITEMS_INCLUDE = [
+var FACTOR_NOT_FOUND = "item_not_found";
+var FACTOR_INCLUDE = [
     {
         model: agesTable,
         attributes: [
@@ -16,9 +16,18 @@ var ITEMS_INCLUDE = [
     }
 ];
 
-factors.getAllFactors = ()=> {
+factors.getAllFactors = () => {
     return factorsTable.findAll()
         .then(function (allItemsResult) {
             return allItemsResult;
         });
+};
+
+factors.addFactors = (newFactors) => {
+    return Promise.map(newFactors, (factor) => {
+        factor.created_by = factor.user_id; // jshint ignore:line
+        return factorsTable.create(factor);
+    }).then(function (createResult) {
+        return createResult;
+    });
 };

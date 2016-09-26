@@ -14,7 +14,7 @@ module.exports = {
             /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
             /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
             
-            -- Dumping structure for table tripsuppliesplanner.ages
+            -- Dumping structure for table trip_supplies_planner.ages
             CREATE TABLE IF NOT EXISTS \`ages\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
@@ -22,10 +22,10 @@ module.exports = {
               \`updated_at\` datetime NOT NULL,
               \`deleted_at\` datetime DEFAULT NULL,
               PRIMARY KEY (\`id\`),
-	          UNIQUE INDEX \`Unique_name\` (\`name\`)
+              UNIQUE KEY \`Unique_name\` (\`name\`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.ages: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.ages: ~4 rows (approximately)
             /*!40000 ALTER TABLE \`ages\` DISABLE KEYS */;
             INSERT IGNORE INTO \`ages\` (\`id\`, \`name\`, \`created_at\`, \`updated_at\`, \`deleted_at\`) VALUES
                 (1, 'Baby', '2016-09-21 13:02:32', '2016-09-21 13:02:33', NULL),
@@ -35,24 +35,26 @@ module.exports = {
             /*!40000 ALTER TABLE \`ages\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.factors
+            -- Dumping structure for table trip_supplies_planner.factors
             CREATE TABLE IF NOT EXISTS \`factors\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
               \`type\` enum('Vacation Type','Activities','Other') NOT NULL,
-              \`created_by\` varchar(255) NOT NULL,
+              \`created_by\` int(10) unsigned NOT NULL,
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
               \`deleted_at\` datetime DEFAULT NULL,
-              PRIMARY KEY (\`id\`)
+              PRIMARY KEY (\`id\`),
+              KEY \`FK_factors_users\` (\`created_by\`),
+              CONSTRAINT \`FK_factors_users\` FOREIGN KEY (\`created_by\`) REFERENCES \`users\` (\`id\`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.factors: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.factors: ~4 rows (approximately)
             /*!40000 ALTER TABLE \`factors\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`factors\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.families
+            -- Dumping structure for table trip_supplies_planner.families
             CREATE TABLE IF NOT EXISTS \`families\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
@@ -68,12 +70,12 @@ module.exports = {
               CONSTRAINT \`families_ibfk_2\` FOREIGN KEY (\`father_id\`) REFERENCES \`users\` (\`id\`) ON DELETE SET NULL ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.families: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.families: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`families\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`families\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.items
+            -- Dumping structure for table trip_supplies_planner.items
             CREATE TABLE IF NOT EXISTS \`items\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
@@ -89,12 +91,12 @@ module.exports = {
               CONSTRAINT \`items_ibfk_1\` FOREIGN KEY (\`created_by_id\`) REFERENCES \`users\` (\`id\`) ON DELETE NO ACTION ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.items: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.items: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`items\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`items\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.items_per_age
+            -- Dumping structure for table trip_supplies_planner.items_per_age
             CREATE TABLE IF NOT EXISTS \`items_per_age\` (
               \`days\` int(10) unsigned DEFAULT NULL,
               \`items\` varchar(255) DEFAULT NULL,
@@ -109,12 +111,12 @@ module.exports = {
               CONSTRAINT \`items_per_age_ibfk_2\` FOREIGN KEY (\`age_id\`) REFERENCES \`ages\` (\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.items_per_age: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.items_per_age: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`items_per_age\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`items_per_age\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.item_factors
+            -- Dumping structure for table trip_supplies_planner.item_factors
             CREATE TABLE IF NOT EXISTS \`item_factors\` (
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
@@ -126,12 +128,12 @@ module.exports = {
               CONSTRAINT \`item_factors_ibfk_2\` FOREIGN KEY (\`factor_id\`) REFERENCES \`factors\` (\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.item_factors: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.item_factors: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`item_factors\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`item_factors\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.users
+            -- Dumping structure for table trip_supplies_planner.users
             CREATE TABLE IF NOT EXISTS \`users\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
@@ -148,12 +150,12 @@ module.exports = {
               CONSTRAINT \`users_ibfk_2\` FOREIGN KEY (\`family_id\`) REFERENCES \`families\` (\`id\`) ON DELETE NO ACTION ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.users: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.users: ~1 rows (approximately)
             /*!40000 ALTER TABLE \`users\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`users\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.vacations
+            -- Dumping structure for table trip_supplies_planner.vacations
             CREATE TABLE IF NOT EXISTS \`vacations\` (
               \`id\` int(10) unsigned NOT NULL AUTO_INCREMENT,
               \`name\` varchar(30) NOT NULL,
@@ -168,12 +170,12 @@ module.exports = {
               CONSTRAINT \`vacations_ibfk_1\` FOREIGN KEY (\`created_by_id\`) REFERENCES \`users\` (\`id\`) ON DELETE NO ACTION ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.vacations: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.vacations: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`vacations\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`vacations\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.vacations_factors
+            -- Dumping structure for table trip_supplies_planner.vacations_factors
             CREATE TABLE IF NOT EXISTS \`vacations_factors\` (
               \`days\` int(10) unsigned DEFAULT NULL,
               \`created_at\` datetime NOT NULL,
@@ -187,12 +189,12 @@ module.exports = {
               CONSTRAINT \`vacations_factors_ibfk_2\` FOREIGN KEY (\`factor_id\`) REFERENCES \`factors\` (\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.vacations_factors: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.vacations_factors: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`vacations_factors\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`vacations_factors\` ENABLE KEYS */;
             
             
-            -- Dumping structure for table tripsuppliesplanner.vacations_participants
+            -- Dumping structure for table trip_supplies_planner.vacations_participants
             CREATE TABLE IF NOT EXISTS \`vacations_participants\` (
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
@@ -205,7 +207,7 @@ module.exports = {
               CONSTRAINT \`vacations_participants_ibfk_2\` FOREIGN KEY (\`user_id\`) REFERENCES \`users\` (\`id\`) ON DELETE CASCADE ON UPDATE CASCADE
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
-            -- Dumping data for table tripsuppliesplanner.vacations_participants: ~0 rows (approximately)
+            -- Dumping data for table trip_supplies_planner.vacations_participants: ~0 rows (approximately)
             /*!40000 ALTER TABLE \`vacations_participants\` DISABLE KEYS */;
             /*!40000 ALTER TABLE \`vacations_participants\` ENABLE KEYS */;
             /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

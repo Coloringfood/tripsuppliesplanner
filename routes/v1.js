@@ -2,8 +2,8 @@ var express = require('express');
 var expressValidator = require('express-validator');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
-var itemsService = require('../services/items');
-var factorsService = require('../services/factors');
+var itemsRoutes = require('./v1/itemsRoutes');
+var factorsRoutes = require('./v1/factorsRoutes');
 
 router.use(expressValidator({
     customValidators: {
@@ -45,41 +45,13 @@ router.use(expressValidator({
     }
 }));
 router.use((req, res, next) => {
-    req.validateItem = () => {
-        debug('validateItem');
-        validateItemData();
-        if (typeof req.body.factors === 'object' && Array.isArray(req.body.factors)) {
-            var featuresLength = req.body.factors.length;
-            for (var i = 0; i < featuresLength; i++) {
-                validateCategoryData('factors[' + i + ']');
-            }
-        }
-        validateAuditTrail('');
-
-        return checkErrors();
-    };
-
-    function validateItemData() {
-        req.assert('name', 'This optional field should be a string').isString();
-        req.assert('name', 'This optional field should be 100 characters or less').len(0, 30);
-        req.assert('personal', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
-        req.assert('required', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
-        req.assert('always_needed', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
-        req.assert('factors', 'Factors must be an array').optional({checkFalsy: true}).isArray();
-    }
-
-    function validateCategoryData(baseLocation) {
-        debug('validatingCategoryData for %o', baseLocation);
-        req.assert(baseLocation, 'This optional field should be a string').isInt();
-    }
-
-    var validateAuditTrail = function (baseLocation) {
+    req.validateAuditTrail = (baseLocation) => {
         debug('validateAuditTrail');
         req.assert(baseLocation + 'user_id', 'This field is required').notEmpty();
         req.assert(baseLocation + 'user_id', 'This field must be an integer').isInt();
     };
 
-    var checkErrors = function () {
+    req.checkErrors = () => {
         debug('checkErrors');
         var valid = true;
         var errors = req.validationErrors();
@@ -99,73 +71,10 @@ router.use((req, res, next) => {
     return next();
 });
 
-router.route('/items')
-    .get((req, res, next) => {
-        debug('GET /item');
-        itemsService.getAllItems()
-            .then((results) => {
-                res.json(results);
-            })
-            .catch((e) => {
-                next(e);
-            });
-    })
-    .post((req, res, next) => {
-        debug("Post: %o", req.body);
-        if (req.validateItem()) {
-            return itemsService.addItem(req.body)
-                .then((result) => {
-                    debug("post result: %o", result);
-                    res.status(201).send();
-                })
-                .catch((e) => {
-                    next(e);
-                });
-        }
-    });
+router.use('/items', itemsRoutes);
 
-router.route('/items/:itemId')
-    .get((req, res, next) => {
-        debug("Put on id:%o, object: %o", req.params.itemId, req.body);
-        itemsService.getItem(req.params.itemId)
-            .then((result) => {
-                res.json(result);
-            })
-            .catch((e) => {
-                next(e);
-            });
-    })
-    .put((req, res, next) => {
-        debug("Put on id:%o, object: %o", req.params.itemId, req.body);
-        if (req.validateItem()) {
-            itemsService.updateItem(req.params.itemId, req.body)
-                .then((result) => {
-                    res.json(result);
-                })
-                .catch((e) => {
-                    next(e);
-                });
-        }
-    })
-    .delete((req, res, next) => {
-        itemsService.deleteItem(req.params.itemId)
-            .then((result) => {
-                res.json(result);
-            })
-            .catch((e) => {
-                next(e);
-            });
-    });
+router.use('/factors', factorsRoutes);
 
-router.route('/factors')
-    .get((req, res, next) => {
-        factorsService.getAllFactors()
-            .then((result) => {
-                res.json(result);
-            })
-            .catch((e) => {
-                next(e);
-            });
-    });
+//TODO: Return an error 404 on any other '/v1' route instead of the home page
 
 module.exports = router;
