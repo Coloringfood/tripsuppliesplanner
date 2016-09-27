@@ -10,6 +10,9 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this;
 
             vm.newItem = angular.copy(item);
+            if(!vm.newItem.required){
+                vm.newItem.required = false;
+            }
             vm.view = "Vacation Type";
             vm.types = [
                 'Vacation Type',

@@ -45,6 +45,33 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-sm-3">Item Settings:</div>
+        <div class="col-sm-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.personal">
+                    Private Item
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.required">
+                    Not Optional When Features Meet
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.always_needed">
+                    Always Needed When Packing
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-3">Age/Quantity (need to add button and change age)</div>
         <div class="col-sm-9">
             <div ng-repeat="age in vm.newItem.ages" class="row">
