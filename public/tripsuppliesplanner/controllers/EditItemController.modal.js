@@ -7,7 +7,8 @@ powerdialerApp.controller('EditItemModalController',
         'Notification',
         function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider) {
             'use strict';
-            var vm = this;
+            var vm = this,
+                markedFactors = {};
 
             vm.newItem = angular.copy(item);
             console.log("vm.newItem: ", vm.newItem);
@@ -59,7 +60,6 @@ powerdialerApp.controller('EditItemModalController',
                         }
                     }
                 }
-                console.log("vm.newItem.ages: ", vm.newItem.ages);
             };
             vm.updateAges();
 
@@ -78,8 +78,10 @@ powerdialerApp.controller('EditItemModalController',
                         var factorsLength = factors.length;
                         for (var i = 0; i < factorsLength; i++) {
                             var factor = factors[i];
+                            factor.selected = markedFactors[factor.name];
                             vm.factors[factor.type].push(factor);
                         }
+                        markedFactors = {};
                     });
             }
 
@@ -91,7 +93,20 @@ powerdialerApp.controller('EditItemModalController',
             vm.createFactor = () => {
                 if (vm.showNewFactor) {
                     if (vm.newFactor.name && vm.newFactor.type) {
-                        // var oldFactors = angular.copy;
+                        // Loop current factors and save which ones are selected
+                        markedFactors = {};
+                        var factorsTypeLength = vm.types.length;
+                        for (var i = 0; i < factorsTypeLength; i++) {
+                            var factorType = vm.types[i];
+                            var factorsLength = vm.factors[factorType].length;
+                            for (var j = 0; j < factorsLength; j++) {
+                                var factor = vm.factors[factorType][j];
+                                if (factor.selected) {
+                                    markedFactors[factor.name] = true;
+                                }
+                            }
+                        }
+
                         DialerListApiService.createFactor(vm.newFactor).then(function () {
                             vm.showNewFactor = false;
                             updateFactors().then(function () {
