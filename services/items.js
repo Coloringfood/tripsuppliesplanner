@@ -213,7 +213,7 @@ function updateItemAges(item, ages) {
                 return item.removeAges(age);
             } else {
                 debug("updating age %o relationship with item", age.name);
-                var updateAgeInfo = ages[index].items_per_age;
+                var updateAgeInfo = ages[index].items_per_age; // jshint ignore:line
                 if (!updateAgeInfo.days) {
                     updateAgeInfo.days = null;
                 }
@@ -221,12 +221,13 @@ function updateItemAges(item, ages) {
                     updateAgeInfo.items = null;
                 }
 
-                return item.ages[index].items_per_age.update(updateAgeInfo).then(function () {
-                    updatedAges.push(age);
-                    removed++;
-                    ages.splice(index - removed, 1);
-                    agesNames.splice(index - removed, 1);
-                });
+                return item.ages[index].items_per_age.update(updateAgeInfo) // jshint ignore:line
+                    .then(function () {
+                        updatedAges.push(age);
+                        removed++;
+                        ages.splice(index - removed, 1);
+                        agesNames.splice(index - removed, 1);
+                    });
             }
         });
     }).then(function () {

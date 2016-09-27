@@ -10,8 +10,12 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this;
 
             vm.newItem = angular.copy(item);
-            if(!vm.newItem.required){
+            console.log("vm.newItem: ", vm.newItem);
+            if (!vm.newItem.required) {
                 vm.newItem.required = false;
+            }
+            if (!vm.newItem.ages) {
+                vm.newItem.ages = [];
             }
             vm.view = "Vacation Type";
             vm.types = [
@@ -24,6 +28,40 @@ powerdialerApp.controller('EditItemModalController',
                 'Activities': [],
                 'Other': []
             };
+            vm.show = {
+                Baby: false,
+                Toddler: false,
+                Kid: false,
+                Adult: false
+            };
+
+
+            var agesLength = vm.newItem.ages.length;
+            for (var i = 0; i < agesLength; i++) {
+                var age = vm.newItem.ages[i];
+                vm.show[age.name] = true;
+            }
+
+            vm.updateAges = (selectedAge) => {
+                if (vm.show[selectedAge]) {
+                    vm.newItem.ages.push({
+                        name: selectedAge,
+                        items_per_age: {}
+                    });
+                }
+                else {
+                    var itemsLength = vm.newItem.ages.length;
+                    for (var i = 0; i < itemsLength; i++) {
+                        var age = vm.newItem.ages[i];
+                        if (age.name == selectedAge) { // jshint ignore:line
+                            vm.newItem.ages.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                console.log("vm.newItem.ages: ", vm.newItem.ages);
+            };
+            vm.updateAges();
 
             vm.switchView = (newView, age) => {
                 age.view = newView;
@@ -53,6 +91,7 @@ powerdialerApp.controller('EditItemModalController',
             vm.createFactor = () => {
                 if (vm.showNewFactor) {
                     if (vm.newFactor.name && vm.newFactor.type) {
+                        // var oldFactors = angular.copy;
                         DialerListApiService.createFactor(vm.newFactor).then(function () {
                             vm.showNewFactor = false;
                             updateFactors().then(function () {
@@ -68,7 +107,6 @@ powerdialerApp.controller('EditItemModalController',
                     vm.newFactor = {};
                     vm.showNewFactor = true;
                 }
-                console.log("clicked");
             };
 
             vm.ok = () => {

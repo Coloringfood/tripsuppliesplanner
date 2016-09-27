@@ -58,15 +58,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" ng-model="vm.newItem.required">
-                    Not Optional When Features Meet
-                </label>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="vm.newItem.always_needed">
-                    Always Needed When Packing
+                    Not Optional If Part Of Factor
                 </label>
             </div>
         </div>
@@ -74,6 +66,43 @@
     <div class="row">
         <div class="col-sm-3">Age/Quantity (need to add button and change age)</div>
         <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-4">
+                    Select Applied Ages:
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Baby" ng-click="vm.updateAges('Baby')">
+                            Baby
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Toddler" ng-click="vm.updateAges('Toddler')">
+                            Toddler
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Kid" ng-click="vm.updateAges('Kid')">
+                            Kid
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Adult" ng-click="vm.updateAges('Adult')">
+                            Adult
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div ng-repeat="age in vm.newItem.ages" class="row">
                 <div class="col-md-2">{{age.name}}</div>
                 <div class="col-md-5">
@@ -95,8 +124,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3">Factors</div>
-        <div class="col-sm-9">
+        <div class="col-sm-3">Factors<br>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.always_needed">
+                    Always Needed, Regardless of Factors
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-9" ng-hide="vm.newItem.always_needed">
             <edit-factors factors="vm.factors" selected="vm.newItem.factors"></edit-factors>
         </div>
     </div>
