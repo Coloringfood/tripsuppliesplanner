@@ -5,17 +5,6 @@ var Promise = require('bluebird'),
     agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items');
 
-var FACTOR_NOT_FOUND = "item_not_found";
-var FACTOR_INCLUDE = [
-    {
-        model: agesTable,
-        attributes: [
-            "id",
-            "name"
-        ]
-    }
-];
-
 factors.getAllFactors = () => {
     return factorsTable.findAll({
         attributes: [

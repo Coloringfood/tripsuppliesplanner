@@ -7,7 +7,7 @@ var Promise = require('bluebird'),
     factorsTable = require('./../models/factors');
 
 var ITEM_NOT_FOUND = "item_not_found";
-var ITEMS_INCLUDE = [
+var ITEM_INCLUDE = [
     {
         model: agesTable,
         attributes: [
@@ -31,6 +31,14 @@ var ITEMS_INCLUDE = [
         }
     }
 ];
+var ITEM_ATTRIBUTES = [
+    "id",
+    "name",
+    "personal",
+    "required",
+    "always_needed",
+    "created_by_id"
+];
 
 function convertItemForUI(item) {
     var itemData = item.dataValues;
@@ -48,15 +56,8 @@ items.getAllItems = () => {
     debug("getAllItems");
     return itemsTable.findAll(
         {
-            attributes: [
-                "id",
-                "name",
-                "personal",
-                "required",
-                "always_needed",
-                "created_by_id"
-            ],
-            include: ITEMS_INCLUDE
+            attributes: ITEM_ATTRIBUTES,
+            include: ITEM_INCLUDE
         }
     ).catch(function (error) {
         return Promise.reject({
@@ -77,18 +78,11 @@ items.getAllItems = () => {
 items.getItem = (id) => {
     debug("getItem");
     return itemsTable.find({
-        attributes: [
-            "id",
-            "name",
-            "personal",
-            "required",
-            "always_needed",
-            "created_by_id"
-        ],
+        attributes: ITEM_ATTRIBUTES,
         where: {
             id: id
         },
-        include: ITEMS_INCLUDE
+        include: ITEM_INCLUDE
     }).catch(function (error) {
         return Promise.reject({
             error: error,
