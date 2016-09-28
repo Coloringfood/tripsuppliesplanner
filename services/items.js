@@ -1,5 +1,6 @@
 var items = module.exports = {};
 var Promise = require('bluebird'),
+    Sequelize = require('sequelize'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
     agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items'),
@@ -220,20 +221,12 @@ function updateItemAges(item, ages) {
                 if (!updateAgeInfo.items) {
                     updateAgeInfo.items = null;
                 }
-
-                return item.ages[index].items_per_age.update(updateAgeInfo) // jshint ignore:line
-                    .then(function () {
-                        updatedAges.push(age);
-                        removed++;
-                        ages.splice(index - removed, 1);
-                        agesNames.splice(index - removed, 1);
-                    });
             }
         });
     }).then(function () {
         return Promise.map(ages, (age)=> {
             debug("adding age id %o to item", age.id);
-            return addFactorToItem(item, age.id)
+            return addAgeToItem(item, age)
                 .then((result) => {
                     updatedAges.push(result);
                 });
@@ -244,10 +237,16 @@ function updateItemAges(item, ages) {
 }
 
 function addAgeToItem(item, age) {
+    debug('addAgeToItem');
     return agesTable.find({
-        where: {
-            name: age.name
-        }
+        where: Sequelize.or(
+            {
+                name: age.name
+            },
+            {
+                id: age.id
+            }
+        )
     }).catch((error) => {
         return Promise.reject({
             error: error,
@@ -265,6 +264,7 @@ function addAgeToItem(item, age) {
                 status: 400
             });
         }
+        debug('adding age: %o to item: %o', age.name, item.name);
         return item.addAges(ageResult, age.items_per_age) // jshint ignore:line
             .catch((error) => {
                 return Promise.reject({

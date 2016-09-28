@@ -10,7 +10,7 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this,
                 markedFactors = {};
 
-            vm.newItem = angular.copy(item);
+            vm.newItem = angular.copy(item); // jshint ignore:line
             console.log("vm.newItem: ", vm.newItem);
             if (!vm.newItem.required) {
                 vm.newItem.required = false;
@@ -47,7 +47,7 @@ powerdialerApp.controller('EditItemModalController',
                 if (vm.show[selectedAge]) {
                     vm.newItem.ages.push({
                         name: selectedAge,
-                        items_per_age: {}
+                        items_per_age: {} // jshint ignore:line
                     });
                 }
                 else {
@@ -125,16 +125,15 @@ powerdialerApp.controller('EditItemModalController',
             };
 
             vm.ok = () => {
-                var returnPromise;
                 if (item.id) {
-                    returnPromise = DialerListApiService.saveItem(vm.newItem, item.id)
+                    DialerListApiService.saveItem(vm.newItem, item.id)
                         .then(function (result) {
-                            return {
+                            $uibModalInstance.close({
                                 message: "Successfully saved " + result.name,
                                 success: true
-                            };
+                            });
                         })
-                        .catch(function (error) {
+                        .catch(function () {
                             return {
                                 message: "Error Saving Item",
                                 success: false
@@ -142,23 +141,20 @@ powerdialerApp.controller('EditItemModalController',
                         });
                 }
                 else {
-                    returnPromise = DialerListApiService.createItem(vm.newItem)
+                    DialerListApiService.createItem(vm.newItem)
                         .then(function (result) {
-                            return {
+                            $uibModalInstance.close({
                                 message: "Successfully created " + result.name,
                                 success: true
-                            };
+                            });
                         })
-                        .catch(function (error) {
+                        .catch(function () {
                             return {
                                 message: "Error Creating Item",
                                 success: false
                             };
                         });
                 }
-                returnPromise.then(function (resultMessage) {
-                    $uibModalInstance.close(resultMessage);
-                });
             };
 
             vm.cancel = () => {
