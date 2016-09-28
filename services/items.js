@@ -193,7 +193,7 @@ items.deleteItem = (id) => {
         if (destroyResults === 0) {
             return Promise.reject({
                 errors: ITEM_NOT_FOUND,
-                location: "items.updateItem",
+                location: "items.deleteItem",
                 showMessage: "Item ID: " + id + " not found",
                 status: 404
             });
@@ -223,9 +223,7 @@ function updateItemAges(item, ages) {
             }
         }]
     }).then(function (foundAges) {
-        var removed = 0;
         return Promise.map(foundAges, (age) => {
-            //TODO: TEST that this does work
             var index = agesNames.indexOf(age.name);
             if (index === -1) {
                 debug("removing age %o from item", age.name);
@@ -311,7 +309,6 @@ function updateItemFactors(item, factors) {
         }]
     }).then(function (foundFactors) {
         return Promise.map(foundFactors, (factor) => {
-            //TODO: TEST that this does work
             var index = factors.indexOf(factor.id);
             if (index === -1) {
                 debug("removing factor id %o from item", factor.id);

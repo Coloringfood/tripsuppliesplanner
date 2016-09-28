@@ -43,8 +43,8 @@ var vacationsFactorsSchema = {
     },
     vacationsFactors = db.connection.define('vacations_factors', vacationsFactorsSchema, {
         freezeTableName: true,
-        timestamps: true,
-        paranoid: true,
+        timestamps: false,
+        paranoid: false,
         underscored: true
     });
 vacations.belongsToMany(factors, {through: vacationsFactors});
@@ -53,8 +53,8 @@ factors.belongsToMany(vacations, {through: vacationsFactors});
 var vacationsParticipantsSchema = {},
     vacationsParticipants = db.connection.define('vacations_participants', vacationsParticipantsSchema, {
         freezeTableName: true,
-        timestamps: true,
-        paranoid: true,
+        timestamps: false,
+        paranoid: false,
         underscored: true
     });
 vacations.belongsToMany(participants, {through: vacationsParticipants, as: "participants"});

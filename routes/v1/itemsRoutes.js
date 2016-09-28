@@ -10,7 +10,7 @@ router.use((req, res, next) => {
         if (typeof req.body.factors === 'object' && Array.isArray(req.body.factors)) {
             var featuresLength = req.body.factors.length;
             for (var i = 0; i < featuresLength; i++) {
-                validateCategoryData('factors[' + i + ']');
+                validateFactorData('factors[' + i + ']');
             }
         }
         req.validateAuditTrail('');
@@ -19,17 +19,17 @@ router.use((req, res, next) => {
     };
 
     function validateItemData() {
-        req.assert('name', 'This optional field should be a string').isString();
-        req.assert('name', 'This optional field should be 30 characters or less').len(0, 30);
+        req.assert('name', 'This field should be a string').isString();
+        req.assert('name', 'This field should be 30 characters or less').len(0, 30);
         req.assert('personal', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
         req.assert('required', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
         req.assert('always_needed', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
         req.assert('factors', 'Factors must be an array').optional({checkFalsy: true}).isArray();
     }
 
-    function validateCategoryData(baseLocation) {
+    function validateFactorData(baseLocation) {
         debug('validatingCategoryData for %o', baseLocation);
-        req.assert(baseLocation, 'This optional field should be a string').isInt();
+        req.assert(baseLocation, 'This field (factor) should be a string').isInt();
     }
 
     return next();

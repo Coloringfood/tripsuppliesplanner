@@ -4,6 +4,7 @@ var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1');
 var itemsRoutes = require('./v1/itemsRoutes');
 var factorsRoutes = require('./v1/factorsRoutes');
+var vacationsRoutes = require('./v1/vacationsRoutes');
 
 router.use(expressValidator({
     customValidators: {
@@ -32,6 +33,20 @@ router.use(expressValidator({
             } catch (err) {
                 return false;
             }
+        },
+        isObject: function (param) {
+            var isValid = true;
+            try {
+                if (typeof param !== 'object') {
+                    var jsonVersion = JSON.parse(param);
+                    if (jsonVersion !== 'object') {
+                        isValid = false;
+                    }
+                }
+            } catch (err) {
+                isValid = false;
+            }
+            return isValid;
         },
         isArray: function (param) {
             var isValid;
@@ -75,6 +90,10 @@ router.use('/items', itemsRoutes);
 
 router.use('/factors', factorsRoutes);
 
-//TODO: Return an error 404 on any other '/v1' route instead of the home page
+router.use('/vacations', vacationsRoutes);
+
+router.get('*', (req, res) => {
+    res.status(400).send("Not Valid URI");
+});
 
 module.exports = router;

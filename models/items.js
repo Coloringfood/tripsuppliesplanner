@@ -50,7 +50,7 @@ var itemsPerAgeSchema = {
     itemsPerAge = db.connection.define('items_per_age', itemsPerAgeSchema, {
         freezeTableName: true,
         timestamps: true,
-        paranoid: true,
+        paranoid: false,
         underscored: true
     });
 items.belongsToMany(ages, {through: itemsPerAge});

@@ -102,7 +102,6 @@ module.exports = {
               \`items\` varchar(255) DEFAULT NULL,
               \`created_at\` datetime NOT NULL,
               \`updated_at\` datetime NOT NULL,
-              \`deleted_at\` datetime DEFAULT NULL,
               \`item_id\` int(10) unsigned NOT NULL,
               \`age_id\` int(10) unsigned NOT NULL,
               PRIMARY KEY (\`item_id\`,\`age_id\`),
@@ -178,9 +177,6 @@ module.exports = {
             -- Dumping structure for table trip_supplies_planner.vacations_factors
             CREATE TABLE IF NOT EXISTS \`vacations_factors\` (
               \`days\` int(10) unsigned DEFAULT NULL,
-              \`created_at\` datetime NOT NULL,
-              \`updated_at\` datetime NOT NULL,
-              \`deleted_at\` datetime DEFAULT NULL,
               \`vacation_id\` int(10) unsigned NOT NULL,
               \`factor_id\` int(10) unsigned NOT NULL,
               PRIMARY KEY (\`vacation_id\`,\`factor_id\`),
@@ -196,9 +192,6 @@ module.exports = {
             
             -- Dumping structure for table trip_supplies_planner.vacations_participants
             CREATE TABLE IF NOT EXISTS \`vacations_participants\` (
-              \`created_at\` datetime NOT NULL,
-              \`updated_at\` datetime NOT NULL,
-              \`deleted_at\` datetime DEFAULT NULL,
               \`vacation_id\` int(10) unsigned NOT NULL,
               \`user_id\` int(10) unsigned NOT NULL,
               PRIMARY KEY (\`vacation_id\`,\`user_id\`),
