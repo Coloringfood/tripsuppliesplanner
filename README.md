@@ -1,7 +1,7 @@
 # tripsuppliesplanner
 
 ### setup
-Have NPM installed
+Have NPM installed & Node ~v6.6.0
 ```
 npm install
 ```
