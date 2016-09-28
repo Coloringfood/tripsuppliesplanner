@@ -17,7 +17,13 @@ var FACTOR_INCLUDE = [
 ];
 
 factors.getAllFactors = () => {
-    return factorsTable.findAll()
+    return factorsTable.findAll({
+        attributes: [
+            "id",
+            "name",
+            "type"
+        ]
+    })
         .then(function (allItemsResult) {
             return allItemsResult;
         });

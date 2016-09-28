@@ -1,5 +1,4 @@
 var express = require('express');
-var expressValidator = require('express-validator');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1:factors');
 var factorsService = require('./../../services/factors');

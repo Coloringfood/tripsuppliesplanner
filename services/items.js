@@ -13,14 +13,22 @@ var ITEMS_INCLUDE = [
         attributes: [
             "id",
             "name"
-        ]
+        ],
+        through: {
+            attributes: [
+                "days",
+                "items"
+            ]
+        }
     },
     {
         model: factorsTable,
         attributes: [
             "id"
         ],
-        required: false
+        through: {
+            attributes: []
+        }
     }
 ];
 
@@ -40,6 +48,14 @@ items.getAllItems = () => {
     debug("getAllItems");
     return itemsTable.findAll(
         {
+            attributes: [
+                "id",
+                "name",
+                "personal",
+                "required",
+                "always_needed",
+                "created_by_id"
+            ],
             include: ITEMS_INCLUDE
         }
     ).catch(function (error) {
@@ -61,6 +77,14 @@ items.getAllItems = () => {
 items.getItem = (id) => {
     debug("getItem");
     return itemsTable.find({
+        attributes: [
+            "id",
+            "name",
+            "personal",
+            "required",
+            "always_needed",
+            "created_by_id"
+        ],
         where: {
             id: id
         },

@@ -57,8 +57,8 @@ var vacationsParticipantsSchema = {},
         paranoid: true,
         underscored: true
     });
-vacations.belongsToMany(participants, {through: vacationsParticipants});
-participants.belongsToMany(vacations, {through: vacationsParticipants, as: "participants"});
+vacations.belongsToMany(participants, {through: vacationsParticipants, as: "participants"});
+participants.belongsToMany(vacations, {through: vacationsParticipants});
 
 vacations.belongsTo(participants, {foreignKey: "created_by_id", as: "creator"});
 

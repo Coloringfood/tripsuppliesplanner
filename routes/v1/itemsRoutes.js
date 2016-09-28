@@ -20,7 +20,7 @@ router.use((req, res, next) => {
 
     function validateItemData() {
         req.assert('name', 'This optional field should be a string').isString();
-        req.assert('name', 'This optional field should be 100 characters or less').len(0, 30);
+        req.assert('name', 'This optional field should be 30 characters or less').len(0, 30);
         req.assert('personal', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
         req.assert('required', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
         req.assert('always_needed', 'This optional field should be a Boolean').optional({checkFalsy: true}).isBoolean();
