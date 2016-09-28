@@ -1,0 +1,24 @@
+@import 'base';
+
+.modal-footer {
+    text-align: center;
+}
+
+.emphasis-2-text {
+    color: $lmp-color-2;
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.center-text-on-field {
+    line-height: 30px;
+}
+
+.padding {
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #0000FF;
+}

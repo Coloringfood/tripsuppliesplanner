@@ -1,0 +1,23 @@
+$lmp-color-1: #4477AA;
+$lmp-color-2: #006699;
+$lmp-color-3: #84B7EA;
+$lmp-color-4: #003366;
+
+.gridStyle .ngCell .actionsCell {
+  > a {
+    width: auto;
+  }
+}
+
+.full-screen-modal .modal-dialog{
+  margin: 0;
+  width: 100%;
+
+  .cell-height{
+      height: 25px;
+  }
+}
+
+body {
+  padding-top: 70px;
+}

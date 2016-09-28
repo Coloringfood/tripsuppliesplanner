@@ -1,0 +1,5 @@
+{
+  "backend": {
+    "host": "http://localhost:3011/v1/"
+  }
+}

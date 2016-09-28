@@ -38,3 +38,10 @@ jspm_packages
 
 # Intellij files
 .idea/
+/mongoDB/
+/config/config.json
+/public/assets/ext/
+/public/config/config.json
+/public/common/constants.js
+/config/ui-config.json
+/public/assets/css/base.css

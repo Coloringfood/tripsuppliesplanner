@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="title">{{vm.name}}</div>
+    <div class="tile">
+        <div class="tileContent">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">All Items</div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="nameInput">Name</label>
+                                <input type="text" class="form-control" id="nameInput" placeholder="Item Name" ng-model="vm.newItem.name">
+                            </div>
+                            <button type="button" class="btn btn-default" ng-click="vm.createItem()">Submit</button>
+                        </form>
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th></th>
+                            <th>id</th>
+                            <th>name</th>
+                            <th>categories</th>
+                        </tr>
+                        <tr ng-repeat="item in vm.itemsList track by item.id">
+                            <td>
+                                <a class="btn" ng-click="vm.editItem(item)">edit</a>
+                                <a class="btn" ng-click="vm.deleteItem(item)">delete</a>
+                            </td>
+                            <td>{{item.id}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.categories}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
