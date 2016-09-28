@@ -1,24 +1,54 @@
 @import 'base';
 
 .modal-footer {
-    text-align: center;
+  text-align: center;
 }
 
 .emphasis-2-text {
-    color: $lmp-color-2;
-    font-weight: bold;
+  color: $lmp-color-2;
+  font-weight: bold;
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .center-text-on-field {
-    line-height: 30px;
+  line-height: 30px;
 }
 
 .padding {
-    padding-left: 20px;
-    padding-right: 20px;
-    color: #0000FF;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: #0000FF;
+}
+
+.in-between-bordered:not(:last-child):after {
+  content: "";
+  display: block;
+  border-bottom: 1px solid #ccc;
+  margin: 0 15px;
+}
+
+.row {
+  padding-bottom: 5px
+}
+
+body {
+  font-size: 12px;
+}
+
+ul.no-indent {
+  padding-left: 10px;
+  &.no-bullet {
+    padding-left: 0;
+  }
+}
+
+ul.no-bullet {
+  list-style: none;
+}
+
+.navbar-inverse.padded {
+  padding: 5px 39px 5px 0;
 }

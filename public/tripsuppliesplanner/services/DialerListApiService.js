@@ -11,6 +11,7 @@ powerdialerApp.factory(
                   restangularFactory,
                   ENV) {
             'use strict';
+            var debugging = false;
 
             var DialerListApiService = {};
 
@@ -18,39 +19,71 @@ powerdialerApp.factory(
                 return itemData;
             }
 
+            function convertFactorForApi(factorData) {
+                return factorData;
+            }
+
             function appendUserInfo(data) {
-                data.created_by = "Fiddlesticks";
+                data.user_id = 1; // jshint ignore:line
                 return data;
             }
 
-            DialerListApiService.getAllItems = function () {
+            DialerListApiService.getAllItems = () => {
                 return restangularFactory.one('items').get().then(function (returnedData) {
-                    console.log("getAllItems: ", returnedData);
+                    if (debugging) {
+                        console.log("getAllItems: ", returnedData);
+                    }
                     return returnedData;
                 });
             };
 
-            DialerListApiService.saveItem = function (itemData, itemId) {
+            DialerListApiService.saveItem = (itemData, itemId) => {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + itemId).then(function (returnedData) {
-                    console.log("saveItem: ", returnedData);
+                    if (debugging) {
+                        console.log("saveItem: ", returnedData);
+                    }
                     return returnedData;
                 });
             };
 
-            DialerListApiService.createItem = function (itemData) {
+            DialerListApiService.createItem = (itemData) => {
                 var convertedItem = convertItemForApi(itemData);
                 convertedItem = appendUserInfo(convertedItem);
                 return restangularFactory.all('items').post(convertedItem).then(function (returnedData) {
-                    console.log("createItem: ", returnedData);
+                    if (debugging) {
+                        console.log("createItem: ", returnedData);
+                    }
                     return returnedData;
                 });
             };
 
-            DialerListApiService.deleteItem = function (itemId) {
+            DialerListApiService.deleteItem = (itemId) => {
                 return restangularFactory.one('items').all(itemId).remove().then(function (returnedData) {
-                    console.log("deleteItem: ", returnedData);
+                    if (debugging) {
+                        console.log("deleteItem: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.getAllFactors = () => {
+                return restangularFactory.one('factors').get().then(function (returnedData) {
+                    if (debugging) {
+                        console.log("getAllFactors: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.createFactor = (factorData) => {
+                var convertedFactor = convertFactorForApi(factorData);
+                convertedFactor = appendUserInfo(convertedFactor);
+                return restangularFactory.all('factors').post([convertedFactor]).then(function (returnedData) {
+                    if (debugging) {
+                        console.log("createFactor: ", returnedData);
+                    }
                     return returnedData;
                 });
             };

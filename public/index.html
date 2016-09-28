@@ -29,13 +29,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Magic</a>
+            <a class="navbar-brand" href="#">Trip Supplies Planner</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: isActive('/')}"><a href="/">Home</a></li>
-                <li ng-class="{ active: isActive('/itemspage')}"><a href="/itemspage">Items</a></li>
                 <li ng-class="{ active: isActive('/vacationspage')}"><a href="/vacationspage">Vacations</a></li>
+                <li ng-class="{ active: isActive('/itemspage')}"><a href="/itemspage">Items</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -62,6 +62,8 @@
 <script type="text/javascript" src="/public/common/restangularFactory.js"></script>
 
 <script type="text/javascript" src="/public/common/controllers.js"></script>
+<script type="text/javascript" src="/public/common/directives/editFactors.js"></script>
+<script type="text/javascript" src="/public/common/directives/viewFactors.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/EditItemController.modal.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/HomeController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/ItemsPageController.js"></script>

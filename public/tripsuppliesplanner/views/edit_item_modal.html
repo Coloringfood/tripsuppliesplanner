@@ -1,10 +1,140 @@
 <div class="modal-header">
-    <h3 class="modal-title" id="modal-title">Editing Item {{vm.item.name}}</h3>
+    <div class="col-sm-3">
+        <h3 class="modal-title" id="modal-title">Editing Item {{vm.item.name}}</h3>
+    </div>
+    <div class="col-sm-9 text-right" ng-class="{'navbar-inverse padded':vm.showNewFactor}">
+        <div class="col-md-5">
+            <div class="input-group" ng-show="vm.showNewFactor">
+                <span class="input-group-addon">
+                    Name
+                </span>
+                <input type="text" class="form-control" placeholder="Name of Factor"
+                       ng-model="vm.newFactor.name">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="input-group" ng-show="vm.showNewFactor">
+                <span class="input-group-addon">
+                    Type
+                </span>
+                <div class="btn-group input-group-btn" uib-dropdown is-open="status.isopen">
+                    <button class="btn btn-primary" type="button" id="single-button" uib-dropdown-toggle>
+                        {{vm.newFactor.type}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+                        <li ng-repeat="choice in vm.types" ng-click="vm.setFactorType(choice)">
+                            {{choice}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-default" ng-click="vm.createFactor()">
+                Create Factor
+            </button>
+        </div>
+    </div>
 </div>
 <div class="modal-body" id="modal-body">
     <div class="row">
-        <div class="col-sm-4">Name: </div>
-        <div class="col-sm-8"><input type="text" ng-model="vm.newItem.name"></div>
+        <div class="col-sm-3">Name:</div>
+        <div class="col-sm-9">
+            <input type="text" ng-model="vm.newItem.name">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">Item Settings:</div>
+        <div class="col-sm-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.personal">
+                    Private Item
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.required">
+                    Not Optional If Part Of Factor
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">Age/Quantity (need to add button and change age)</div>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-4">
+                    Select Applied Ages:
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Baby" ng-click="vm.updateAges('Baby')">
+                            Baby
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Toddler" ng-click="vm.updateAges('Toddler')">
+                            Toddler
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Kid" ng-click="vm.updateAges('Kid')">
+                            Kid
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.show.Adult" ng-click="vm.updateAges('Adult')">
+                            Adult
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div ng-repeat="age in vm.newItem.ages" class="row">
+                <div class="col-md-2">{{age.name}}</div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Items</span>
+                        <input type="text" class="form-control" placeholder="Enter Amount"
+                               ng-model="age.items_per_age.items">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Days</span>
+                        <input type="number" class="form-control" placeholder="Days per Amount"
+                               ng-model="age.items_per_age.days">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">Factors<br>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="vm.newItem.always_needed">
+                    Always Needed, Regardless of Factors
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-9" ng-hide="vm.newItem.always_needed">
+            <edit-factors factors="vm.factors" selected="vm.newItem.factors"></edit-factors>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
