@@ -10,6 +10,12 @@
 body {
   padding-top: 70px; }
 
+.hand-hover {
+  cursor: pointer; }
+
+.dropdown-menu {
+  padding-left: 8px; }
+
 .modal-footer {
   text-align: center; }
 
