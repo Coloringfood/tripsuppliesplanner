@@ -16,6 +16,9 @@ body {
 .dropdown-menu {
   padding-left: 8px; }
 
+.capitalize {
+  text-transform: capitalize; }
+
 .modal-footer {
   text-align: center; }
 
