@@ -11,6 +11,7 @@ powerdialerApp.controller('EditItemModalController',
                 markedFactors = {};
 
             vm.newItem = angular.copy(item); // jshint ignore:line
+            vm.newItem.optional = !vm.newItem.required;
             console.log("vm.newItem: ", vm.newItem);
             if (!vm.newItem.required) {
                 vm.newItem.required = false;
@@ -118,7 +119,6 @@ powerdialerApp.controller('EditItemModalController',
                     NotificationProvider.error("Please fill out all the factor information");
                 }
             };
-
             vm.openNewFactor = () => {
                 vm.newFactor = {};
                 vm.showNewFactor = true;
@@ -128,6 +128,7 @@ powerdialerApp.controller('EditItemModalController',
             };
 
             vm.ok = () => {
+                vm.newItem.required = !vm.newItem.optional;
                 if (item.id) {
                     DialerListApiService.saveItem(vm.newItem, item.id)
                         .then(function (result) {
