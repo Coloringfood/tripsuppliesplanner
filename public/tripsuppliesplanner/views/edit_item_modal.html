@@ -46,19 +46,19 @@
     </div>
     <div class="row">
         <div class="col-sm-3">Item Settings:</div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="checkbox">
                 <label>
                     <input type="checkbox" ng-model="vm.newItem.personal">
-                    Private Item
+                    Private Item (Only you will see this packing item)
                 </label>
             </div>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="checkbox">
                 <label>
                     <input type="checkbox" ng-model="vm.newItem.required">
-                    Not Optional If Part Of Factor
+                    This Item is required to be packed
                 </label>
             </div>
         </div>
@@ -128,7 +128,7 @@
             <div class="checkbox">
                 <label>
                     <input type="checkbox" ng-model="vm.newItem.always_needed">
-                    Always Needed, Regardless of Factors
+                    Need on Every Vacation
                 </label>
             </div>
         </div>

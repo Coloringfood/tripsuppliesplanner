@@ -129,7 +129,7 @@ powerdialerApp.controller('EditItemModalController',
                     DialerListApiService.saveItem(vm.newItem, item.id)
                         .then(function (result) {
                             $uibModalInstance.close({
-                                message: "Successfully saved " + result.name,
+                                message: "Successfully saved " + vm.newItem.name,
                                 success: true
                             });
                         })
@@ -144,7 +144,7 @@ powerdialerApp.controller('EditItemModalController',
                     DialerListApiService.createItem(vm.newItem)
                         .then(function (result) {
                             $uibModalInstance.close({
-                                message: "Successfully created " + result.name,
+                                message: "Successfully created " + vm.newItem.name,
                                 success: true
                             });
                         })

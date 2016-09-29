@@ -37,13 +37,14 @@
                                 </div>
                             </td>
                             <td>
-                                <view-factors factors="vm.factors" selected="item.factors"></view-factors>
+                                <view-factors factors="vm.factors" selected="item.factors" ng-if="!item.always_needed"></view-factors>
+                                <div ng-if="item.always_needed">Applies to Every Factor</div>
                             </td>
                             <td>
                                 <ul>
-                                    <li>{{item.required ? "Not Optional To Pack" : "Optional To Pack"}}</li>
-                                    <li ng-if="item.always_needed">Always Needed When Packing</li>
-                                    <li ng-if="item.personal">Only for you</li>
+                                    <li ng-if="!item.always_needed">{{item.required ? "Required To Pack" : "Optional To Pack"}}</li>
+                                    <li ng-if="item.always_needed">Needed on Every Vacation</li>
+                                    <li ng-if="item.personal">Only Applies to You</li>
                                 </ul>
                             </td>
                         </tr>
