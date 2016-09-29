@@ -91,37 +91,40 @@ powerdialerApp.controller('EditItemModalController',
                 vm.newFactor.type = type;
             };
             vm.createFactor = () => {
-                if (vm.showNewFactor) {
-                    if (vm.newFactor.name && vm.newFactor.type) {
-                        // Loop current factors and save which ones are selected
-                        markedFactors = {};
-                        var factorsTypeLength = vm.types.length;
-                        for (var i = 0; i < factorsTypeLength; i++) {
-                            var factorType = vm.types[i];
-                            var factorsLength = vm.factors[factorType].length;
-                            for (var j = 0; j < factorsLength; j++) {
-                                var factor = vm.factors[factorType][j];
-                                if (factor.selected) {
-                                    markedFactors[factor.name] = true;
-                                }
+                if (vm.newFactor.name && vm.newFactor.type) {
+                    // Loop current factors and save which ones are selected
+                    markedFactors = {};
+                    var factorsTypeLength = vm.types.length;
+                    for (var i = 0; i < factorsTypeLength; i++) {
+                        var factorType = vm.types[i];
+                        var factorsLength = vm.factors[factorType].length;
+                        for (var j = 0; j < factorsLength; j++) {
+                            var factor = vm.factors[factorType][j];
+                            if (factor.selected) {
+                                markedFactors[factor.name] = true;
                             }
                         }
-
-                        DialerListApiService.createFactor(vm.newFactor).then(function () {
-                            vm.showNewFactor = false;
-                            updateFactors().then(function () {
-                                NotificationProvider.success("Factor created");
-                            });
-                        }).catch(() => {
-                            NotificationProvider.error("Error trying to save factor");
-                        });
-                    } else {
-                        NotificationProvider.error("Please fill out all the factor information");
                     }
+
+                    DialerListApiService.createFactor(vm.newFactor).then(function () {
+                        vm.showNewFactor = false;
+                        updateFactors().then(function () {
+                            NotificationProvider.success("Factor created");
+                        });
+                    }).catch(() => {
+                        NotificationProvider.error("Error trying to save factor");
+                    });
                 } else {
-                    vm.newFactor = {};
-                    vm.showNewFactor = true;
+                    NotificationProvider.error("Please fill out all the factor information");
                 }
+            };
+
+            vm.openNewFactor = () => {
+                vm.newFactor = {};
+                vm.showNewFactor = true;
+            };
+            vm.closeNewFactor = () => {
+                vm.showNewFactor = false;
             };
 
             vm.ok = () => {
