@@ -24,16 +24,16 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', "Content-Type");
 
     var options = {
-        weekday: "long", year: "numeric", month: "short",
+        year: "numeric", month: "short",
         day: "numeric", hour: "2-digit", minute: "2-digit", second: "numeric"
     };
-    console.log(req.method + " " + req.originalUrl + " ", (new Date()).toLocaleTimeString("en-us", options));
+    var time = (new Date()).toLocaleTimeString("en-us", options);
+    console.log(time + "   " + req.method + " " + req.originalUrl + " ");
     next();
 });
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
