@@ -46,7 +46,7 @@ app.get('/robots.txt', function (req, res) {
 app.use('/static/', express.static(path.join(__dirname, 'public')));
 app.use('/public/', express.static(path.join(__dirname, 'public')));
 app.use('/v1', v1);
-app.use('*', default_route);
+app.use('', default_route);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
