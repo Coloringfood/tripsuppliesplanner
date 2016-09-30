@@ -23,7 +23,11 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE");
     res.header('Access-Control-Allow-Headers', "Content-Type");
 
-    console.log(req.method + " " + req.originalUrl);
+    var options = {
+        weekday: "long", year: "numeric", month: "short",
+        day: "numeric", hour: "2-digit", minute: "2-digit", second: "numeric"
+    };
+    console.log(req.method + " " + req.originalUrl + " ", (new Date()).toLocaleTimeString("en-us", options));
     next();
 });
 
