@@ -35,6 +35,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // Routes
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
 app.use('/static/', express.static(path.join(__dirname, 'public')));
 app.use('/public/', express.static(path.join(__dirname, 'public')));
 app.use('/v1', v1);
