@@ -23,14 +23,9 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE");
     res.header('Access-Control-Allow-Headers', "Content-Type");
 
-    var options = {
-        year: "numeric", month: "short",
-        day: "numeric", hour: "2-digit", minute: "2-digit", second: "numeric"
-    };
-    var time = (new Date()).toLocaleTimeString("en-us", options);
-    console.log(time + "   " + req.method + " " + req.originalUrl + " ");
     next();
 });
+app.use(logger('combined'));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
