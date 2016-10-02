@@ -23,22 +23,25 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Methods', "GET,PUT,POST,DELETE");
     res.header('Access-Control-Allow-Headers', "Content-Type");
 
-    console.log(req.method + " " + req.originalUrl);
     next();
 });
+app.use(logger('combined'));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 // Routes
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
 app.use('/static/', express.static(path.join(__dirname, 'public')));
 app.use('/public/', express.static(path.join(__dirname, 'public')));
 app.use('/v1', v1);
-app.use('*', default_route);
+app.use('', default_route);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

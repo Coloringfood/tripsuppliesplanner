@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "grunt build:dev && node ./bin/www",
+    "startLog": "npm start 1>npm.log 2>debug.log",
     "compile": "grunt build:dev",
     "preinstall": "npm i -g bower grunt-cli",
     "postinstall": "bower install --allow-root && grunt build:dev",
