@@ -30,6 +30,10 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 templateUrl: '/static/tripsuppliesplanner/views/items_page.html',
                 controller: 'ItemsPageController as vm'
             })
+            .when('/vacationspage', {
+                templateUrl: '/static/tripsuppliesplanner/views/vacations_page.html',
+                controller: 'VacationsPageController as vm'
+            })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'

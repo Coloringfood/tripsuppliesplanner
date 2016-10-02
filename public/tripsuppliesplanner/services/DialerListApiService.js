@@ -88,6 +88,24 @@ powerdialerApp.factory(
                 });
             };
 
+            DialerListApiService.getAllVacations = () => {
+                return restangularFactory.one('vacations').get().then(function (returnedData) {
+                    if (debugging) {
+                        console.log("getAllVacations: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.deleteVacation = (vacationId) => {
+                return restangularFactory.one('vacations').all(vacationId).remove().then(function (returnedData) {
+                    if (debugging) {
+                        console.log("deleteVacation: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
             return DialerListApiService;
         }
     ]

@@ -1,4 +1,4 @@
-powerdialerApp.controller('ItemsPageController',
+powerdialerApp.controller('VacationsPageController',
     [
         '$scope',
         'DialerListApiService',
@@ -10,36 +10,36 @@ powerdialerApp.controller('ItemsPageController',
             'use strict';
 
             var vm = this;
-            vm.name = "Items";
-            vm.itemsList = [];
+            vm.name = "Vacations";
+            vm.vacationsList = [];
             vm.factors = [];
 
             function updateList() {
-                var itemsPromise = DialerListApiService.getAllItems().then(function (items) {
-                    vm.itemsList = items;
+                var vacationsPromise = DialerListApiService.getAllVacations().then(function (vacations) {
+                    vm.vacationsList = vacations;
                 }).catch(function (error) {
-                    console.log("Getting Items Error: ", error);
+                    console.log("Getting Vacations Error: ", error);
                     NotificationProvider.error({
-                        message: "Error Getting All Items"
+                        message: "Error Getting All Vacations"
                     });
                 });
                 var factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                 });
-                return $q.all([itemsPromise, factorsPromise]);
+                return $q.all([vacationsPromise, factorsPromise]);
             }
 
             updateList();
 
-            function openEditModal(item) {
+            function openEditModal(vacation) {
                 var modalInstance = $uibModal.open({
-                    templateUrl: '/public/tripsuppliesplanner/views/edit_item_modal.html',
-                    controller: 'EditItemModalController',
+                    templateUrl: '/public/tripsuppliesplanner/views/edit_vacation_modal.html',
+                    controller: 'EditVacationModalController',
                     controllerAs: 'vm',
                     size: "lg",
                     resolve: {
-                        item: function () {
-                            return item;
+                        vacation: function () {
+                            return vacation;
                         }
                     }
                 });
@@ -57,26 +57,26 @@ powerdialerApp.controller('ItemsPageController',
                 });
             }
 
-            vm.createItem = () => {
-                openEditModal({factors: [], required:true});
+            vm.createVacation = () => {
+                openEditModal({factors: []});
             };
 
-            vm.editItem = (item) => {
-                openEditModal(item);
+            vm.editVacation = (vacation) => {
+                openEditModal(vacation);
             };
 
-            vm.deleteItem = (item) => {
-                return DialerListApiService.deleteItem(item.id)
+            vm.deleteVacation = (vacation) => {
+                return DialerListApiService.deleteVacation(vacation.id)
                     .then(function () {
                         NotificationProvider.success({
-                            message: "Successfully removed " + item.name
+                            message: "Successfully removed " + vacation.name
                         });
                         updateList();
                     })
                     .catch(function (error) {
                         console.log("Delete Error: ", error);
                         NotificationProvider.error({
-                            title: "Error Deleting Item"
+                            title: "Error Deleting Vacation"
                         });
                     });
             };

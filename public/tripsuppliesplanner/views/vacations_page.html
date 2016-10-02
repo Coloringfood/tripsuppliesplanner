@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="title"><h2>{{vm.name}}</h2></div>
+    <div class="tile">
+        <div class="tileContent">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-sm-6"><h4>All Vacations</h4></div>
+                            <div class="col-sm-6 text-right">
+                                <button type="button" class="btn btn-default" ng-click="vm.createVacation()">Create Vacation
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                    </div>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                        </tr>
+                        <tr ng-repeat="vacation in vm.vacationsList track by vacation.id">
+                            <td>
+                                <a class="btn" ng-click="vm.editVacation(vacation)">edit</a>
+                                <a class="btn" ng-click="vm.deleteVacation(vacation)">delete</a>
+                            </td>
+                            <td>{{vacation.name}}</td>
+                            <td>
+                                {{vacation.start_date}}
+                            </td>
+                            <td>
+                                {{vacation.end_date}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
