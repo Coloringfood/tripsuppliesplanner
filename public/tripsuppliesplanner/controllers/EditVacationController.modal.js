@@ -5,20 +5,12 @@ powerdialerApp.controller('EditVacationModalController',
         'vacation',
         'DialerListApiService',
         'Notification',
-        'uibDateParser',
-        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, uibDateParser) {
+        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider) {
             'use strict';
             var vm = this,
                 markedFactors = {};
-            console.log("uibDateParser: ", uibDateParser);
 
             vm.newVacation = angular.copy(vacation); // jshint ignore:line
-            if (vm.newVacation.start_date && vm.newVacation.end_date) { // jshint ignore:line
-                var format = "yyyy-MM-ddThh:mm:ss";
-                vm.newVacation.start_date = uibDateParser.parse(vm.newVacation.start_date.split(".")[0], format); // jshint ignore:line
-                vm.newVacation.end_date = uibDateParser.parse(vm.newVacation.end_date.split(".")[0], format); // jshint ignore:line
-            }
-            console.log("vm.newVacation: ", vm.newVacation);
             if (!vm.newVacation.required) {
                 vm.newVacation.required = false;
             }

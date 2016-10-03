@@ -8,7 +8,8 @@
                         <div class="row">
                             <div class="col-sm-6"><h4>All Vacations</h4></div>
                             <div class="col-sm-6 text-right">
-                                <button type="button" class="btn btn-default" ng-click="vm.createVacation()">Create Vacation
+                                <button type="button" class="btn btn-default" ng-click="vm.createVacation()">Create
+                                    Vacation
                                 </button>
                             </div>
                         </div>
@@ -29,10 +30,10 @@
                             </td>
                             <td>{{vacation.name}}</td>
                             <td>
-                                {{vacation.start_date}}
+                                {{vacation.start_date | date : "EEE - MMM dd, y"}}
                             </td>
                             <td>
-                                {{vacation.end_date}}
+                                {{vacation.end_date | date : "EEE - MMM dd, y"}}
                             </td>
                         </tr>
                     </table>

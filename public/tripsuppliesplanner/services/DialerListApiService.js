@@ -5,11 +5,8 @@ powerdialerApp.factory(
         '$location',
         'RestangularFactory',
         'ENV',
-
-        function ($q,
-                  $location,
-                  restangularFactory,
-                  ENV) {
+        'uibDateParser',
+        function ($q, $location, restangularFactory, ENV, uibDateParser) {
             'use strict';
             var debugging = false;
 
@@ -21,6 +18,18 @@ powerdialerApp.factory(
 
             function convertFactorForApi(factorData) {
                 return factorData;
+            }
+
+            function convertVacationForApi(vacationData) {
+                return vacationData;
+            }
+
+            function convertVacationForUi(vacationData) {
+                var format = "yyyy-MM-ddThh:mm:ss";
+                vacationData.start_date = uibDateParser.parse(vacationData.start_date.split(".")[0], format); // jshint ignore:line
+                vacationData.end_date = uibDateParser.parse(vacationData.end_date.split(".")[0], format); // jshint ignore:line
+                console.log("vacationData.start_date: ", vacationData.start_date);
+                return vacationData;
             }
 
             function appendUserInfo(data) {
@@ -92,6 +101,35 @@ powerdialerApp.factory(
                 return restangularFactory.one('vacations').get().then(function (returnedData) {
                     if (debugging) {
                         console.log("getAllVacations: ", returnedData);
+                    }
+                    return $q.all(returnedData.map(convertVacationForUi)).then(function (returnedData) {
+                        if (debugging) {
+                            console.log("Converted Vacation Data: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+                });
+            };
+
+            DialerListApiService.saveVacation = (vacationData, vacationId) => {
+                var convertedVacation = convertVacationForApi(vacationData);
+                convertedVacation = appendUserInfo(convertedVacation);
+
+                return restangularFactory.allUrl('.').customPUT(convertedVacation, "vacations/" + vacationId).then(function (returnedData) {
+                    if (debugging) {
+                        console.log("saveVacation: ", returnedData);
+                    }
+                    return returnedData;
+                });
+            };
+
+            DialerListApiService.createVacation = (vacationData) => {
+                var convertedVacation = convertVacationForApi(vacationData);
+                convertedVacation = appendUserInfo(convertedVacation);
+
+                return restangularFactory.all('vacations').post(convertedVacation).then(function (returnedData) {
+                    if (debugging) {
+                        console.log("createVacation: ", returnedData);
                     }
                     return returnedData;
                 });
