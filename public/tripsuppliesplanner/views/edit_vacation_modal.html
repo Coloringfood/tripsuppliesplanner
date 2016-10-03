@@ -15,11 +15,11 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <input type="text" class="form-control" uib-datepicker-popup="{{vm.datePickerFormat}}"
-                       ng-model="vm.newFactor.start_date"
+                       ng-model="vm.newVacation.start_date"
                        is-open="vm.startDate.opened" datepicker-options="vm.dateOptions"
                        ng-required="true" close-text="Close"/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openStart()">
+                    <button type="button" class="btn btn-default" ng-click="vm.openStart()">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                 </span>
@@ -28,11 +28,11 @@
         <div class="col-sm-4">
             <div class="input-group">
                 <input type="text" class="form-control" uib-datepicker-popup="{{vm.datePickerFormat}}"
-                       ng-model="vm.newFactor.end_date"
+                       ng-model="vm.newVacation.end_date"
                        is-open="vm.endDate.opened" datepicker-options="vm.dateOptions"
                        ng-required="true" close-text="Close"/>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-default" ng-click="openEnd()">
+                    <button type="button" class="btn btn-default" ng-click="vm.openEnd()">
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                 </span>

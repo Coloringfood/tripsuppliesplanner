@@ -5,12 +5,19 @@ powerdialerApp.controller('EditVacationModalController',
         'vacation',
         'DialerListApiService',
         'Notification',
-        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider) {
+        'uibDateParser',
+        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, uibDateParser) {
             'use strict';
             var vm = this,
                 markedFactors = {};
+            console.log("uibDateParser: ", uibDateParser);
 
             vm.newVacation = angular.copy(vacation); // jshint ignore:line
+            if (vm.newVacation.start_date && vm.newVacation.end_date) { // jshint ignore:line
+                var format = "yyyy-MM-ddThh:mm:ss";
+                vm.newVacation.start_date = uibDateParser.parse(vm.newVacation.start_date.split(".")[0], format); // jshint ignore:line
+                vm.newVacation.end_date = uibDateParser.parse(vm.newVacation.end_date.split(".")[0], format); // jshint ignore:line
+            }
             console.log("vm.newVacation: ", vm.newVacation);
             if (!vm.newVacation.required) {
                 vm.newVacation.required = false;
@@ -65,10 +72,13 @@ powerdialerApp.controller('EditVacationModalController',
                         markedFactors = {};
                     });
             }
+
             updateFactors();
             // END FACTOR STUFF
 
             vm.ok = () => {
+                vm.newVacation.start_date = vm.newVacation.start_date.toJSON();
+                vm.newVacation.end_date = vm.newVacation.end_date.toJSON();
                 if (vacation.id) {
                     DialerListApiService.saveVacation(vm.newVacation, vacation.id)
                         .then(function (result) {
@@ -102,6 +112,8 @@ powerdialerApp.controller('EditVacationModalController',
             };
 
             vm.cancel = () => {
+                vm.newVacation.start_date = vm.newVacation.start_date.toJSON();
+                vm.newVacation.end_date = vm.newVacation.end_date.toJSON();
                 console.log("vm.newVacation: ", vm.newVacation);
                 $uibModalInstance.dismiss("clicked cancel button");
             };
