@@ -45,7 +45,7 @@ powerdialerApp.controller('EditItemModalController',
             }
 
             vm.updateAges = (selectedAge) => {
-                if (selectedAge == 'all') {
+                if (selectedAge === 'all') {
                     if (!vm.showAll) {
                         vm.showAll = false;
                         vm.allItems = null;
@@ -53,10 +53,10 @@ powerdialerApp.controller('EditItemModalController',
                         vm.newItem.ages = [];
                     } else {
                         vm.newItem.ages = [
-                            {name: "Baby", items_per_age: {}},
-                            {name: "Toddler", items_per_age: {}},
-                            {name: "Kid", items_per_age: {}},
-                            {name: "Adult", items_per_age: {}}
+                            {name: "Baby", items_per_age: {}}, // jshint ignore:line
+                            {name: "Toddler", items_per_age: {}}, // jshint ignore:line
+                            {name: "Kid", items_per_age: {}}, // jshint ignore:line
+                            {name: "Adult", items_per_age: {}} // jshint ignore:line
                         ];
                         vm.show = {
                             Baby: false,
@@ -67,6 +67,7 @@ powerdialerApp.controller('EditItemModalController',
                     }
                 }
                 else {
+                    var agesLength;
                     if (vm.show[selectedAge]) {
                         vm.newItem.ages.push({
                             name: selectedAge,
@@ -74,7 +75,7 @@ powerdialerApp.controller('EditItemModalController',
                         });
                     }
                     else {
-                        var agesLength = vm.newItem.ages.length;
+                        agesLength = vm.newItem.ages.length;
                         for (var i = 0; i < agesLength; i++) {
                             var age = vm.newItem.ages[i];
                             if (age.name == selectedAge) { // jshint ignore:line
@@ -85,15 +86,15 @@ powerdialerApp.controller('EditItemModalController',
                     }
                     // Check if vm.showAll should be checked
                     agesLength = vm.newItem.ages.length;
-                    var matching = agesLength == 4;
+                    var matching = agesLength === 4;
                     if (matching) {
-                        var matchingItem = vm.newItem.ages[0].items_per_age.items,
-                            matchingDay = vm.newItem.ages[0].items_per_age.days;
+                        var matchingItem = vm.newItem.ages[0].items_per_age.items, // jshint ignore:line
+                            matchingDay = vm.newItem.ages[0].items_per_age.days; // jshint ignore:line
                         for (var j = 0; j < agesLength && matching; j++) {
-                            var itemsPerAge = vm.newItem.ages[j].items_per_age;
-                            matching = (matchingDay == itemsPerAge.days);
+                            var itemsPerAge = vm.newItem.ages[j].items_per_age; // jshint ignore:line
+                            matching = (matchingDay == itemsPerAge.days); // jshint ignore:line
                             if (matching) {
-                                matching = (matchingItem == itemsPerAge.items);
+                                matching = (matchingItem == itemsPerAge.items); // jshint ignore:line
                             }
                         }
                         if (matching && (matchingItem || matchingDay)) {
@@ -116,8 +117,8 @@ powerdialerApp.controller('EditItemModalController',
                 var agesLength = vm.newItem.ages.length;
                 for (var i = 0; i < agesLength; i++) {
                     var age = vm.newItem.ages[i];
-                    age.items_per_age.items = vm.allItems;
-                    age.items_per_age.days = vm.allDays;
+                    age.items_per_age.items = vm.allItems; // jshint ignore:line
+                    age.items_per_age.days = vm.allDays; // jshint ignore:line
                 }
             };
 

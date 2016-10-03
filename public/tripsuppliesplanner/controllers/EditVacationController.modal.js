@@ -69,8 +69,8 @@ powerdialerApp.controller('EditVacationModalController',
             // END FACTOR STUFF
 
             vm.ok = () => {
-                vm.newVacation.start_date = vm.newVacation.start_date.toJSON();
-                vm.newVacation.end_date = vm.newVacation.end_date.toJSON();
+                vm.newVacation.start_date = vm.newVacation.start_date.toJSON(); // jshint ignore:line
+                vm.newVacation.end_date = vm.newVacation.end_date.toJSON(); // jshint ignore:line
                 if (vacation.id) {
                     DialerListApiService.saveVacation(vm.newVacation, vacation.id)
                         .then(function (result) {
@@ -104,8 +104,6 @@ powerdialerApp.controller('EditVacationModalController',
             };
 
             vm.cancel = () => {
-                vm.newVacation.start_date = vm.newVacation.start_date.toJSON();
-                vm.newVacation.end_date = vm.newVacation.end_date.toJSON();
                 console.log("vm.newVacation: ", vm.newVacation);
                 $uibModalInstance.dismiss("clicked cancel button");
             };
