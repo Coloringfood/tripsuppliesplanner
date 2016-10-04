@@ -69,13 +69,19 @@ powerdialerApp.controller('EditVacationModalController',
             // END FACTOR STUFF
 
             vm.ok = () => {
-                vm.newVacation.start_date = vm.newVacation.start_date.toJSON(); // jshint ignore:line
-                vm.newVacation.end_date = vm.newVacation.end_date.toJSON(); // jshint ignore:line
+                if(!vm.newVacation.start_date){
+                    NotificationProvider.error("You must have a start date");
+                    return;
+                }
+                if(!vm.newVacation.end_date){
+                    NotificationProvider.error("You must have an end date");
+                    return;
+                }
                 if (vacation.id) {
                     DialerListApiService.saveVacation(vm.newVacation, vacation.id)
                         .then(function (result) {
                             $uibModalInstance.close({
-                                message: "Successfully saved " + result.name,
+                                message: "Successfully saved " + vm.newVacation.name,
                                 success: true
                             });
                         })

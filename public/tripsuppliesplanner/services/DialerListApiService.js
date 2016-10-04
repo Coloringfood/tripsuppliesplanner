@@ -28,7 +28,6 @@ powerdialerApp.factory(
                 var format = "yyyy-MM-ddThh:mm:ss";
                 vacationData.start_date = uibDateParser.parse(vacationData.start_date.split(".")[0], format); // jshint ignore:line
                 vacationData.end_date = uibDateParser.parse(vacationData.end_date.split(".")[0], format); // jshint ignore:line
-                console.log("vacationData.start_date: ", vacationData.start_date);
                 return vacationData;
             }
 

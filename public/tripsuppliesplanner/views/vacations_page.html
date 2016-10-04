@@ -22,6 +22,7 @@
                             <th>Name</th>
                             <th>Start Date</th>
                             <th>End Date</th>
+                            <th>Factors</th>
                         </tr>
                         <tr ng-repeat="vacation in vm.vacationsList track by vacation.id">
                             <td>
@@ -34,6 +35,9 @@
                             </td>
                             <td>
                                 {{vacation.end_date | date : "EEEE - MMM dd, y"}}
+                            </td>
+                            <td>
+                                <view-factors factors="vm.factors" selected="vacation.factors" ></view-factors>
                             </td>
                         </tr>
                     </table>
