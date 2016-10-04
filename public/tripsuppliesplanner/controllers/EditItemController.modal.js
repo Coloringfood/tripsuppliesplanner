@@ -199,10 +199,10 @@ powerdialerApp.controller('EditItemModalController',
                             });
                         })
                         .catch(function () {
-                            return {
+                            NotificationProvider.error({
                                 message: "Error Saving Item",
                                 success: false
-                            };
+                            });
                         });
                 }
                 else {
@@ -214,10 +214,10 @@ powerdialerApp.controller('EditItemModalController',
                             });
                         })
                         .catch(function () {
-                            return {
+                            NotificationProvider.error({
                                 message: "Error Creating Item",
                                 success: false
-                            };
+                            });
                         });
                 }
             };

@@ -90,10 +90,10 @@ powerdialerApp.controller('EditVacationModalController',
                             });
                         })
                         .catch(function () {
-                            return {
+                            NotificationProvider.error({
                                 message: "Error Saving Vacation",
                                 success: false
-                            };
+                            });
                         });
                 }
                 else {
@@ -105,10 +105,10 @@ powerdialerApp.controller('EditVacationModalController',
                             });
                         })
                         .catch(function () {
-                            return {
+                            NotificationProvider.error({
                                 message: "Error Creating Vacation",
                                 success: false
-                            };
+                            });
                         });
                 }
             };
