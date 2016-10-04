@@ -13,6 +13,9 @@ powerdialerApp.controller('VacationsPageController',
             vm.name = "Vacations";
             vm.vacationsList = [];
             vm.factors = [];
+            vm.factorSettings = {
+                object: true
+            };
 
             function updateList() {
                 var vacationsPromise = DialerListApiService.getAllVacations().then(function (vacations) {
