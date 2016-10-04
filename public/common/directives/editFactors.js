@@ -21,14 +21,23 @@ powerdialerApp.directive('editFactors',
                         scope.view = newView;
                     };
 
-                    function preSelectFactors(factors) {
-                        var selectedLength = factors.length;
+                    function preSelectFactors(factors, type) {
+                        var selectedLength = factors.length,
+                            newFactors = [];
                         for (var i = 0; i < selectedLength; i++) {
                             var factor = factors[i];
-                            if (scope.selected.indexOf(factor.id) > -1 || findFactorId(factor.id) > -1) {
+                            factor.vacations_factors = {days:null}; // jshint ignore:line
+                            var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                            if (index > -1) {
+                                if (scope.settings.object && scope.settings.showDays) {
+                                    factor = scope.selected[index];
+                                    console.log("factor: ", factor);
+                                }
                                 factor.selected = true;
                             }
+                            newFactors.push(factor);
                         }
+                        scope.factors[type] = newFactors;
                     }
 
                     function findFactorId(id) {
@@ -48,10 +57,11 @@ powerdialerApp.directive('editFactors',
                     var typesLength = scope.types.length;
                     for (var i = 0; i < typesLength; i++) {
                         var type = scope.types[i];
-                        preSelectFactors(scope.factors[type]);
+                        preSelectFactors(scope.factors[type], type);
                     }
 
                     scope.selectFactor = function (factor) {
+                        console.log("factor: ", factor);
                         var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                         if (index > -1) {
                             scope.selected.splice(index, 1);

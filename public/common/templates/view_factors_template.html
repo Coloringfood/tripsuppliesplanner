@@ -6,8 +6,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="no-indent">
-                    <li ng-repeat="factor in filteredFactors[types[0]]" class="capitalize">
-                        {{factor}}
+                    <li ng-repeat="factor in filteredFactors[types[0]]">
+                        <span class="capitalize">{{factor.name}}</span>
+                        <span ng-if="settings.showDays && factor.vacations_factors.days">
+                            - {{factor.vacations_factors.days}} days
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -20,8 +23,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="no-indent">
-                    <li ng-repeat="factor in filteredFactors[types[1]]" class="capitalize">
-                        {{factor}}
+                    <li ng-repeat="factor in filteredFactors[types[1]]">
+                        <span class="capitalize">{{factor.name}}</span>
+                        <span ng-if="settings.showDays && factor.vacations_factors.days">
+                            - {{factor.vacations_factors.days}} days
+                        </span>
                     </li>
                 </ul>
             </div>
@@ -34,8 +40,11 @@
         <div class="row">
             <div class="col-sm-12">
                 <ul class="no-indent">
-                    <li ng-repeat="factor in filteredFactors[types[2]]" class="capitalize">
-                        {{factor}}
+                    <li ng-repeat="factor in filteredFactors[types[2]]">
+                        <span class="capitalize">{{factor.name}}</span>
+                        <span ng-if="settings.showDays && factor.vacations_factors.days">
+                            - {{factor.vacations_factors.days}} days
+                        </span>
                     </li>
                 </ul>
             </div>

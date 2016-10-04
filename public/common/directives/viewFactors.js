@@ -29,22 +29,27 @@ powerdialerApp.directive('viewFactors',
                     var factorsLength = scope.factors.length;
                     for (var i = 0; i < factorsLength; i++) {
                         var factor = scope.factors[i];
-                        if (scope.selected.indexOf(factor.id) > -1 || findFactorId(factor.id)) {
-                            scope.filteredFactors[factor.type].push(factor.name);
+                        var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                        if (index > -1) {
+                            var pushedItem = factor;
+                            if(scope.settings.showDays){
+                                pushedItem = scope.selected[index];
+                            }
+                            scope.filteredFactors[factor.type].push(pushedItem);
                         }
                     }
                     function findFactorId(id) {
                         if (!scope.settings.object) {
-                            return false;
+                            return -1;
                         }
                         var selectedLength = scope.selected.length;
                         for (var i = 0; i < selectedLength; i++) {
                             var selected = scope.selected[i];
                             if (selected.id === id) {
-                                return true;
+                                return i;
                             }
                         }
-                        return false;
+                        return -1;
                     }
                 }
             };

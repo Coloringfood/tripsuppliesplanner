@@ -29,7 +29,7 @@ router.use((req, res, next) => {
             debug('validatingCategoryData for %o', baseLocation);
             req.assert(baseLocation + 'id', 'This field (factor.id) should be an integer').isInt();
             req.assert(baseLocation + 'name', 'This optional field (factor.name) should be a string').optional({checkFalsy: true}).isString();
-            req.assert(baseLocation + 'vacations_factors', 'This field (factor.name) should be an object').isObject();
+            req.assert(baseLocation + 'vacations_factors', 'This field (factor.vacations_factors) should be an object').isObject();
         }
 
         return next();
@@ -80,7 +80,7 @@ router.route('/:vacationId')
             // NOTE: THIS DOES NOT UPDATE PARTICIPANTS
             return vacationService.updateVacation(req.params.vacationId, req.body)
                 .then((result) => {
-                    debug("post result: %o", result);
+                    debug("put result: %o", result);
                     res.status(201).send();
                 })
                 .catch((e) => {

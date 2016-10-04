@@ -16,7 +16,8 @@ powerdialerApp.controller('EditVacationModalController',
             }
 
             vm.factorSettings = {
-                object: true
+                object: true,
+                showDays: true
             };
 
             vm.datePickerFormat = 'dd-MMMM-yyyy';
@@ -100,7 +101,7 @@ powerdialerApp.controller('EditVacationModalController',
                     DialerListApiService.createVacation(vm.newVacation)
                         .then(function (result) {
                             $uibModalInstance.close({
-                                message: "Successfully created " + result.name,
+                                message: "Successfully created " + vm.newVacation.name,
                                 success: true
                             });
                         })

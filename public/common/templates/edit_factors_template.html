@@ -28,6 +28,8 @@
                                    ng-click="selectFactor(factor)">
                             {{factor.name}}
                         </label>
+                        <input type="number" ng-if="settings.showDays" ng-model="factor.vacations_factors.days"
+                        class="float-right" placeholder="Days of this vacation type">
                     </div>
                 </div>
             </div>
@@ -42,6 +44,8 @@
                                    ng-click="selectFactor(factor)">
                             {{factor.name}}
                         </label>
+                        <input type="number" ng-if="settings.showDays" ng-model="factor.vacations_factors.days"
+                               class="float-right" placeholder="Days of this activity">
                     </div>
                 </div>
             </div>

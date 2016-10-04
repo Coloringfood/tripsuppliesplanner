@@ -14,7 +14,8 @@ powerdialerApp.controller('VacationsPageController',
             vm.vacationsList = [];
             vm.factors = [];
             vm.factorSettings = {
-                object: true
+                object: true,
+                showDays: true
             };
 
             function updateList() {
