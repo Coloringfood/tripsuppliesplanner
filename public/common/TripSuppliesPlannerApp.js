@@ -23,20 +23,41 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
 
         RestangularProvider.setBaseUrl('/');
 
+        // var userCssUrl = "/public/assets/css/bootstrap-darkly.css";
+        // var userCssUrl = "/public/assets/css/bootstrap-flatly.css";
+        // var userCssUrl = "/public/assets/css/bootstrap-sandstone.css";
+        var userCssUrl = "/public/assets/css/bootstrap-slate.css";
+        // var userCssUrl = "/public/assets/css/bootstrap-superhero.css";
+
         $routeProvider
 
             // routes
             .when('/itemspage', {
                 templateUrl: '/static/tripsuppliesplanner/views/items_page.html',
-                controller: 'ItemsPageController as vm'
+                controller: 'ItemsPageController as vm',
+                resolve: {
+                    loadCss: ['injectCSS', function(injectCSS) {
+                        return injectCSS.set('users-css', userCssUrl);
+                    }]
+                }
             })
             .when('/vacationspage', {
                 templateUrl: '/static/tripsuppliesplanner/views/vacations_page.html',
-                controller: 'VacationsPageController as vm'
+                controller: 'VacationsPageController as vm',
+                resolve: {
+                    loadCss: ['injectCSS', function(injectCSS) {
+                        return injectCSS.set('users-css', '/public/assets/css/bootstrap-slate.css');
+                    }]
+                }
             })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
-                controller: 'HomeController as vm'
+                controller: 'HomeController as vm',
+                resolve: {
+                    loadCss: ['injectCSS', function(injectCSS) {
+                        return injectCSS.set('users-css', '/public/assets/css/bootstrap-slate.css');
+                    }]
+                }
             });
 
         $locationProvider.html5Mode(true).hashPrefix('!');
