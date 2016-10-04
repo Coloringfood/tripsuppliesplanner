@@ -46,7 +46,7 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 controller: 'VacationsPageController as vm',
                 resolve: {
                     loadCss: ['injectCSS', function(injectCSS) {
-                        return injectCSS.set('users-css', '/public/assets/css/bootstrap-slate.css');
+                        return injectCSS.set('users-css', userCssUrl);
                     }]
                 }
             })
@@ -55,7 +55,7 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 controller: 'HomeController as vm',
                 resolve: {
                     loadCss: ['injectCSS', function(injectCSS) {
-                        return injectCSS.set('users-css', '/public/assets/css/bootstrap-slate.css');
+                        return injectCSS.set('users-css', userCssUrl);
                     }]
                 }
             });
