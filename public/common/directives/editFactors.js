@@ -61,7 +61,6 @@ powerdialerApp.directive('editFactors',
                             scope.selected.push(addedObject);
                             factor.selected = true;
                         }
-                        console.log("scope.selected: ", scope.selected);
                     };
                 }
             };
