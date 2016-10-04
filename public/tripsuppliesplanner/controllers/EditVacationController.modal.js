@@ -15,6 +15,10 @@ powerdialerApp.controller('EditVacationModalController',
                 vm.newVacation.required = false;
             }
 
+            vm.factorSettings = {
+                object: true
+            };
+
             vm.datePickerFormat = 'dd-MMMM-yyyy';
             vm.dateOptions = {
                 formatYear: 'yy',

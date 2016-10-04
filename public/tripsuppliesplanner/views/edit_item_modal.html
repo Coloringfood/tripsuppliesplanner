@@ -133,7 +133,8 @@
             </button>
         </div>
         <div class="col-sm-9" ng-hide="vm.newItem.always_needed">
-            <edit-factors factors="vm.factors" selected="vm.newItem.factors" ng-show="!vm.showNewFactor"></edit-factors>
+            <edit-factors factors="vm.factors" selected="vm.newItem.factors" ng-show="!vm.showNewFactor"
+                          settings="vm.factorSettings"></edit-factors>
             <div class="row">
                 <div class="col-md-6">
                     <div class="input-group" ng-show="vm.showNewFactor">

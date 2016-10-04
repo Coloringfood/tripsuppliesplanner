@@ -13,6 +13,9 @@ powerdialerApp.controller('ItemsPageController',
             vm.name = "Items";
             vm.itemsList = [];
             vm.factors = [];
+            vm.factorSettings = {
+                object: false
+            };
 
             function updateList() {
                 var itemsPromise = DialerListApiService.getAllItems().then(function (items) {

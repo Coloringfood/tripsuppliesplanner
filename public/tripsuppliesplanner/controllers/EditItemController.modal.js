@@ -19,6 +19,9 @@ powerdialerApp.controller('EditItemModalController',
             if (!vm.newItem.ages) {
                 vm.newItem.ages = [];
             }
+            vm.factorSettings = {
+                object: false
+            };
             vm.view = "Vacation Type";
             vm.types = [
                 'Vacation Type',

@@ -8,7 +8,8 @@
                         <div class="row">
                             <div class="col-sm-6"><h4>All Items</h4></div>
                             <div class="col-sm-6 text-right">
-                                <button type="button" class="btn btn-default" ng-click="vm.createItem()">Create Item
+                                <button type="button" class="btn btn-default" ng-click="vm.createItem()">
+                                    Create Item
                                 </button>
                             </div>
                         </div>
@@ -37,12 +38,15 @@
                                 </div>
                             </td>
                             <td>
-                                <view-factors factors="vm.factors" selected="item.factors" ng-if="!item.always_needed"></view-factors>
+                                <view-factors factors="vm.factors" selected="item.factors" ng-if="!item.always_needed"
+                                              settings="vm.factorSettings"></view-factors>
                                 <div ng-if="item.always_needed">Applies to Every Factor</div>
                             </td>
                             <td>
                                 <ul>
-                                    <li ng-if="!item.always_needed">{{item.required ? "Required To Pack" : "Optional To Pack"}}</li>
+                                    <li ng-if="!item.always_needed">
+                                        {{item.required ? "Required To Pack" : "Optional To Pack"}}
+                                    </li>
                                     <li ng-if="item.always_needed">Needed on Every Vacation</li>
                                     <li ng-if="item.personal">Only Applies to You</li>
                                 </ul>
