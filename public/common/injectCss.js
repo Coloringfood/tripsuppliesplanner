@@ -13,7 +13,7 @@ powerdialerApp.factory("injectCSS", ['$q', '$http', function ($q, $http) {
     var checkLoaded = function (url, deferred, tries) {
         for (var i in document.styleSheets) {
             var href = document.styleSheets[i].href || "";
-            if (href.split("/").slice(-1).join() === url) {
+            if (href.split("/").slice(-1).join() === url.split("/").slice(-1).join()) {
                 deferred.resolve();
                 return;
             }
