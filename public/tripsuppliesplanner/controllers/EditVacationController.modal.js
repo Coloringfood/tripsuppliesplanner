@@ -64,6 +64,7 @@ powerdialerApp.controller('EditVacationModalController',
                         for (var i = 0; i < factorsLength; i++) {
                             var factor = factors[i];
                             factor.selected = markedFactors[factor.name];
+                            factor.vacations_factors = {days: null};
                             vm.factors[factor.type].push(factor);
                         }
                         markedFactors = {};
@@ -74,12 +75,20 @@ powerdialerApp.controller('EditVacationModalController',
             // END FACTOR STUFF
 
             vm.ok = () => {
-                if(!vm.newVacation.start_date){
+                if (!vm.newVacation.start_date) {
                     NotificationProvider.error("You must have a start date");
                     return;
                 }
-                if(!vm.newVacation.end_date){
+                if (!vm.newVacation.end_date) {
                     NotificationProvider.error("You must have an end date");
+                    return;
+                }
+                if (vm.newVacation.start_date >= vm.newVacation.end_date) {
+                    NotificationProvider.error("The vacation must start before the end date");
+                    return;
+                }
+                if (vm.newVacation.factors.length === 0) {
+                    NotificationProvider.error("You must select at least one Factor for the vacation");
                     return;
                 }
                 if (vacation.id) {

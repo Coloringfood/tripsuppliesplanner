@@ -35,20 +35,20 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
             .when('/itemspage', {
                 templateUrl: '/static/tripsuppliesplanner/views/items_page.html',
                 controller: 'ItemsPageController as vm',
-                resolve: {
-                    loadCss: ['injectCSS', function(injectCSS) {
-                        return injectCSS.set('users-css', userCssUrl);
-                    }]
-                }
+                // resolve: {
+                //     loadCss: ['injectCSS', function(injectCSS) {
+                //         return injectCSS.set('users-css', userCssUrl);
+                //     }]
+                // }
             })
             .when('/vacationspage', {
                 templateUrl: '/static/tripsuppliesplanner/views/vacations_page.html',
                 controller: 'VacationsPageController as vm',
-                resolve: {
-                    loadCss: ['injectCSS', function(injectCSS) {
-                        return injectCSS.set('users-css', userCssUrl);
-                    }]
-                }
+                // resolve: {
+                //     loadCss: ['injectCSS', function(injectCSS) {
+                //         return injectCSS.set('users-css', userCssUrl);
+                //     }]
+                // }
             })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',

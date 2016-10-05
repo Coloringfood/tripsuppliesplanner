@@ -55,7 +55,14 @@ vacations.addVacation = (vacation) => {
     vacation.created_by_id = vacation.user_id; // jshint ignore:line
     return vacationsTable.create(vacation)
         .then(function (createVacationResult) {
-            return createVacationResult.addParticipants(vacation.created_by_id); // jshint ignore:line
+            var returnValue = createVacationResult.dataValues;
+            var participantsPromise = createVacationResult.addParticipants(vacation.created_by_id); // jshint ignore:line
+            var factorsPromise = updateVacationFactors(createVacationResult, vacation.factors)
+
+            return Promise.all([participantsPromise, factorsPromise]).then(function (result) {
+                returnValue.factors = result[1];
+                return returnValue;
+            });
         });
 };
 
@@ -98,7 +105,7 @@ vacations.updateVacation = (id, vacationData) => {
         return vacations.getVacation(id).then(function (vacationResult) {
             var returnValue = vacationResult.dataValues;
 
-            return updateVacationFactors(vacationResult, vacationData.factors).then(function (result){
+            return updateVacationFactors(vacationResult, vacationData.factors).then(function (result) {
                 returnValue.factors = result;
                 return returnValue;
             });
