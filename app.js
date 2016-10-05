@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var config = require('./config/config.json');
+var expressJWT = require('express-jwt');
 
 var v1 = require('./routes/v1');
 var default_route = require('./routes/default');
@@ -26,6 +28,41 @@ app.use(function (req, res, next) {
     next();
 });
 app.use(logger('combined'));
+
+var secretCallback = function (req, payload, done) {
+    // This will change to an Consul call or storage check.
+    var issuer = payload.iss;
+    switch (issuer) {
+        case config.security.issuer:
+            done(null, config.security.secret);
+            break;
+        default:
+            done(new Error('missing_secret'));
+    }
+};
+
+app.use(expressJWT({
+    secret: secretCallback,
+    getToken: function fromHeaderOrQuerystring(req) {
+        if (req.headers.Authorization && req.headers.Authorization.split(' ')[0] === 'jwt') {
+            req.userToken = req.headers.Authorization.split(' ')[1];
+        }
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'jwt') {
+            req.userToken = req.headers.authorization.split(' ')[1];
+        }
+        return req.userToken;
+    }
+}).unless({
+    path: [
+        '/health',
+        /^\/static\/.*/,
+        /^\/public\/.*/,
+        /^\/$/,                         // Allow Home directly
+        /^\/login\/.*/,                 // Allow Login pages
+        /^\/v1\/authentication$/,       // Allow Login Requests
+        /^\/v1\/.*/                     // TEMPORARILY ALLOW ALL API CALLS
+    ]
+}));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.ico')));

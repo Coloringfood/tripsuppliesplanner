@@ -37,7 +37,6 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 controller: 'ItemsPageController as vm',
                 resolve: {
                     loadCss: ['injectCSS', function(injectCSS) {
-                        console.log("------------------------------");
                         return injectCSS.set('users-css', userCssUrl);
                     }]
                 }

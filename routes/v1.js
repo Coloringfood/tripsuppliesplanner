@@ -5,6 +5,7 @@ var debug = require('debug')('tripsuppliesplanner:routes:v1');
 var itemsRoutes = require('./v1/itemsRoutes');
 var factorsRoutes = require('./v1/factorsRoutes');
 var vacationsRoutes = require('./v1/vacationsRoutes');
+var authenticationRoutes = require('./v1/authenticationRoutes');
 
 router.use(expressValidator({
     customValidators: {
@@ -91,6 +92,8 @@ router.use('/items', itemsRoutes);
 router.use('/factors', factorsRoutes);
 
 router.use('/vacations', vacationsRoutes);
+
+router.use('/authentication', authenticationRoutes);
 
 router.get('*', (req, res) => {
     res.status(400).send("Not Valid URI");

@@ -6,5 +6,9 @@
     "host": "localhost",
     "password": "d3v3nv",
     "username": "root"
+  },
+  "security": {
+    "secret": "BLAH",
+    "issuer": "SELF"
   }
 }
