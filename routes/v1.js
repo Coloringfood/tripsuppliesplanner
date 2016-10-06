@@ -6,7 +6,47 @@ var itemsRoutes = require('./v1/itemsRoutes');
 var factorsRoutes = require('./v1/factorsRoutes');
 var vacationsRoutes = require('./v1/vacationsRoutes');
 var authenticationRoutes = require('./v1/authenticationRoutes');
+var config = require('./../config/config.json');
+var expressJWT = require('express-jwt');
 
+var secretCallback = function (req, payload, done) {
+    // This will change to an Consul call or storage check.
+    var issuer = payload.iss;
+    switch (issuer) {
+        case config.security.issuer:
+            done(null, config.security.secret);
+            break;
+        default:
+            done(new Error('missing_secret'));
+    }
+};
+
+router.use(expressJWT({
+    secret: secretCallback,
+    getToken: function fromHeaderOrQuerystring(req) {
+        if (req.headers.Authorization && req.headers.Authorization.split(' ')[0] === 'Bearer') {
+            req.userToken = req.headers.Authorization.split(' ')[1];
+        }
+        if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+            req.userToken = req.headers.authorization.split(' ')[1];
+        }
+        return req.userToken;
+    }
+}).unless({
+    path: [
+        /^\/v1\/authentication$/        // Allow Login Requests
+    ]
+}));
+router.use(function (err, req, res, next) {
+    debug("Authorization failed %o", err);
+    err.status = 401;
+    if (err.name == 'UnauthorizedError') {
+        err.showMessage = err.name;
+    } else {
+        err.showMessage = "Token Error: " + err.message;
+    }
+    next(err);
+});
 router.use(expressValidator({
     customValidators: {
         isString: function (param) {

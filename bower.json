@@ -14,7 +14,8 @@
     "restangular": "^1.5.2",
     "angular-ui-grid": "ng-grid#^3.2.1",
     "bootstrap": "^3.3.7",
-    "angular-ui-notification": "^0.2.0"
+    "angular-ui-notification": "^0.2.0",
+    "angular-jwt": "^0.1.5"
   },
   "resolutions": {
     "angular": "1.4.6"

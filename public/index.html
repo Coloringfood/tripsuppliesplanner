@@ -34,9 +34,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-class="{in:showMenu}">
             <ul class="nav navbar-nav">
-                <li ng-class="{ active: isActive('/')}"><a href="/" ng-click="toggleMenu()">Home</a></li>
-                <li ng-class="{ active: isActive('/vacationspage')}" ng-click="toggleMenu()"><a href="/vacationspage">Vacations</a></li>
-                <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()"><a href="/itemspage">Items</a></li>
+                <li ng-class="{ active: isActive('/')}"><a href="#/" ng-click="toggleMenu()">Home</a></li>
+                <li ng-class="{ active: isActive('/vacationspage')}" ng-click="toggleMenu()"><a href="#/vacationspage">Vacations</a></li>
+                <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()"><a href="#/itemspage">Items</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
@@ -47,6 +47,7 @@
 <script type="text/javascript" src="/public/assets/ext/angular/angular.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular-animate/angular-animate.js"></script>
+<script type="text/javascript" src="/public/assets/ext/angular-jwt/dist/angular-jwt.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular-touch/angular-touch.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular-sanitize/angular-sanitize.js"></script>
@@ -70,6 +71,7 @@
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/EditVacationController.modal.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/HomeController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/ItemsPageController.js"></script>
+<script type="text/javascript" src="/public/tripsuppliesplanner/controllers/LoginController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/VacationsPageController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/services/DialerListApiService.js"></script>
 <!-- /build -->
