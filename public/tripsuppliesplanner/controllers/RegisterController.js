@@ -5,9 +5,8 @@ powerdialerApp.controller("RegisterController",
         'authService',
         'Notification',
         'DialerListApiService',
-        '$timeout',
         '$window',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $timeout, $window) {
+        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $window) {
             'use strict';
             var vm = this;
 
@@ -43,9 +42,8 @@ powerdialerApp.controller("RegisterController",
                         };
                         NotificationProvider.success("Successfully Logged In");
 
-                        $timeout(function () {
-                            $window.location.reload();
-                        }, 5);
+                        $window.location.reload();
+
                         var whereTo = $location.search().returnTo;
                         $location.path(whereTo && whereTo || "/");
                     });

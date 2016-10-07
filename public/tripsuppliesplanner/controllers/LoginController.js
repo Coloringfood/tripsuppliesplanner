@@ -5,9 +5,8 @@ powerdialerApp.controller("LoginController",
         'authService',
         'Notification',
         'DialerListApiService',
-        '$timeout',
         '$window',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $timeout, $window) {
+        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $window) {
             'use strict';
             var vm = this;
 
@@ -24,9 +23,7 @@ powerdialerApp.controller("LoginController",
                         NotificationProvider.success("Successfully Logged In");
                         localStorage.token = result.token;
 
-                        $timeout(function () {
-                            $window.location.reload();
-                        }, 5);
+                        $window.location.reload();
                         $location.path(whereTo && whereTo || "/");
                     })
                     .catch(function (error) {
