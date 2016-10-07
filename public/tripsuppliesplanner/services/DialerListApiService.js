@@ -8,7 +8,8 @@ powerdialerApp.factory(
         'uibDateParser',
         function ($q, $location, restangularFactory, ENV, uibDateParser) {
             'use strict';
-            var debugging = true;
+            var debugging = ENV.enviroment == 'dev';
+            console.log("debugging: ", debugging);
 
             var DialerListApiService = {};
 
@@ -151,6 +152,30 @@ powerdialerApp.factory(
                             console.log("deleteVacation: ", returnedData);
                         }
                         return returnedData;
+                    });
+            };
+
+            DialerListApiService.authenticate = (username, password) => {
+                var submitData = {
+                    username: username,
+                    password: password
+                };
+                return restangularFactory.all('authentication').post(submitData)
+                    .then((result) => {
+                        if (debugging) {
+                            console.log("Authentication: ", result);
+                        }
+                        return result;
+                    });
+            };
+
+            DialerListApiService.register = (signUpData) => {
+                return restangularFactory.one('authentication').all('create').post(signUpData)
+                    .then(function (result) {
+                        if (debugging) {
+                            console.log("Signup: ", result);
+                        }
+                        return result;
                     });
             };
 

@@ -41,6 +41,14 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 templateUrl: '/static/tripsuppliesplanner/views/login.html',
                 controller: 'LoginController as vm'
             })
+            .when('/register', {
+                templateUrl: '/static/tripsuppliesplanner/views/register.html',
+                controller: 'RegisterController as vm'
+            })
+            .when('/logout', {
+                template: "<h1>Logging Out</h1>",
+                controller: 'LogoutController'
+            })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'
@@ -116,7 +124,22 @@ powerdialerApp.run(['$rootScope', '$location', 'injectCSS',
 powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
     var self = this;
     this.authenticated = false;
-    this.authorize = function () {
+
+    if (localStorage.token) {
+        if (jwtHelper.isTokenExpired(localStorage.token)) {
+            console.log("EXPIRED TOKEN");
+            delete localStorage.token;
+        }
+        else {
+            var decodedToken = jwtHelper.decodeToken(localStorage.token);
+            this.authenticated = {
+                id: decodedToken.id,
+                token: localStorage.token
+            };
+        }
+    }
+
+    this.authorize = () => {
         return this
             .getInfo()
             .then(function (info) {
@@ -130,16 +153,20 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
                 throw new AuthorizationError();
             });
     };
-    this.getInfo = function () {
+    this.getInfo = () => {
         return $timeout(function () {
             return self;
         }, 1);
+    };
+    this.clearCredentials = () => {
+        console.log("oooooooooooooooooooooooooooooooooooooooo");
+        self.authenticated = false;
+        delete localStorage.token;
     };
 });
 
 // Custom error type
 function AuthorizationError(description) {
-    this.customType = "AuthorizationError";
     this.message = "Forbidden";
     this.description = description || "User authentication required.";
 }

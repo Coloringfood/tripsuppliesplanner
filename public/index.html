@@ -38,6 +38,10 @@
                 <li ng-class="{ active: isActive('/vacationspage')}" ng-click="toggleMenu()"><a href="#/vacationspage">Vacations</a></li>
                 <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()"><a href="#/itemspage">Items</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-class="{ active: isActive('/login')}" ng-show="!authenticated"><a href="#/login">Login</a></li>
+                <li ng-class="{ active: isActive('/logout')}" ng-show="authenticated"><a href="#/logout">Logout</a></li>
+            </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
@@ -72,6 +76,8 @@
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/HomeController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/ItemsPageController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/LoginController.js"></script>
+<script type="text/javascript" src="/public/tripsuppliesplanner/controllers/LogoutController.js"></script>
+<script type="text/javascript" src="/public/tripsuppliesplanner/controllers/RegisterController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/VacationsPageController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/services/DialerListApiService.js"></script>
 <!-- /build -->

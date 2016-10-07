@@ -1,4 +1,4 @@
-powerdialerApp.controller("LoginController",
+powerdialerApp.controller("RegisterController",
     [
         '$scope',
         '$location',
@@ -6,38 +6,28 @@ powerdialerApp.controller("LoginController",
         'Notification',
         'DialerListApiService',
         '$timeout',
-        '$window',
+        '$windiw',
         function ($scope, $location, authService, NotificationProvider, DialerListApiService, $timeout, $window) {
             'use strict';
             var vm = this;
 
-            var whereTo = $location.search().returnTo;
-            vm.login = () => {
+            vm.register = () => {
                 vm.dataLoading = true;
-
-                DialerListApiService.authenticate(vm.username, vm.password)
-                    .then(function (result) {
+                // vm.user
+                DialerListApiService.register(vm.user)
+                    .then(function (result){
                         authService.authenticated = {
                             userId: result.id,
                             token: result.token
                         };
                         NotificationProvider.success("Successfully Logged In");
-                        localStorage.token = result.token;
 
                         $timeout(function () {
                             $window.location.reload();
                         }, 500);
+                        var whereTo = $location.search().returnTo;
                         $location.path(whereTo && whereTo || "/");
-                    })
-                    .catch(function (error) {
-                        vm.dataLoading = false;
-                        console.log(error);
-                        NotificationProvider.error("Username or password is incorrect.");
                     });
-            };
-
-            vm.register = () => {
-                $location.path("/register").search("returnTo", whereTo);
             };
         }
     ]
