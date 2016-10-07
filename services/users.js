@@ -22,11 +22,11 @@ users.authenticate = (username, password) => {
 
 users.createUser = (newUser) => {
     debug("Create User");
-    return Promise.resolve(generateToken(newUser));
-    // return usersTable.create(factor)
-    //     .then(function (createResult) {
-    //         return createResult;
-    //     });
+    return usersTable.create(newUser)
+        .then(function (createResult) {
+            debug("createResult.dataValues: %o", createResult.dataValues);
+            return Promise.resolve(generateToken(createResult));
+        });
 };
 
 function generateToken(user) {

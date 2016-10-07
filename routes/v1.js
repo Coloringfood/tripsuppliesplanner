@@ -34,7 +34,8 @@ router.use(expressJWT({
     }
 }).unless({
     path: [
-        /^\/v1\/authentication$/        // Allow Login Requests
+        /^\/v1\/authentication$/,       // Allow Login Requests
+        /^\/v1\/authentication\/create$/        // Allow RegisterRequests
     ]
 }));
 router.use(function (err, req, res, next) {
@@ -101,11 +102,6 @@ router.use(expressValidator({
     }
 }));
 router.use((req, res, next) => {
-    req.validateAuditTrail = (baseLocation) => {
-        debug('validateAuditTrail');
-        req.assert(baseLocation + 'user_id', 'This field is required').notEmpty();
-        req.assert(baseLocation + 'user_id', 'This field must be an integer').isInt();
-    };
 
     req.checkErrors = () => {
         debug('checkErrors');

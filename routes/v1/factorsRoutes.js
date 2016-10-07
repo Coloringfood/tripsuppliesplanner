@@ -7,13 +7,12 @@ var factorsService = require('./../../services/factors');
 router.use((req, res, next) => {
         req.validateFactors = () => {
             debug('validateFactors');
-            console.log("req.body: ", req.body);
+
             if (Array.isArray(req.body)) {
                 if (typeof req.body === 'object' && Array.isArray(req.body)) {
                     var featuresLength = req.body.length;
                     for (var i = 0; i < featuresLength; i++) {
                         validateFactorData('[' + i + '].');
-                        req.validateAuditTrail('[' + i + ']');
                     }
 
                 }
@@ -56,7 +55,9 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateFactors()) {
-            return factorsService.addFactors(req.body)
+            var body = req.body;
+            body.created_by = req.user.userId;
+            return factorsService.addFactors(body)
                 .then((result) => {
                     debug("post result: %o", result);
                     res.status(201).send();

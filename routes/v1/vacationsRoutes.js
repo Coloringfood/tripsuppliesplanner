@@ -20,8 +20,6 @@ router.use((req, res, next) => {
                 }
             }
 
-            req.validateAuditTrail('');
-
             return req.checkErrors();
         };
 
@@ -51,7 +49,9 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateVacation()) {
-            return vacationService.addVacation(req.body)
+            var body = req.body;
+            body.created_by_id = req.user.userId;
+            return vacationService.addVacation(body)
                 .then((result) => {
                     debug("post result: %o", result);
                     res.status(201).send();
@@ -64,7 +64,7 @@ router.route('/')
 
 router.route('/:vacationId')
     .get((req, res, next) => {
-        debug("Get Vacation");
+        debug("Get Vacation id: %o", req.params.vacationId);
         return vacationService.getVacation(req.params.vacationId)
             .then((result) => {
                 debug("Get Result: %o", result);
@@ -77,8 +77,10 @@ router.route('/:vacationId')
     .put((req, res, next) => {
         debug("Put: %o", req.body);
         if (req.validateVacation()) {
+            var body = req.body;
+            body.created_by_id = req.user.userId;
             // NOTE: THIS DOES NOT UPDATE PARTICIPANTS
-            return vacationService.updateVacation(req.params.vacationId, req.body)
+            return vacationService.updateVacation(req.params.vacationId, body)
                 .then((result) => {
                     debug("put result: %o", result);
                     res.status(201).send();
@@ -89,7 +91,7 @@ router.route('/:vacationId')
         }
     })
     .delete((req, res, next) => {
-        debug("Delete");
+        debug("Delete vacation id: %o", req.params.vacationId);
         return vacationService.deleteVacation(req.params.vacationId)
             .then((result) => {
                 debug("delete result: %o", result);

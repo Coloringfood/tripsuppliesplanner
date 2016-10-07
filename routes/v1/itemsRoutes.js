@@ -13,7 +13,6 @@ router.use((req, res, next) => {
                 validateFactorData('factors[' + i + ']');
             }
         }
-        req.validateAuditTrail('');
 
         return req.checkErrors();
     };
@@ -49,7 +48,9 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateItem()) {
-            return itemsService.addItem(req.body)
+            var body = req.body;
+            body.created_by_id = req.user.userId;
+            return itemsService.addItem(body)
                 .then((result) => {
                     debug("post result: %o", result);
                     res.status(201).send();
@@ -62,7 +63,7 @@ router.route('/')
 
 router.route('/:itemId')
     .get((req, res, next) => {
-        debug("Put on id:%o, object: %o", req.params.itemId, req.body);
+        debug("get item id:%o", req.params.itemId);
         itemsService.getItem(req.params.itemId)
             .then((result) => {
                 res.json(result);
@@ -74,7 +75,9 @@ router.route('/:itemId')
     .put((req, res, next) => {
         debug("Put on id:%o, object: %o", req.params.itemId, req.body);
         if (req.validateItem()) {
-            itemsService.updateItem(req.params.itemId, req.body)
+            var body = req.body;
+            body.created_by_id = req.user.userId;
+            itemsService.updateItem(req.params.itemId, body)
                 .then((result) => {
                     res.json(result);
                 })
@@ -84,6 +87,7 @@ router.route('/:itemId')
         }
     })
     .delete((req, res, next) => {
+        debug("Deleting item: %o", req.params.itemIde);
         itemsService.deleteItem(req.params.itemId)
             .then((result) => {
                 res.json(result);

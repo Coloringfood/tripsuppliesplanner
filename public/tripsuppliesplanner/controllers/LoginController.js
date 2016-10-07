@@ -26,7 +26,7 @@ powerdialerApp.controller("LoginController",
 
                         $timeout(function () {
                             $window.location.reload();
-                        }, 500);
+                        }, 5);
                         $location.path(whereTo && whereTo || "/");
                     })
                     .catch(function (error) {

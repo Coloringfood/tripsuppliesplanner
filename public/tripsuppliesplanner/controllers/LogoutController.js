@@ -13,7 +13,7 @@ powerdialerApp.controller("LogoutController",
             // To refresh the page
             $timeout(function () {
                 $window.location.reload();
-            }, 500);
+            }, 5);
             $location.path("/");
         }
     ]

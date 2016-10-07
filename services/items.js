@@ -106,7 +106,6 @@ items.getItem = (id) => {
 
 items.addItem = (item) => {
     debug("addItem");
-    item.created_by = item.user_id; // jshint ignore:line
     return itemsTable.create(item)
         .catch(function (error) {
             return Promise.reject({

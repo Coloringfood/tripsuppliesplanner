@@ -52,7 +52,7 @@ vacations.getAllVacations = () => {
 
 vacations.addVacation = (vacation) => {
     debug("addVacation");
-    vacation.created_by_id = vacation.user_id; // jshint ignore:line
+    console.log("vacation: ", vacation);
     return vacationsTable.create(vacation)
         .then(function (createVacationResult) {
             var returnValue = createVacationResult.dataValues;
