@@ -19,10 +19,19 @@ var usersSchema = {
     },
     family_id: { // jshint ignore:line
         type: db.INTEGER.UNSIGNED,
-        required: true
+        allowNull: true
     },
     email: {
-        type: db.STRING(100)
+        type: db.STRING(100),
+        allowNull: true
+    },
+    username: {
+        type: db.STRING(30),
+        allowNull: true
+    },
+    password: {
+        type: db.STRING(),
+        allowNull: true
     }
 };
 
@@ -33,8 +42,8 @@ var users = db.connection.define('users', usersSchema, {
     underscored: true
 });
 
-users.belongsTo(families, {foreignKey: 'family_id', as:'family'});
-users.belongsTo(ages, {foreignKey: 'age_id', as:'age'});
+users.belongsTo(families, {foreignKey: 'family_id', as: 'family'});
+users.belongsTo(ages, {foreignKey: 'age_id', as: 'age'});
 
 families.belongsTo(users, {foreignKey: 'mother_id', as: "mother"});
 families.belongsTo(users, {foreignKey: 'father_id', as: "father"});
