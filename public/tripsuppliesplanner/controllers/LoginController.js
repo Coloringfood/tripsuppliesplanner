@@ -16,10 +16,8 @@ powerdialerApp.controller("LoginController",
 
                 DialerListApiService.authenticate(vm.username, vm.password)
                     .then(function (result) {
-                        authService.authenticated = {
-                            userId: result.id,
-                            token: result.token
-                        };
+                        authService.signedIn(result.token);
+
                         NotificationProvider.success("Successfully Logged In");
                         localStorage.token = result.token;
 

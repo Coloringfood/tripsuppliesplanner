@@ -125,20 +125,6 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
     var self = this;
     this.authenticated = false;
 
-    if (localStorage.token) {
-        if (jwtHelper.isTokenExpired(localStorage.token)) {
-            console.log("EXPIRED TOKEN");
-            delete localStorage.token;
-        }
-        else {
-            var decodedToken = jwtHelper.decodeToken(localStorage.token);
-            this.authenticated = {
-                id: decodedToken.id,
-                token: localStorage.token
-            };
-        }
-    }
-
     this.authorize = () => {
         return this
             .getInfo()
@@ -153,6 +139,13 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
                 throw new AuthorizationError();
             });
     };
+    this.signedIn = (token) => {
+        var decodedToken = jwtHelper.decodeToken(localStorage.token);
+        this.authenticated = {
+            tokenData: decodedToken,
+            token: token
+        };
+    };
     this.getInfo = () => {
         return $timeout(function () {
             return self;
@@ -162,6 +155,18 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
         self.authenticated = false;
         delete localStorage.token;
     };
+
+
+
+    if (localStorage.token) {
+        if (jwtHelper.isTokenExpired(localStorage.token)) {
+            console.log("EXPIRED TOKEN");
+            this.clearCredentials();
+        }
+        else {
+            this.signedIn(localStorage.token);
+        }
+    }
 });
 
 // Custom error type
