@@ -159,7 +159,6 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
         }, 1);
     };
     this.clearCredentials = () => {
-        console.log("oooooooooooooooooooooooooooooooooooooooo");
         self.authenticated = false;
         delete localStorage.token;
     };

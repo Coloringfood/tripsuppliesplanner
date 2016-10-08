@@ -10,7 +10,7 @@ powerdialerApp.controller("LogoutController",
             authService.clearCredentials();
             NotificationProvider.success("Successfully Logged Out");
             // To refresh the page
-            $window.location.reload();ö
+            $window.location.reload();
             $location.path("/");
         }
     ]

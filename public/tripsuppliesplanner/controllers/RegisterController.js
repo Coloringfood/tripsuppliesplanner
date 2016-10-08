@@ -46,6 +46,10 @@ powerdialerApp.controller("RegisterController",
 
                         var whereTo = $location.search().returnTo;
                         $location.path(whereTo && whereTo || "/");
+                    })
+                    .catch((err) => {
+                        NotificationProvider.error(err.data.message);
+                        vm.dataLoading = false;
                     });
             };
         }
