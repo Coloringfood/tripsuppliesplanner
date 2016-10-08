@@ -10,5 +10,6 @@
   "security": {
     "secret": "BLAH",
     "issuer": "SELF"
-  }
+  },
+  "logger": "dev"
 }

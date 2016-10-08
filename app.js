@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
 
     next();
 });
-app.use(logger('combined'));
+app.use(logger(config.logger));
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'favicon.ico')));
