@@ -170,6 +170,16 @@ powerdialerApp.factory(
                     });
             };
 
+            DialerListApiService.updateUser = (userData) => {
+                return restangularFactory.allUrl('.').customPUT(userData, "authentication/update")
+                    .then(function (returnedData) {
+                        if (debugging) {
+                            console.log("saveUser: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
             return DialerListApiService;
         }
     ]

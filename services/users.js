@@ -6,13 +6,26 @@ var Promise = require('bluebird'),
     jwt = require('jsonwebtoken'),
     config = require('./../config/config.json');
 
+var USERS_INCLUDE = [
+    {
+        model: agesTable,
+        as: 'age',
+        attributes: [
+            "id",
+            "name"
+        ]
+    }
+];
+
+
 users.authenticate = (username, password) => {
     debug("authenticate");
     return usersTable.find({
         where: {
             username: username,
             password: password
-        }
+        },
+        include: USERS_INCLUDE
     })
         .then(function (allItemsResult) {
             if (allItemsResult) {
@@ -63,6 +76,40 @@ users.createUser = (newUser) => {
                     debug("createResult.dataValues: %o", createResult.dataValues);
                     return Promise.resolve(generateToken(createResult));
                 });
+        });
+};
+
+users.updateUser = (userData) => {
+    debug("updateUser");
+    return agesTable.find({where: {name: userData.age.name}})
+        .catch(function (error) {
+            debug("sequelize error: %o", error);
+            return Promise.reject({
+                errors: error,
+                message: "sequelize_error",
+                showMessage: "Error finding age",
+                status: error.status || 400
+            });
+        })
+        .then(function (findAgeResult) {
+            userData.age_id = findAgeResult.id;
+
+            return usersTable.update(userData, {
+                where: {
+                    id: userData.id
+                }
+            }).then((result) => {
+                debug("updating User's age");
+
+                return usersTable.find({
+                    where: {
+                        id: userData.id
+                    },
+                    include: USERS_INCLUDE
+                }).then((result) => {
+                    return generateToken(result);
+                });
+            });
         });
 };
 

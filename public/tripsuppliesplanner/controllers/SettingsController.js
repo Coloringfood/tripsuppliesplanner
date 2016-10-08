@@ -1,4 +1,4 @@
-powerdialerApp.controller("RegisterController",
+powerdialerApp.controller("SettingsController",
     [
         '$scope',
         '$location',
@@ -9,6 +9,12 @@ powerdialerApp.controller("RegisterController",
         function ($scope, $location, authService, NotificationProvider, DialerListApiService, $window) {
             'use strict';
             var vm = this;
+            vm.user = authService.authenticated.tokenData.user;
+
+            var index = vm.user.name.indexOf(" ");
+            vm.user.firstName = vm.user.name.substring(0, index).trim();
+            vm.user.lastName = vm.user.name.substring(index).trim();
+            delete vm.user.password;
 
             vm.ages = [
                 {
@@ -29,18 +35,15 @@ powerdialerApp.controller("RegisterController",
                 },
             ];
 
-            vm.register = () => {
+            vm.save = () => {
                 vm.dataLoading = true;
-                console.log(vm.user);
                 vm.user.name = vm.user.firstName + " " + vm.user.lastName;
 
-                DialerListApiService.register(vm.user)
+                DialerListApiService.updateUser(vm.user)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
-                        NotificationProvider.success("Successfully Logged In. Please wait while we reload the app");
-
-                        var whereTo = $location.search().returnTo;
-                        $location.path(whereTo && whereTo || "/");
+                        NotificationProvider.success("Successfully Updated Settings. Please wait while we reload the app");
+                        vm.dataLoading = false;
                     })
                     .catch((err) => {
                         NotificationProvider.error(err.data.message);

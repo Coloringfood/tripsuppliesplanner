@@ -49,6 +49,11 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 template: "<h1>Logging Out</h1>",
                 controller: 'LogoutController'
             })
+            .when('/settings', {
+                templateUrl: "/static/tripsuppliesplanner/views/settings.html",
+                controller: 'SettingsController as vm',
+                authorize: true
+            })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'
@@ -121,7 +126,7 @@ powerdialerApp.run(['$rootScope', '$location', 'injectCSS',
 
 // KEPT IN THIS FILE BECAUSE IT NEEDED ACCESS TO AuthorizationError
 //http://erraticdev.blogspot.com/2015/10/angular-ngroute-routing-authorization.html
-powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
+powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $window) {
     var self = this;
     this.authenticated = false;
 
@@ -139,12 +144,20 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
                 throw new AuthorizationError();
             });
     };
-    this.signedIn = (token) => {
-        var decodedToken = jwtHelper.decodeToken(localStorage.token);
+    this.signedIn = (token, reload) => {
+        var decodedToken = jwtHelper.decodeToken(token);
         this.authenticated = {
             tokenData: decodedToken,
             token: token
         };
+
+        localStorage.token = token;
+
+        if (reload) {
+            $timeout(()=> {
+                $window.location.reload();
+            }, 1000);
+        }
     };
     this.getInfo = () => {
         return $timeout(function () {
@@ -154,8 +167,11 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
     this.clearCredentials = () => {
         self.authenticated = false;
         delete localStorage.token;
-    };
 
+        $timeout(()=> {
+            $window.location.reload();
+        }, 300);
+    };
 
 
     if (localStorage.token) {

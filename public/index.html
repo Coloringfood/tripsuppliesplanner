@@ -40,7 +40,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li ng-class="{ active: isActive('/login')}" ng-show="!authenticated"><a href="#/login">Login</a></li>
-                <li ng-show="authenticated"><a>Welcome {{name}}</a></li>
+                <li ng-show="authenticated"><a href="#/settings">Welcome {{name}}</a></li>
                 <li ng-class="{ active: isActive('/logout')}" ng-show="authenticated"><a href="#/logout">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
@@ -79,6 +79,7 @@
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/LoginController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/LogoutController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/RegisterController.js"></script>
+<script type="text/javascript" src="/public/tripsuppliesplanner/controllers/SettingsController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/controllers/VacationsPageController.js"></script>
 <script type="text/javascript" src="/public/tripsuppliesplanner/services/DialerListApiService.js"></script>
 <!-- /build -->

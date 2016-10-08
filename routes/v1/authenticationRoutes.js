@@ -43,6 +43,25 @@ router.route('/create')
         }
     });
 
+router.route('/update')
+    .put((req, res, next)=> {
+        debug('updateUser');
+        if (req.body.id === req.user.userId) {
+            return userService.updateUser(req.body)
+                .then((result) => {
+                    debug("updateResult: %o", result);
+                    res.status(200).send(result);
+                });
+        }
+        else {
+            next({
+                showMessage: "You are not allowed to edit other people's settings",
+                status: 400
+            });
+        }
+
+    });
+
 router.route('/')
     .post((req, res, next) => {
         debug(req.body);
