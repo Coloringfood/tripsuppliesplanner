@@ -5,9 +5,9 @@ powerdialerApp.controller('HeaderController',
         'authService',
         function ($scope, $location, authService) {
             $scope.authenticated = authService.authenticated !== false;
-            console.log("authService.authenticated: ", authService.authenticated.tokenData);
-            $scope.name = authService.authenticated.tokenData.user.name;
-            console.log("$scope.name: ", $scope.name);
+            if ($scope.authenticated) {
+                $scope.name = authService.authenticated.tokenData.user.name;
+            }
             $scope.isActive = (viewLocation) => {
                 return viewLocation === $location.path();
             };
