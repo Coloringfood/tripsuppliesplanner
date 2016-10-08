@@ -37,7 +37,7 @@ router.use((req, res, next) => {
 router.route('/')
     .get((req, res, next) => {
         debug('GET /item');
-        itemsService.getAllItems()
+        itemsService.getAllItems(req.user.userId)
             .then((results) => {
                 res.json(results);
             })
@@ -64,7 +64,7 @@ router.route('/')
 router.route('/:itemId')
     .get((req, res, next) => {
         debug("get item id:%o", req.params.itemId);
-        itemsService.getItem(req.params.itemId)
+        itemsService.getItem(req.params.itemId, req.user.userId)
             .then((result) => {
                 res.json(result);
             })
@@ -77,7 +77,7 @@ router.route('/:itemId')
         if (req.validateItem()) {
             var body = req.body;
             body.created_by_id = req.user.userId;
-            itemsService.updateItem(req.params.itemId, body)
+            itemsService.updateItem(req.params.itemId, body, req.user.userId)
                 .then((result) => {
                     res.json(result);
                 })
@@ -87,8 +87,8 @@ router.route('/:itemId')
         }
     })
     .delete((req, res, next) => {
-        debug("Deleting item: %o", req.params.itemIde);
-        itemsService.deleteItem(req.params.itemId)
+        debug("Deleting item: %o", req.params.itemId);
+        itemsService.deleteItem(req.params.itemId, req.user.userId)
             .then((result) => {
                 res.json(result);
             })

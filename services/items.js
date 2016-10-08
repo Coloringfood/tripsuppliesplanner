@@ -52,10 +52,21 @@ function convertItemForUI(item) {
     return itemData;
 }
 
-items.getAllItems = () => {
+items.getAllItems = (userId) => {
     debug("getAllItems");
     return itemsTable.findAll(
         {
+            where: {
+                $or: [
+                    {
+                        personal: 0
+                    },
+                    {
+                        personal: 1,
+                        created_by_id: userId
+                    }
+                ]
+            },
             attributes: ITEM_ATTRIBUTES,
             include: ITEM_INCLUDE
         }
@@ -75,12 +86,21 @@ items.getAllItems = () => {
     });
 };
 
-items.getItem = (id) => {
+items.getItem = (id, userId) => {
     debug("getItem");
     return itemsTable.find({
         attributes: ITEM_ATTRIBUTES,
         where: {
-            id: id
+            id: id,
+            $or: [
+                {
+                    personal: 0
+                },
+                {
+                    personal: 1,
+                    created_by_id: userId
+                }
+            ]
         },
         include: ITEM_INCLUDE
     }).catch(function (error) {
@@ -139,11 +159,20 @@ items.addItem = (item) => {
         });
 };
 
-items.updateItem = (id, item) => {
+items.updateItem = (id, item, userId) => {
     debug("updateItem");
     return itemsTable.update(item, {
         where: {
-            id: id
+            id: id,
+            $or: [
+                {
+                    personal: 0
+                },
+                {
+                    personal: 1,
+                    created_by_id: userId
+                }
+            ]
         }
     }).catch(function (error) {
         return Promise.reject({
@@ -182,11 +211,20 @@ items.updateItem = (id, item) => {
     });
 };
 
-items.deleteItem = (id) => {
+items.deleteItem = (id, userId) => {
     debug("deleteItem");
     return itemsTable.destroy({
         where: {
-            id: id
+            id: id,
+            $or: [
+                {
+                    personal: 0
+                },
+                {
+                    personal: 1,
+                    created_by_id: userId
+                }
+            ]
         }
     }).then(function (destroyResults) {
         if (destroyResults === 0) {
