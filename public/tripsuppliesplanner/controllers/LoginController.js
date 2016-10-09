@@ -16,12 +16,10 @@ powerdialerApp.controller("LoginController",
 
                 DialerListApiService.authenticate(vm.username, vm.password)
                     .then(function (result) {
-                        authService.signedIn(result.token);
+                        authService.signedIn(result.token, true);
 
-                        NotificationProvider.success("Successfully Logged In");
+                        NotificationProvider.success("Successfully Logged In. Please wait while we reload the app");
                         localStorage.token = result.token;
-
-                        $window.location.reload();
                         $location.path(whereTo && whereTo || "/");
                     })
                     .catch(function (error) {

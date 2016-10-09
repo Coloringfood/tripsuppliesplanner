@@ -21,6 +21,7 @@
     "express": "~4.13.4",
     "express-jwt": "^5.1.0",
     "express-validator": "^2.20.8",
+    "fs": "0.0.1-security",
     "jshint": "^2.9.3",
     "jsonwebtoken": "^7.1.9",
     "morgan": "~1.7.0",

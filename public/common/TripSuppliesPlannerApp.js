@@ -49,6 +49,11 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 template: "<h1>Logging Out</h1>",
                 controller: 'LogoutController'
             })
+            .when('/settings', {
+                templateUrl: "/static/tripsuppliesplanner/views/settings.html",
+                controller: 'SettingsController as vm',
+                authorize: true
+            })
             .otherwise({
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'
@@ -87,20 +92,20 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
     }
 ]);
 
-powerdialerApp.run(['$rootScope', '$location', 'injectCSS',
-    function ($rootScope, $location, injectCSS) {
+powerdialerApp.run(['$rootScope', '$location', 'injectCSS', 'authService',
+    function ($rootScope, $location, injectCSS, authService) {
         'use strict'; // jshint ignore:line
-
-        // var userCssUrl = "/public/assets/css/bootstrap-darkly.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-flatly.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-sandstone.css";
-        var userCssUrl = "/public/assets/css/bootstrap-slate.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-superhero.css";
 
         $rootScope.$on("$routeChangeStart", function (evt, to, from) {
             to.resolve = to.resolve || {};
+            authService.checkToken();
 
-            to.resolve.cssResolver = () => injectCSS.set('users-css', userCssUrl);
+            if (authService.authenticated) {
+                var userCssUrl = authService.authenticated.tokenData.user.settings.cssTheme;
+                if (userCssUrl) {
+                    to.resolve.cssResolver = () => injectCSS.set('users-css', userCssUrl);
+                }
+            }
 
             if (to.authorize === true) {
                 if (!to.resolve.authorizationResolver) {
@@ -121,7 +126,7 @@ powerdialerApp.run(['$rootScope', '$location', 'injectCSS',
 
 // KEPT IN THIS FILE BECAUSE IT NEEDED ACCESS TO AuthorizationError
 //http://erraticdev.blogspot.com/2015/10/angular-ngroute-routing-authorization.html
-powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
+powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $window) {
     var self = this;
     this.authenticated = false;
 
@@ -139,12 +144,20 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
                 throw new AuthorizationError();
             });
     };
-    this.signedIn = (token) => {
-        var decodedToken = jwtHelper.decodeToken(localStorage.token);
+    this.signedIn = (token, reload) => {
+        var decodedToken = jwtHelper.decodeToken(token);
         this.authenticated = {
             tokenData: decodedToken,
             token: token
         };
+
+        localStorage.token = token;
+
+        if (reload) {
+            $timeout(()=> {
+                $window.location.reload();
+            }, 1000);
+        }
     };
     this.getInfo = () => {
         return $timeout(function () {
@@ -154,19 +167,25 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV) {
     this.clearCredentials = () => {
         self.authenticated = false;
         delete localStorage.token;
+
+        $timeout(()=> {
+            $window.location.reload();
+        }, 300);
     };
 
 
-
-    if (localStorage.token) {
-        if (jwtHelper.isTokenExpired(localStorage.token)) {
-            console.log("EXPIRED TOKEN");
-            this.clearCredentials();
+    this.checkToken = () => {
+        if (localStorage.token) {
+            if (jwtHelper.isTokenExpired(localStorage.token)) {
+                console.log("EXPIRED TOKEN");
+                this.clearCredentials();
+            }
+            else {
+                this.signedIn(localStorage.token);
+            }
         }
-        else {
-            this.signedIn(localStorage.token);
-        }
-    }
+    };
+    this.checkToken();
 });
 
 // Custom error type

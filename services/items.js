@@ -191,7 +191,7 @@ items.updateItem = (id, item, userId) => {
                 status: 404
             });
         }
-        return items.getItem(id).then(function (itemResult) {
+        return items.getItem(id, userId).then(function (itemResult) {
             var returnValue = itemResult.dataValues;
 
 

@@ -6,13 +6,26 @@ var Promise = require('bluebird'),
     jwt = require('jsonwebtoken'),
     config = require('./../config/config.json');
 
+var USERS_INCLUDE = [
+    {
+        model: agesTable,
+        as: 'age',
+        attributes: [
+            "id",
+            "name"
+        ]
+    }
+];
+
+
 users.authenticate = (username, password) => {
     debug("authenticate");
     return usersTable.find({
         where: {
             username: username,
             password: password
-        }
+        },
+        include: USERS_INCLUDE
     })
         .then(function (allItemsResult) {
             if (allItemsResult) {
@@ -61,16 +74,60 @@ users.createUser = (newUser) => {
                 })
                 .then(function (createResult) {
                     debug("createResult.dataValues: %o", createResult.dataValues);
-                    return Promise.resolve(generateToken(createResult));
+                    return Promise.resolve(generateToken(createResult.dataValues));
                 });
+        });
+};
+
+users.updateUser = (userData) => {
+    debug("updateUser");
+    userData.settings = JSON.stringify(userData.settings);
+    return agesTable.find({where: {name: userData.age.name}})
+        .catch(function (error) {
+            debug("sequelize error: %o", error);
+            return Promise.reject({
+                errors: error,
+                message: "sequelize_error",
+                showMessage: "Error finding age",
+                status: error.status || 400
+            });
+        })
+        .then(function (findAgeResult) {
+            if(!findAgeResult){
+                return Promise.reject({
+                    message: "sequelize_error",
+                    showMessage: "Age Not Found",
+                    status: 400
+                });
+            }
+            userData.age_id = findAgeResult.id;
+
+            return usersTable.update(userData, {
+                where: {
+                    id: userData.id
+                }
+            }).then((result) => {
+                debug("updating User's age");
+
+                return usersTable.find({
+                    where: {
+                        id: userData.id
+                    },
+                    include: USERS_INCLUDE
+                }).then((result) => {
+                    return generateToken(result.dataValues);
+                });
+            });
         });
 };
 
 function generateToken(user) {
     debug("generateToken");
+
+    user.settings = JSON.parse(user.settings);
     var tokenData = {
-        userId: user.dataValues.id,
-        user: user.dataValues
+        userId: user.id,
+        user: user
     };
     var options = {
         expiresIn: 600, // 10 minutes

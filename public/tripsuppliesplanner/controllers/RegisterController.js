@@ -36,10 +36,8 @@ powerdialerApp.controller("RegisterController",
 
                 DialerListApiService.register(vm.user)
                     .then(function (result) {
-                        authService.signedIn(result.token);
-                        NotificationProvider.success("Successfully Logged In");
-
-                        $window.location.reload();
+                        authService.signedIn(result.token, true);
+                        NotificationProvider.success("Successfully Logged In. Please wait while we reload the app");
 
                         var whereTo = $location.search().returnTo;
                         $location.path(whereTo && whereTo || "/");

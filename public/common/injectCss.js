@@ -28,6 +28,8 @@ powerdialerApp.factory("injectCSS", ['$q', '$http', function ($q, $http) {
         var tries = 0,
             deferred = $q.defer(),
             link;
+        url = '/public/assets/css/themes/' + url;
+
 
         var oldLink = angular.element('link#' + id),
             skip = oldLink.attr('href') === url;
