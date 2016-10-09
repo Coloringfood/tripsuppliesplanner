@@ -138,9 +138,18 @@ powerdialerApp.controller('EditItemModalController',
                             'Other': []
                         };
                         var factorsLength = factors.length;
+                        var useMarkedFactors = !Object.keys(markedFactors).length;
                         for (var i = 0; i < factorsLength; i++) {
                             var factor = factors[i];
-                            factor.selected = markedFactors[factor.name];
+                            if (!useMarkedFactors) {
+                                factor.selected = markedFactors[factor.name];
+                            }
+                            else {
+                                var index = vm.newItem.factors.indexOf(factor.id);
+                                if (index > -1) {
+                                    factor.selected = true;
+                                }
+                            }
                             vm.factors[factor.type].push(factor);
                         }
                         markedFactors = {};
