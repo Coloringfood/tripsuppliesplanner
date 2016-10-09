@@ -125,6 +125,9 @@ function generateToken(user) {
     debug("generateToken");
 
     user.settings = JSON.parse(user.settings);
+    if (!user.settings) {
+        user.settings = {};
+    }
     var tokenData = {
         userId: user.id,
         user: user
