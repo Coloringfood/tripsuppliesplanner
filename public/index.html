@@ -20,7 +20,7 @@
     <base href="/">
 </head>
 
-<body ng-app="tripsuppliesplannerApp" class="ng-cloak">
+<body ng-app="tripsuppliesplannerApp">
 <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController">
     <div class="container">
         <div class="navbar-header">
@@ -38,7 +38,7 @@
                 <li ng-class="{ active: isActive('/vacationspage')}" ng-click="toggleMenu()"><a href="#/vacationspage">Vacations</a></li>
                 <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()"><a href="#/itemspage">Items</a></li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="ng-cloak nav navbar-nav navbar-right">
                 <li ng-class="{ active: isActive('/login')}" ng-show="!authenticated"><a href="#/login">Login</a></li>
                 <li ng-show="authenticated"><a href="#/settings">Welcome {{name}}</a></li>
                 <li ng-class="{ active: isActive('/logout')}" ng-show="authenticated"><a href="#/logout">Logout</a></li>
@@ -46,7 +46,7 @@
         </div><!--/.nav-collapse -->
     </div>
 </nav>
-<div class="container" ng-view></div>
+<div class="container" ng-view class="ng-cloak"></div>
 <!-- build:script vendor -->
 <script type="text/javascript" src="/public/assets/ext/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="/public/assets/ext/angular/angular.js"></script>
