@@ -61,6 +61,32 @@
         <uib-accordion-heading>
             Custom settings <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.customSettings, 'glyphicon-chevron-right': !status.customSettings}"></i>
         </uib-accordion-heading>
-        TODO: Adjust Your Style for the website
+        <div class="row">
+            <div class="col-md-10">
+                <div class="input-group">
+                        <span class="input-group-addon">
+                            Css Theme
+                        </span>
+                    <div class="btn-group input-group-btn" uib-dropdown is-open="status.isopen">
+                        <button class="btn btn-primary" type="button" id="single-button" uib-dropdown-toggle>
+                            {{vm.user.settings.cssTheme}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
+                            <li ng-click="vm.setSelectedTheme('Default')" class="hand-hover">Default</li>
+                            <li ng-repeat="choice in vm.themes" ng-click="vm.setSelectedTheme(choice)"
+                                class="hand-hover">
+                                {{choice}}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-default" ng-click="vm.useCss()">
+                    Use Theme
+                </button>
+            </div>
+        </div>
     </div>
 </uib-accordion>

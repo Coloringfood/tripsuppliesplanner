@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1:authentication');
 var userService = require('./../../services/users');
+var fs = require('fs');
+var path = require('path');
 
 router.use((req, res, next) => {
         req.validateFactors = () => {
@@ -44,7 +46,7 @@ router.route('/create')
     });
 
 router.route('/update')
-    .put((req, res, next)=> {
+    .put((req, res, next) => {
         debug('updateUser');
         if (req.body.id === req.user.userId) {
             return userService.updateUser(req.body)
@@ -60,6 +62,14 @@ router.route('/update')
             });
         }
 
+    });
+
+router.route('/themes')
+    .get((req, res, next) => {
+        var location = path.join(__dirname, '..','..','public','assets','css','themes');
+        fs.readdir(location, (err, results) => {
+            res.send(results);
+        });
     });
 
 router.route('/')

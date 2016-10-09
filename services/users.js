@@ -74,13 +74,14 @@ users.createUser = (newUser) => {
                 })
                 .then(function (createResult) {
                     debug("createResult.dataValues: %o", createResult.dataValues);
-                    return Promise.resolve(generateToken(createResult));
+                    return Promise.resolve(generateToken(createResult.dataValues));
                 });
         });
 };
 
 users.updateUser = (userData) => {
     debug("updateUser");
+    userData.settings = JSON.stringify(userData.settings);
     return agesTable.find({where: {name: userData.age.name}})
         .catch(function (error) {
             debug("sequelize error: %o", error);
@@ -92,6 +93,13 @@ users.updateUser = (userData) => {
             });
         })
         .then(function (findAgeResult) {
+            if(!findAgeResult){
+                return Promise.reject({
+                    message: "sequelize_error",
+                    showMessage: "Age Not Found",
+                    status: 400
+                });
+            }
             userData.age_id = findAgeResult.id;
 
             return usersTable.update(userData, {
@@ -107,7 +115,7 @@ users.updateUser = (userData) => {
                     },
                     include: USERS_INCLUDE
                 }).then((result) => {
-                    return generateToken(result);
+                    return generateToken(result.dataValues);
                 });
             });
         });
@@ -115,9 +123,11 @@ users.updateUser = (userData) => {
 
 function generateToken(user) {
     debug("generateToken");
+
+    user.settings = JSON.parse(user.settings);
     var tokenData = {
-        userId: user.dataValues.id,
-        user: user.dataValues
+        userId: user.id,
+        user: user
     };
     var options = {
         expiresIn: 600, // 10 minutes

@@ -180,6 +180,16 @@ powerdialerApp.factory(
                     });
             };
 
+            DialerListApiService.getThemes = () => {
+                return restangularFactory.one('authentication').one('themes').get()
+                    .then(function (returnedData){
+                        if (debugging) {
+                            console.log("themes: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
             return DialerListApiService;
         }
     ]

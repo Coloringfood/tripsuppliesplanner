@@ -92,20 +92,20 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
     }
 ]);
 
-powerdialerApp.run(['$rootScope', '$location', 'injectCSS',
-    function ($rootScope, $location, injectCSS) {
+powerdialerApp.run(['$rootScope', '$location', 'injectCSS', 'authService',
+    function ($rootScope, $location, injectCSS, authService) {
         'use strict'; // jshint ignore:line
-
-        // var userCssUrl = "/public/assets/css/bootstrap-darkly.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-flatly.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-sandstone.css";
-        var userCssUrl = "/public/assets/css/bootstrap-slate.css";
-        // var userCssUrl = "/public/assets/css/bootstrap-superhero.css";
 
         $rootScope.$on("$routeChangeStart", function (evt, to, from) {
             to.resolve = to.resolve || {};
+            authService.checkToken();
 
-            to.resolve.cssResolver = () => injectCSS.set('users-css', userCssUrl);
+            if (authService.authenticated) {
+                var userCssUrl = authService.authenticated.tokenData.user.settings.cssTheme;
+                if (userCssUrl) {
+                    to.resolve.cssResolver = () => injectCSS.set('users-css', userCssUrl);
+                }
+            }
 
             if (to.authorize === true) {
                 if (!to.resolve.authorizationResolver) {
@@ -174,15 +174,18 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $w
     };
 
 
-    if (localStorage.token) {
-        if (jwtHelper.isTokenExpired(localStorage.token)) {
-            console.log("EXPIRED TOKEN");
-            this.clearCredentials();
+    this.checkToken = () => {
+        if (localStorage.token) {
+            if (jwtHelper.isTokenExpired(localStorage.token)) {
+                console.log("EXPIRED TOKEN");
+                this.clearCredentials();
+            }
+            else {
+                this.signedIn(localStorage.token);
+            }
         }
-        else {
-            this.signedIn(localStorage.token);
-        }
-    }
+    };
+    this.checkToken();
 });
 
 // Custom error type

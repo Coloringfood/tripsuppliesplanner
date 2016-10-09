@@ -35,14 +35,50 @@ powerdialerApp.controller("SettingsController",
                 },
             ];
 
+            DialerListApiService.getThemes().then((themes)=> {
+                vm.themes = themes;
+                if (!vm.user.settings.cssTheme) {
+                    vm.user.settings.cssTheme = "Default";
+                }
+            });
+
             vm.save = () => {
                 vm.dataLoading = true;
                 vm.user.name = vm.user.firstName + " " + vm.user.lastName;
+                if (vm.user.settings.cssTheme == "Default") {
+                    delete vm.user.settings.cssTheme;
+                }
 
                 DialerListApiService.updateUser(vm.user)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
                         NotificationProvider.success("Successfully Updated Settings. Please wait while we reload the app");
+                        vm.dataLoading = false;
+                    })
+                    .catch((err) => {
+                        NotificationProvider.error(err.data.message);
+                        vm.dataLoading = false;
+                    });
+            };
+
+            vm.setSelectedTheme = (theme) => {
+                vm.user.settings.cssTheme = theme;
+            };
+
+            vm.useCss = () => {
+                if (vm.user.settings.cssTheme == "Default") {
+                    delete vm.user.settings.cssTheme;
+                }
+                var updateCssData = {
+                    "id": vm.user.id,
+                    "age": vm.user.age,
+                    "settings": vm.user.settings
+                };
+
+                DialerListApiService.updateUser(updateCssData)
+                    .then(function (result) {
+                        authService.signedIn(result.token, true);
+                        NotificationProvider.success("Successfully Selected Theme. Please wait while we reload the app");
                         vm.dataLoading = false;
                     })
                     .catch((err) => {

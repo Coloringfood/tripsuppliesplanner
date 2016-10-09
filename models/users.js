@@ -32,6 +32,10 @@ var usersSchema = {
     password: {
         type: db.STRING(),
         allowNull: true
+    },
+    settings: {
+        type: db.STRING,
+        allowNull: true
     }
 };
 
