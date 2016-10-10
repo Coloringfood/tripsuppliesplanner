@@ -93,7 +93,7 @@ users.updateUser = (userData) => {
             });
         })
         .then(function (findAgeResult) {
-            if(!findAgeResult){
+            if (!findAgeResult) {
                 return Promise.reject({
                     message: "sequelize_error",
                     showMessage: "Age Not Found",
@@ -124,9 +124,10 @@ users.updateUser = (userData) => {
 function generateToken(user) {
     debug("generateToken");
 
-    user.settings = JSON.parse(user.settings);
     if (!user.settings) {
         user.settings = {};
+    } else {
+        user.settings = JSON.parse(user.settings);
     }
     var tokenData = {
         userId: user.id,
