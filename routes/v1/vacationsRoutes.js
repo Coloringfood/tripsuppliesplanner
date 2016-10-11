@@ -102,4 +102,27 @@ router.route('/:vacationId')
             });
     });
 
+router.route('/:vacationId/pack/:userId')
+    .get((req, res, next) => {
+        debug("Pack Vacation id: %o, user id: %o", req.params.vacationId, req.params.userId);
+
+        var vacationId = req.params.vacationId,
+            userId = req.params.userId;
+
+        try {
+            parseInt(vacationId);
+            parseInt(userId);
+            return vacationService.packingListForVacation(vacationId, userId)
+                .then((result) => {
+                    debug("Get Result: %o", result);
+                    res.json(result);
+                })
+                .catch((e) => {
+                    next(e);
+                });
+        } catch (e) {
+            next(e);
+        }
+    });
+
 module.exports = router;

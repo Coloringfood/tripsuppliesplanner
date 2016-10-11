@@ -7,8 +7,7 @@ powerdialerApp.controller('EditVacationModalController',
         'Notification',
         function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider) {
             'use strict';
-            var vm = this,
-                markedFactors = {};
+            var vm = this;
 
             vm.newVacation = angular.copy(vacation); // jshint ignore:line
             if (!vm.newVacation.required) {
@@ -55,6 +54,13 @@ powerdialerApp.controller('EditVacationModalController',
             function updateFactors() {
                 return DialerListApiService.getAllFactors()
                     .then(function (factors) {
+                        var markedFactors = {};
+                        var selectedLength = vm.newVacation.factors.length;
+                        for (var i = 0; i < selectedLength; i++) {
+                            var factor = vm.newVacation.factors[i];
+                            markedFactors[factor.name] = factor.vacations_factors;
+                        }
+
                         vm.factors = {
                             'Vacation Type': [],
                             'Activities': [],
@@ -63,11 +69,11 @@ powerdialerApp.controller('EditVacationModalController',
                         var factorsLength = factors.length;
                         for (var i = 0; i < factorsLength; i++) {
                             var factor = factors[i];
-                            factor.selected = markedFactors[factor.name];
+                            factor.selected = markedFactors[factor.name] ? true : false;
                             factor.vacations_factors = {days: null};
+                            factor.vacations_factors.days = markedFactors[factor.name] ? markedFactors[factor.name].days : null;
                             vm.factors[factor.type].push(factor);
                         }
-                        markedFactors = {};
                     });
             }
 
@@ -75,6 +81,10 @@ powerdialerApp.controller('EditVacationModalController',
             // END FACTOR STUFF
 
             vm.ok = () => {
+                if (!vm.newVacation.name) {
+                    NotificationProvider.error("Please enter a name for this vacation");
+                    return;
+                }
                 if (!vm.newVacation.start_date) {
                     NotificationProvider.error("You must have a start date");
                     return;

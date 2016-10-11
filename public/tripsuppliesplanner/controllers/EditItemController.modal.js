@@ -198,6 +198,14 @@ powerdialerApp.controller('EditItemModalController',
             };
 
             vm.ok = () => {
+                if (!vm.newItem.name) {
+                    NotificationProvider.error("Please enter a name");
+                    return;
+                }
+                if (vm.newItem.ages.length === 0) {
+                    NotificationProvider.error("You this item must apply to an age group");
+                    return;
+                }
                 vm.newItem.required = !vm.newItem.optional;
                 if (item.id) {
                     DialerListApiService.saveItem(vm.newItem, item.id)

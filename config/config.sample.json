@@ -9,7 +9,8 @@
   },
   "security": {
     "secret": "BLAH",
-    "issuer": "SELF"
+    "issuer": "SELF",
+    "expiration": 6000
   },
   "logger": "dev"
 }

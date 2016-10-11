@@ -134,7 +134,7 @@ function generateToken(user) {
         user: user
     };
     var options = {
-        expiresIn: 600, // 10 minutes
+        expiresIn: config.security.expiration, // 10 minutes
         issuer: config.security.issuer
     };
     debug(tokenData);

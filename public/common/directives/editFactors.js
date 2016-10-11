@@ -31,7 +31,6 @@ powerdialerApp.directive('editFactors',
                             if (index > -1) {
                                 if (scope.settings.object && scope.settings.showDays) {
                                     factor = scope.selected[index];
-                                    console.log("factor: ", factor);
                                 }
                                 factor.selected = true;
                             }
@@ -61,7 +60,6 @@ powerdialerApp.directive('editFactors',
                     }
 
                     scope.selectFactor = function (factor) {
-                        console.log("factor: ", factor);
                         var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                         if (index > -1) {
                             scope.selected.splice(index, 1);

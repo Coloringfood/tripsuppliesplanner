@@ -29,7 +29,6 @@ router.use((req, res, next) => {
         };
 
         function validateFactorData(baseLocation) {
-            console.log("baseLocation: ", baseLocation);
             debug('validatingCategoryData for %o', baseLocation);
             req.assert(baseLocation + 'name', 'Name is requierd for factors').isString();
             req.assert(baseLocation + 'type', 'Type must be one of: "Vacation Type", "Activities", "Other"').isInList(['Vacation Type', 'Activities', 'Other']);

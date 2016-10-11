@@ -31,7 +31,6 @@ powerdialerApp.controller("RegisterController",
 
             vm.register = () => {
                 vm.dataLoading = true;
-                console.log(vm.user);
                 vm.user.name = vm.user.firstName + " " + vm.user.lastName;
 
                 DialerListApiService.register(vm.user)
