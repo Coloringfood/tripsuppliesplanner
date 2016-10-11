@@ -1,6 +1,7 @@
 var db = require('./database');
 var user = require('./users'),
-    ages = require('./ages');
+    ages = require('./ages'),
+    categories = require('./categories');
 
 var itemsSchema = {
     id: {
@@ -25,6 +26,10 @@ var itemsSchema = {
         type: db.BOOLEAN,
         default: false
     },
+    category_id: { // jshint ignore:line
+        type: db.INTEGER.UNSIGNED,
+        defaultValue: 4
+    },
     created_by_id: { // jshint ignore:line
         type: db.INTEGER.UNSIGNED
     }
@@ -38,6 +43,7 @@ var items = db.connection.define('items', itemsSchema, {
 });
 
 items.belongsTo(user, {foreignKey: 'created_by_id'});
+items.belongsTo(categories, {foreignKey: 'category_id', as: "category"});
 
 var itemsPerAgeSchema = {
         days: {
