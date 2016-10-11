@@ -3,7 +3,9 @@ var Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:vacations'),
     factorsTable = require('./../models/factors'),
     usersTable = require('./../models/users'),
-    vacationsTable = require('./../models/vacations');
+    vacationsTable = require('./../models/vacations'),
+    itemsTable = require('./../models/items'),
+    agesTable = require('./../models/ages');
 
 var VACATION_NOT_FOUND = "vacation_not_found";
 var VACATION_INCLUDE = [
@@ -52,7 +54,6 @@ vacations.getAllVacations = () => {
 
 vacations.addVacation = (vacation) => {
     debug("addVacation");
-    console.log("vacation: ", vacation);
     return vacationsTable.create(vacation)
         .then(function (createVacationResult) {
             var returnValue = createVacationResult.dataValues;
@@ -131,6 +132,39 @@ vacations.deleteVacation = (id) => {
     });
 };
 
+vacations.packingListForVacation = (vacationId, userId) => {
+    return usersTable.find({
+        where: {
+            id: userId
+        },
+        attributes: [
+            "id",
+            "name"
+        ],
+        include: [
+            {
+                model: agesTable,
+                as: 'age',
+                attributes: [
+                    "id",
+                    "name"
+                ]
+            }
+        ]
+    })
+        .then((userResult) => {
+            var ageId = userResult.dataValues.age.id;
+            var publicItemsPromise = getAllItemsForVacation(vacationId, ageId);
+            var privateItemsPromise = getAllItemsForVacation(vacationId, ageId, userId);
+
+            return Promise.all([publicItemsPromise, privateItemsPromise]).then(function (allResults) {
+                var publicItems = allResults[0];
+                var privateItems = allResults[1];
+                return publicItems.concat(privateItems);
+            });
+        });
+};
+
 function updateVacationFactors(vacation, factors) {
     debug("updateVacationFactors");
     var factorIds = [];
@@ -203,5 +237,98 @@ function addFactorToVacation(vacation, factorData) {
                     status: error.status || 500
                 });
             });
+    });
+}
+
+function getAllItemsForVacation(vacationId, ageId, userId) {
+    var AGES_INCLUDE = {
+            model: agesTable,
+            attributes: [
+                "id",
+                "name"
+            ],
+            where: {
+                id: ageId
+            },
+            through: {
+                attributes: [
+                    "days",
+                    "items"
+                ]
+            }
+        },
+        PRIVATE_OR_PUBLIC = [
+            {
+                personal: 0
+            }
+        ];
+    if (userId) {
+        PRIVATE_OR_PUBLIC = [
+            {
+                personal: 1,
+                created_by_id: userId
+            }
+        ];
+    }
+
+    // Get items that are not attached to any factors
+    var alwaysNeededItemsPromise = itemsTable.findAll({
+        attributes: [
+            "name",
+            "personal",
+            "required",
+            "always_needed",
+        ],
+        where: {
+            always_needed: 1,
+            $or: PRIVATE_OR_PUBLIC
+        },
+        include: [
+            AGES_INCLUDE
+        ]
+
+    });
+
+    // Get Items related to factors on this Vacation
+    var relatedItemsPromise = itemsTable.findAll({
+        attributes: [
+            "name",
+            "personal",
+            "required",
+            "always_needed",
+        ],
+        where: {
+            $or: PRIVATE_OR_PUBLIC
+        },
+        include: [
+            {
+                model: factorsTable,
+                attributes: [
+                    "id",
+                    "name"
+                ],
+                through: {
+                    attributes: [
+                        "days"
+                    ]
+                },
+                include: [
+                    {
+                        model: vacationsTable,
+                        attributes: ["name"],
+                        where: {
+                            id: vacationId
+                        }
+                    }
+                ]
+            },
+            AGES_INCLUDE
+        ]
+    });
+
+    return Promise.all([alwaysNeededItemsPromise, relatedItemsPromise]).then(function (allResults) {
+        var alwaysNeededItems = allResults[0];
+        var relatedItems = allResults[1];
+        return alwaysNeededItems.concat(relatedItems);
     });
 }
