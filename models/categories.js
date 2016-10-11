@@ -20,8 +20,8 @@ var agesSchema = {
 
 var ages = db.connection.define('categories', agesSchema, {
     freezeTableName: true,
-    timestamps: true,
-    paranoid: true,
+    timestamps: false,
+    paranoid: false,
     underscored: true
 });
 
