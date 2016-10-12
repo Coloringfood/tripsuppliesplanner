@@ -131,6 +131,7 @@ items.getItem = (id, userId) => {
 
 items.addItem = (item) => {
     debug("addItem");
+    item.category_id = item.category_id || item.category.id || 4;
     return itemsTable.create(item)
         .catch(function (error) {
             return Promise.reject({
@@ -166,6 +167,7 @@ items.addItem = (item) => {
 
 items.updateItem = (id, item, userId) => {
     debug("updateItem");
+    item.category_id = item.category_id || item.category.id || 4;
     return itemsTable.update(item, {
         where: {
             id: id,
