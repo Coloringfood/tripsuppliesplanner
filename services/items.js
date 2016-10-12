@@ -4,7 +4,8 @@ var Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
     agesTable = require('./../models/ages'),
     itemsTable = require('./../models/items'),
-    factorsTable = require('./../models/factors');
+    factorsTable = require('./../models/factors'),
+    categoriesTable = require('./../models/categories');
 
 var ITEM_NOT_FOUND = "item_not_found";
 var ITEM_INCLUDE = [
@@ -29,6 +30,10 @@ var ITEM_INCLUDE = [
         through: {
             attributes: []
         }
+    },
+    {
+        model: categoriesTable,
+        as: 'category'
     }
 ];
 var ITEM_ATTRIBUTES = [
@@ -267,7 +272,7 @@ function updateItemAges(item, ages) {
                 return item.removeAges(age);
             } else {
                 debug("updating age %o relationship with item", age.name);
-                var updateAgeInfo = ages[index].items_per_age; // jshint ignore:line
+                var updateAgeInfo = ages[index].items_per_age;
                 if (!updateAgeInfo.days) {
                     updateAgeInfo.days = null;
                 }
@@ -318,7 +323,7 @@ function addAgeToItem(item, age) {
             });
         }
         debug('adding age: %o to item: %o', age.name, item.name);
-        return item.addAges(ageResult, age.items_per_age) // jshint ignore:line
+        return item.addAges(ageResult, age.items_per_age)
             .catch((error) => {
                 return Promise.reject({
                     error: error,

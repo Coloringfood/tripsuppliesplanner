@@ -22,15 +22,15 @@ var itemsSchema = {
         type: db.BOOLEAN,
         default: true
     },
-    always_needed: { // jshint ignore:line
+    always_needed: {
         type: db.BOOLEAN,
         default: false
     },
-    category_id: { // jshint ignore:line
+    category_id: {
         type: db.INTEGER.UNSIGNED,
         defaultValue: 4
     },
-    created_by_id: { // jshint ignore:line
+    created_by_id: {
         type: db.INTEGER.UNSIGNED
     }
 };

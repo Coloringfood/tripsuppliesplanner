@@ -13,15 +13,15 @@ var vacationsSchema = {
         type: db.STRING(30),
         allowNull: false
     },
-    start_date: { // jshint ignore:line
+    start_date: {
         type: db.DATE,
         allowNull: false
     },
-    end_date: { // jshint ignore:line
+    end_date: {
         type: db.DATE,
         allowNull: false
     },
-    created_by_id: { // jshint ignore:line
+    created_by_id: {
         type: db.INTEGER.UNSIGNED,
         allowNull: false
     }

@@ -94,7 +94,7 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
 
 powerdialerApp.run(['$rootScope', '$location', 'injectCSS', 'authService',
     function ($rootScope, $location, injectCSS, authService) {
-        'use strict'; // jshint ignore:line
+        'use strict';
 
         $rootScope.$on("$routeChangeStart", function (evt, to, from) {
             to.resolve = to.resolve || {};

@@ -10,7 +10,7 @@ powerdialerApp.controller('EditItemModalController',
             var vm = this,
                 markedFactors = {};
 
-            vm.newItem = angular.copy(item); // jshint ignore:line
+            vm.newItem = angular.copy(item);
             vm.newItem.optional = !vm.newItem.required;
             console.log("vm.newItem: ", vm.newItem);
             if (!vm.newItem.required) {
@@ -56,10 +56,10 @@ powerdialerApp.controller('EditItemModalController',
                         vm.newItem.ages = [];
                     } else {
                         vm.newItem.ages = [
-                            {name: "Baby", items_per_age: {}}, // jshint ignore:line
-                            {name: "Toddler", items_per_age: {}}, // jshint ignore:line
-                            {name: "Kid", items_per_age: {}}, // jshint ignore:line
-                            {name: "Adult", items_per_age: {}} // jshint ignore:line
+                            {name: "Baby", items_per_age: {}},
+                            {name: "Toddler", items_per_age: {}},
+                            {name: "Kid", items_per_age: {}},
+                            {name: "Adult", items_per_age: {}}
                         ];
                         vm.show = {
                             Baby: false,
@@ -74,14 +74,14 @@ powerdialerApp.controller('EditItemModalController',
                     if (vm.show[selectedAge]) {
                         vm.newItem.ages.push({
                             name: selectedAge,
-                            items_per_age: {} // jshint ignore:line
+                            items_per_age: {}
                         });
                     }
                     else {
                         agesLength = vm.newItem.ages.length;
                         for (var i = 0; i < agesLength; i++) {
                             var age = vm.newItem.ages[i];
-                            if (age.name == selectedAge) { // jshint ignore:line
+                            if (age.name == selectedAge) {
                                 vm.newItem.ages.splice(i, 1);
                                 break;
                             }
@@ -91,13 +91,13 @@ powerdialerApp.controller('EditItemModalController',
                     agesLength = vm.newItem.ages.length;
                     var matching = agesLength === 4;
                     if (matching) {
-                        var matchingItem = vm.newItem.ages[0].items_per_age.items, // jshint ignore:line
-                            matchingDay = vm.newItem.ages[0].items_per_age.days; // jshint ignore:line
+                        var matchingItem = vm.newItem.ages[0].items_per_age.items,
+                            matchingDay = vm.newItem.ages[0].items_per_age.days;
                         for (var j = 0; j < agesLength && matching; j++) {
-                            var itemsPerAge = vm.newItem.ages[j].items_per_age; // jshint ignore:line
-                            matching = (matchingDay == itemsPerAge.days); // jshint ignore:line
+                            var itemsPerAge = vm.newItem.ages[j].items_per_age;
+                            matching = (matchingDay == itemsPerAge.days);
                             if (matching) {
-                                matching = (matchingItem == itemsPerAge.items); // jshint ignore:line
+                                matching = (matchingItem == itemsPerAge.items);
                             }
                         }
                         if (matching && (matchingItem || matchingDay)) {
@@ -120,8 +120,8 @@ powerdialerApp.controller('EditItemModalController',
                 var agesLength = vm.newItem.ages.length;
                 for (var i = 0; i < agesLength; i++) {
                     var age = vm.newItem.ages[i];
-                    age.items_per_age.items = vm.allItems; // jshint ignore:line
-                    age.items_per_age.days = vm.allDays; // jshint ignore:line
+                    age.items_per_age.items = vm.allItems;
+                    age.items_per_age.days = vm.allDays;
                 }
             };
 

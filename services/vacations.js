@@ -5,7 +5,8 @@ var Promise = require('bluebird'),
     usersTable = require('./../models/users'),
     vacationsTable = require('./../models/vacations'),
     itemsTable = require('./../models/items'),
-    agesTable = require('./../models/ages');
+    agesTable = require('./../models/ages'),
+    categoriesTable = require('./../models/categories');
 
 var VACATION_NOT_FOUND = "vacation_not_found";
 var VACATION_INCLUDE = [
@@ -57,8 +58,8 @@ vacations.addVacation = (vacation) => {
     return vacationsTable.create(vacation)
         .then(function (createVacationResult) {
             var returnValue = createVacationResult.dataValues;
-            var participantsPromise = createVacationResult.addParticipants(vacation.created_by_id); // jshint ignore:line
-            var factorsPromise = updateVacationFactors(createVacationResult, vacation.factors)
+            var participantsPromise = createVacationResult.addParticipants(vacation.created_by_id);
+            var factorsPromise = updateVacationFactors(createVacationResult, vacation.factors);
 
             return Promise.all([participantsPromise, factorsPromise]).then(function (result) {
                 returnValue.factors = result[1];
@@ -124,7 +125,7 @@ vacations.deleteVacation = (id) => {
             return Promise.reject({
                 errors: VACATION_NOT_FOUND,
                 location: "vacations.deleteVacation",
-                showMessage: "Item ID: " + id + " not found",
+                showMessage: "Vacation ID: " + id + " not found",
                 status: 404
             });
         }
@@ -193,7 +194,7 @@ function updateVacationFactors(vacation, factors) {
                 return vacation.removeFactors(factor);
             } else {
                 debug("updating factor %o relationship with item", factor.name);
-                var updateAgeInfo = factors[index].vacations_factors; // jshint ignore:line
+                var updateAgeInfo = factors[index].vacations_factors;
                 if (!updateAgeInfo.days) {
                     updateAgeInfo.days = null;
                 }
@@ -221,7 +222,7 @@ function addFactorToVacation(vacation, factorData) {
         if (!factorResult) {
             return Promise.reject({
                 message: "factor_not_found",
-                location: "items.addFactor findFactor empty",
+                location: "addFactorToVacation findFactor empty",
                 showMessage: "The requested Factor (" + factorData.id + ") was not found",
                 status: 400
             });
@@ -232,8 +233,8 @@ function addFactorToVacation(vacation, factorData) {
                 return Promise.reject({
                     error: error,
                     message: "sequelize_error",
-                    location: "addFactorToItem sequelize addFactor",
-                    showMessage: error.showMessage || "Error trying to add Factor to Item",
+                    location: "addFactorToVacation sequelize addFactor",
+                    showMessage: error.showMessage || "Error trying to add Factor to Vacation",
                     status: error.status || 500
                 });
             });
@@ -256,6 +257,11 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
                     "items"
                 ]
             }
+        },
+        CATEGORY_INCLUDE = {
+            model: categoriesTable,
+            as: 'category',
+            required: true
         },
         PRIVATE_OR_PUBLIC = [
             {
@@ -284,9 +290,9 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
             $or: PRIVATE_OR_PUBLIC
         },
         include: [
+            CATEGORY_INCLUDE,
             AGES_INCLUDE
         ]
-
     });
 
     // Get Items related to factors on this Vacation
@@ -322,6 +328,7 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
                     }
                 ]
             },
+            CATEGORY_INCLUDE,
             AGES_INCLUDE
         ]
     });

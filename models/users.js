@@ -13,11 +13,11 @@ var usersSchema = {
         type: db.STRING(30),
         allowNull: false
     },
-    age_id: { // jshint ignore:line
+    age_id: {
         type: db.INTEGER.UNSIGNED,
         allowNull: false
     },
-    family_id: { // jshint ignore:line
+    family_id: {
         type: db.INTEGER.UNSIGNED,
         allowNull: true
     },
