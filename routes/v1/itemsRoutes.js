@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var debug = require('debug')('tripsuppliesplanner:routes:v1:items');
 var itemsService = require('./../../services/items');
+var categoryService = require('./../../services/categories');
 
 router.use((req, res, next) => {
     req.validateItem = () => {
@@ -59,6 +60,18 @@ router.route('/')
                     next(e);
                 });
         }
+    });
+
+router.route('/categories')
+    .get((req, res, next) => {
+        debug("get item categories");
+        categoryService.getAllCategories()
+            .then((result) => {
+                res.json(result);
+            })
+            .catch((e) => {
+                next(e);
+            });
     });
 
 router.route('/:itemId')
