@@ -96,6 +96,16 @@ powerdialerApp.factory(
                     });
             };
 
+            DialerListApiService.getAllCategories = () => {
+                return restangularFactory.one('items').one('categories').get()
+                    .then(function (returnedData) {
+                        if (debugging) {
+                            console.log("getAllCategories: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
             DialerListApiService.getAllVacations = () => {
                 return restangularFactory.one('vacations').get()
                     .then(function (returnedData) {

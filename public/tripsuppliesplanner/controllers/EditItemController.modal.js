@@ -12,6 +12,7 @@ powerdialerApp.controller('EditItemModalController',
 
             vm.newItem = angular.copy(item);
             vm.newItem.optional = !vm.newItem.required;
+            vm.newItem.category = vm.newItem.category || 4;
             console.log("vm.newItem: ", vm.newItem);
             if (!vm.newItem.required) {
                 vm.newItem.required = false;
@@ -129,6 +130,14 @@ powerdialerApp.controller('EditItemModalController',
                 age.view = newView;
             };
 
+            DialerListApiService.getAllCategories()
+                .then((categories) => {
+                    vm.categories = categories;
+                });
+
+            vm.setCategoryType = (choice) => {
+                vm.newItem.category = choice;
+            };
             function updateFactors() {
                 return DialerListApiService.getAllFactors()
                     .then(function (factors) {
