@@ -122,6 +122,16 @@ powerdialerApp.factory(
                     });
             };
 
+            DialerListApiService.getVacation = (vacationId) => {
+                return restangularFactory.one('vacations', vacationId).get()
+                    .then(function (returnedData) {
+                        if (debugging) {
+                            console.log("getAllPackingItems: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
             DialerListApiService.saveVacation = (vacationData, vacationId) => {
                 var convertedVacation = convertVacationForApi(vacationData);
 
@@ -151,6 +161,17 @@ powerdialerApp.factory(
                     .then(function (returnedData) {
                         if (debugging) {
                             console.log("deleteVacation: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
+            DialerListApiService.getAllPackingItems = (vacationId) => {
+                var userId = authService.authenticated.tokenData.userId;
+                return restangularFactory.one('vacations', vacationId).one('pack', userId).get()
+                    .then(function (returnedData) {
+                        if (debugging) {
+                            console.log("getAllPackingItems: ", returnedData);
                         }
                         return returnedData;
                     });
@@ -192,7 +213,7 @@ powerdialerApp.factory(
 
             DialerListApiService.getThemes = () => {
                 return restangularFactory.one('authentication').one('themes').get()
-                    .then(function (returnedData){
+                    .then(function (returnedData) {
                         if (debugging) {
                             console.log("themes: ", returnedData);
                         }
