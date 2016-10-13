@@ -28,13 +28,18 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
 
         // routes
             .when('/itemspage', {
-                templateUrl: '/static/tripsuppliesplanner/views/items_page.html',
+                templateUrl: '/static/tripsuppliesplanner/views/items.html',
                 controller: 'ItemsPageController as vm',
                 authorize: true
             })
             .when('/vacationspage', {
-                templateUrl: '/static/tripsuppliesplanner/views/vacations_page.html',
+                templateUrl: '/static/tripsuppliesplanner/views/vacations.html',
                 controller: 'VacationsPageController as vm',
+                authorize: true
+            })
+            .when('/packing/:vacationId', {
+                templateUrl: '/static/tripsuppliesplanner/views/packing.html',
+                controller: 'PackingController as vm',
                 authorize: true
             })
             .when('/login', {

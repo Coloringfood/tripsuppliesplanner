@@ -43,7 +43,7 @@
                 </button>
                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="category-button">
                     <li ng-repeat="choice in vm.categories" ng-click="vm.setCategoryType(choice)"
-                        class="hand-hover">
+                        class="pointer">
                         {{choice.name}} (ie: {{choice.description}})
                     </li>
                 </ul>
@@ -178,7 +178,7 @@
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
                                 <li ng-repeat="choice in vm.types" ng-click="vm.setFactorType(choice)"
-                                    class="hand-hover">
+                                    class="pointer">
                                     {{choice}}
                                 </li>
                             </ul>
