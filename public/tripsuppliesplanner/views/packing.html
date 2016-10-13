@@ -7,13 +7,27 @@
         <h4>Required:</h4>
         <div class="row">
             <div class="col-md-3 col-sm-4" ng-repeat="item in items.required">
-                {{item.name}}
+                <div class="checkbox">
+                    <label class="capitalize">
+                        <input type="checkbox" ng-model="factor.selected"
+                               ng-click="selectFactor(factor)">
+                        <span>({{item.packingAmount}}) </span>
+                        {{item.name}}
+                    </label>
+                </div>
             </div>
         </div>
         <h4>Optional:</h4>
         <div class="row">
             <div class="col-md-3 col-sm-4" ng-repeat="item in items.optional">
-                {{item.name}}
+                <div class="checkbox">
+                    <label class="capitalize">
+                        <input type="checkbox" ng-model="factor.selected"
+                               ng-click="selectFactor(factor)">
+                        <span>({{item.packingAmount}}) </span>
+                        {{item.name}}
+                    </label>
+                </div>
             </div>
         </div>
     </div>

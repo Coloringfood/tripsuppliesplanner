@@ -125,10 +125,11 @@ powerdialerApp.factory(
             DialerListApiService.getVacation = (vacationId) => {
                 return restangularFactory.one('vacations', vacationId).get()
                     .then(function (returnedData) {
+                        var vacation = convertVacationForUi(returnedData);
                         if (debugging) {
-                            console.log("getAllPackingItems: ", returnedData);
+                            console.log("getVacation: ", vacation);
                         }
-                        return returnedData;
+                        return vacation;
                     });
             };
 

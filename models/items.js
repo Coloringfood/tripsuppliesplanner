@@ -47,7 +47,7 @@ items.belongsTo(categories, {foreignKey: 'category_id', as: "category"});
 
 var itemsPerAgeSchema = {
         days: {
-            type: db.INTEGER.UNSIGNED
+            type: db.DOUBLE
         },
         items: {
             type: db.STRING
