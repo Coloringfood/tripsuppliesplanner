@@ -1,12 +1,15 @@
-@import 'base';
+@import 'packing';
 
-.modal-footer {
-  text-align: center;
+body {
+  padding-top: 70px;
 }
 
-.emphasis-2-text {
-  color: $lmp-color-2;
-  font-weight: bold;
+.dropdown-menu{
+  padding-left: 8px;
+}
+
+.capitalize {
+  text-transform: capitalize;
 }
 
 .pointer {
