@@ -8,7 +8,17 @@ module.exports = {
             {
                 type: Sequelize.DOUBLE.UNSIGNED
             }
-        );
+        ).then(()=> {
+            return queryInterface.changeColumn(
+                'users',
+                'username',
+                {
+                    type: Sequelize.STRING(30),
+                    allowNull: true,
+                    unique: true
+                }
+            );
+        });
     },
 
     down: function (queryInterface, Sequelize) {
@@ -18,6 +28,15 @@ module.exports = {
             {
                 type: Sequelize.INTEGER.UNSIGNED
             }
-        );
+        ).then(() => {
+            return queryInterface.chanegColumn(
+                'users',
+                'UniqueUsername',
+                {
+                    type: Sequelize.STRING(30),
+                    allowNull: true
+                }
+                );
+        });
     }
 };

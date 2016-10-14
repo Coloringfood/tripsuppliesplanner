@@ -27,7 +27,8 @@ var usersSchema = {
     },
     username: {
         type: db.STRING(30),
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
     password: {
         type: db.STRING(),
