@@ -12,20 +12,41 @@
     </div>
     <div class="row in-between-bordered">
         <div class="col-sm-3">Item Settings:</div>
-        <div class="col-sm-4">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="vm.newItem.personal">
-                    Private Item (Only you will see this packing item)
-                </label>
+        <div class="col-sm-9">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.newItem.personal">
+                            Private Item (Only you will see this packing item)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="vm.newItem.optional">
+                            This item is optional to pack
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-4">
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="vm.newItem.optional">
-                    This item is optional to pack
-                </label>
+    </div>
+    <div class="row in-between-bordered">
+        <div class="col-sm-3">Item Category:</div>
+        <div class="col-sm-9">
+            <div class="btn-group input-group-btn" uib-dropdown is-open="status.categoryisopen">
+                <button class="btn btn-primary" type="button" id="category-button" uib-dropdown-toggle>
+                    {{vm.newItem.category.name}}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="category-button">
+                    <li ng-repeat="choice in vm.categories" ng-click="vm.setCategoryType(choice)"
+                        class="pointer">
+                        {{choice.name}} (ie: {{choice.description}})
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -157,7 +178,7 @@
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="single-button">
                                 <li ng-repeat="choice in vm.types" ng-click="vm.setFactorType(choice)"
-                                    class="hand-hover">
+                                    class="pointer">
                                     {{choice}}
                                 </li>
                             </ul>

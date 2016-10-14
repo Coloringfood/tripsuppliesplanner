@@ -9,7 +9,7 @@ powerdialerApp.controller('EditVacationModalController',
             'use strict';
             var vm = this;
 
-            vm.newVacation = angular.copy(vacation); // jshint ignore:line
+            vm.newVacation = angular.copy(vacation);
             if (!vm.newVacation.required) {
                 vm.newVacation.required = false;
             }

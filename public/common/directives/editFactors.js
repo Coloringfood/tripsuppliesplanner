@@ -26,7 +26,7 @@ powerdialerApp.directive('editFactors',
                             newFactors = [];
                         for (var i = 0; i < selectedLength; i++) {
                             var factor = factors[i];
-                            factor.vacations_factors = {days:null}; // jshint ignore:line
+                            factor.vacations_factors = {days:null};
                             var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                             if (index > -1) {
                                 if (scope.settings.object && scope.settings.showDays) {

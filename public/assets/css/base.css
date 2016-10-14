@@ -1,30 +1,11 @@
-.gridStyle .ngCell .actionsCell > a {
-  width: auto; }
-
-.full-screen-modal .modal-dialog {
-  margin: 0;
-  width: 100%; }
-  .full-screen-modal .modal-dialog .cell-height {
-    height: 25px; }
-
 body {
   padding-top: 70px; }
-
-.hand-hover {
-  cursor: pointer; }
 
 .dropdown-menu {
   padding-left: 8px; }
 
 .capitalize {
   text-transform: capitalize; }
-
-.modal-footer {
-  text-align: center; }
-
-.emphasis-2-text {
-  color: #006699;
-  font-weight: bold; }
 
 .pointer {
   cursor: pointer; }

@@ -23,6 +23,7 @@
                             <th>Ages</th>
                             <th>Factors</th>
                             <th>Details</th>
+                            <th>Category</th>
                         </tr>
                         <tr ng-repeat="item in vm.itemsList track by item.id">
                             <td>
@@ -50,6 +51,9 @@
                                     <li ng-if="item.always_needed">Needed on Every Vacation</li>
                                     <li ng-if="item.personal">Only Applies to You</li>
                                 </ul>
+                            </td>
+                            <td>
+                                {{item.category.name}}
                             </td>
                         </tr>
                     </table>

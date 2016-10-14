@@ -11,10 +11,10 @@ var familiesSchema = {
         type: db.STRING(30),
         allowNull: false
     },
-    mother_id: { // jshint ignore:line
+    mother_id: {
         type: db.INTEGER.UNSIGNED
     },
-    father_id: { // jshint ignore:line
+    father_id: {
         type: db.INTEGER.UNSIGNED
     }
 };

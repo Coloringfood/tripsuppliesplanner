@@ -16,7 +16,7 @@ var factorsSchema = {
         type: db.ENUM(["Vacation Type", "Activities", "Other"]),
         allowNull: false
     },
-    created_by: { // jshint ignore:line
+    created_by: {
         type: db.STRING,
         allowNull: false
     }

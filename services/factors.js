@@ -4,6 +4,7 @@ var Promise = require('bluebird'),
     factorsTable = require('./../models/factors');
 
 factors.getAllFactors = () => {
+    debug("getAllFactors");
     return factorsTable.findAll({
         attributes: [
             "id",
