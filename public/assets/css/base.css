@@ -1,3 +1,9 @@
+@media print {
+  .packing-list .checkbox input {
+    display: none; }
+  .packing-list .checkbox span:before {
+    content: "___  "; } }
+
 body {
   padding-top: 70px; }
 

@@ -4,6 +4,14 @@
 
 @media print {
   .packing-list {
-
+    .checkbox input {
+      display: none
+    }
+    .checkbox span:before {
+      content: "___  "
+    }
+    .glyphicon {
+      display: none;
+    }
   }
 }
