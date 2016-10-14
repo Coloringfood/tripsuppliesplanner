@@ -42,9 +42,12 @@ var VACATION_ATTRIBUTES = [
     "created_by_id"
 ];
 
-vacations.getAllVacations = () => {
+vacations.getAllVacations = (userId) => {
     debug('getAllVacations');
     return vacationsTable.findAll({
+        where: {
+            created_by_id: userId
+        },
         attributes: VACATION_ATTRIBUTES,
         include: VACATION_INCLUDE
     })

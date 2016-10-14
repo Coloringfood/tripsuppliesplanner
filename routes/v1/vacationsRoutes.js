@@ -37,7 +37,9 @@ router.use((req, res, next) => {
 router.route('/')
     .get((req, res, next) => {
         debug("Get All Vacations");
-        return vacationService.getAllVacations()
+
+        var userId = req.user.userId;
+        return vacationService.getAllVacations(userId)
             .then((result) => {
                 debug("Get Result: %o", result);
                 res.json(result);
