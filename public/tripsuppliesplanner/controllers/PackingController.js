@@ -10,6 +10,7 @@ powerdialerApp.controller("PackingController",
             var vm = this;
 
             vm.sortedItems = {};
+            vm.dateFormat = "longDate";
             $scope.status = {};
             // Get all packing items
             var packingListPromise = DialerListApiService.getAllPackingItems($routeParams.vacationId);

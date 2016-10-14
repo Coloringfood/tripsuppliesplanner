@@ -1,4 +1,4 @@
-
+<h2>Packing list for {{vm.vacation.name}} ({{vm.vacation.start_date | date: vm.dateFormat}} to {{vm.vacation.end_date | date: vm.dateFormat}})</h2>
 <uib-accordion close-others="false" class="packing-list">
     <div ng-repeat="(category, items) in vm.sortedItems" uib-accordion-group class="panel-default collapse in" is-open="status[category]">
         <uib-accordion-heading>
