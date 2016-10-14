@@ -1,3 +1,65 @@
+<div class="jumbotron">
+    <h1>Welcome to the Vacations Page</h1>
+    <p>
+        This page lists all the planned vacations you have (NOTE: currently it shows everyone's vacations until I get
+        the vacation invite system working). It also allows you to create a new vacation to start packing for.
+    </p>
+    <uib-accordion close-others="false" class="packing-list">
+        <div uib-accordion-group class="panel-default" is-open="status.instructions">
+            <uib-accordion-heading>
+                Instructions for making a Vacation
+                <i class="pull-right glyphicon"
+                   ng-class="{'glyphicon-chevron-down': status.instructions, 'glyphicon-chevron-right': !status.instructions}"></i>
+            </uib-accordion-heading>
+            <ul>
+                <li>Click the Create Vacation Button below</li>
+                <li>Fill in the name of the vacation</li>
+                <li>Select the starting and ending dates for your vacation</li>
+                <li>
+                    Select what type of vacation this is, as well as any activities or factors that will apply to it
+                    <ul>
+                        <li>Vacation types:
+                            <ul>
+                                <li>
+                                    If you are planning on a vacation to span a few activities, select the different
+                                    types you will hav as well as how many days of the vacation will be each event.
+                                </li>
+                                <li>
+                                    ie: If you are planning on taking an RV to the redwoods, then camping for 3 days you
+                                    may select RV and specify 2 days, and then select camping and specify 3 days
+                                </li>
+                                <li>
+                                    Note: the days is optional, if you don't specify the days we will assume it will
+                                    span the whole vacation
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Activities:
+                            <ul>
+                                <li>
+                                    Specify any activities you are planning on doing on this vacation, also specify how
+                                    many times/days you will be doing that activity
+                                </li>
+                                <li>
+                                    Note: the days is optional, if you don't specify the days we will assume it will
+                                    span the whole vacation
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Other:
+                            <ul>
+                                <li>
+                                    Specify any of the other factors that will apply to the vacation. There are no days
+                                    applied to these, so they will just span the whole vacation
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </uib-accordion>
+</div>
 <div class="container-fluid">
     <div class="title"><h2>{{vm.name}}</h2></div>
     <div class="tile">
@@ -8,8 +70,8 @@
                         <div class="row">
                             <div class="col-sm-6"><h4>All Vacations</h4></div>
                             <div class="col-sm-6 text-right">
-                                <button type="button" class="btn btn-default" ng-click="vm.createVacation()">Create
-                                    Vacation
+                                <button type="button" class="btn btn-default" ng-click="vm.createVacation()">
+                                    Create Vacation
                                 </button>
                             </div>
                         </div>
@@ -38,7 +100,8 @@
                                 {{vacation.end_date | date : "EEEE - MMM dd, y"}}
                             </td>
                             <td>
-                                <view-factors factors="vm.factors" selected="vacation.factors" settings="vm.factorSettings"></view-factors>
+                                <view-factors factors="vm.factors" selected="vacation.factors"
+                                              settings="vm.factorSettings"></view-factors>
                             </td>
                         </tr>
                     </table>

@@ -36,12 +36,12 @@
             <ul class="nav navbar-nav">
                 <li ng-class="{ active: isActive('/')}"><a href="#/" ng-click="toggleMenu()">Home</a></li>
                 <li ng-class="{ active: isActive('/vacationspage')}" ng-click="toggleMenu()"><a href="#/vacationspage">Vacations</a></li>
-                <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()"><a href="#/itemspage">Items</a></li>
+                <li ng-class="{ active: isActive('/itemspage')}" ng-click="toggleMenu()" ng-show="authenticated"><a href="#/itemspage">Add/Adjust Packing Items</a></li>
             </ul>
             <ul class="ng-cloak nav navbar-nav navbar-right">
-                <li ng-class="{ active: isActive('/login')}" ng-show="!authenticated"><a href="#/login">Login</a></li>
-                <li ng-show="authenticated"><a href="#/settings">Welcome {{name}}</a></li>
-                <li ng-class="{ active: isActive('/logout')}" ng-show="authenticated"><a href="#/logout">Logout</a></li>
+                <li ng-class="{ active: isActive('/login')}" ng-show="!authenticated" ng-click="toggleMenu()"><a href="#/login">Login</a></li>
+                <li ng-class="{ active: isActive('/settings')}"ng-show="authenticated" ng-click="toggleMenu()"><a href="#/settings">Welcome {{name}}</a></li>
+                <li ng-class="{ active: isActive('/logout')}" ng-show="authenticated" ng-click="toggleMenu()"><a href="#/logout">Logout</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
