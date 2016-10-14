@@ -42,7 +42,16 @@ powerdialerApp.controller("RegisterController",
                         $location.path(whereTo && whereTo || "/");
                     })
                     .catch((err) => {
-                        NotificationProvider.error(err.data.message);
+                        var message = err.data.messsage;
+                        try {
+                            var firstError = err.data.error.errors[0].message;
+                            if(firstError == "username must be unique"){
+                                message = "Username taken, please try a different username";
+                            }
+                        } catch (e) {
+                        }
+
+                        NotificationProvider.error(message);
                         vm.dataLoading = false;
                     });
             };
