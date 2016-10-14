@@ -7,14 +7,8 @@ var express = require('express'),
 router.get('/', (req, res) => {
     res.sendFile('index.html', {root: './public'});
 });
-router.get('/itemspage', (req, res) => {
-    res.sendFile('index.html', {root: './public'});
-});
-router.get('/vacationspage', (req, res) => {
-    res.sendFile('index.html', {root: './public'});
-});
-router.get('/login', (req, res) => {
-    res.sendFile('index.html', {root: './public'});
+router.get('/health', (req, res) => {
+    res.send("Alive");
 });
 router.get('*', (req, res) => {
     debug("req.originalUrl: ", req.originalUrl);
