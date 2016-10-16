@@ -72,6 +72,9 @@ items.getAllItems = (userId) => {
                     }
                 ]
             },
+            order: [
+                ["name", "ASC"]
+            ],
             attributes: ITEM_ATTRIBUTES,
             include: ITEM_INCLUDE
         }
