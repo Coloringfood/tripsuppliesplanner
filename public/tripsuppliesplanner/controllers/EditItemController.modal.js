@@ -191,8 +191,9 @@ powerdialerApp.controller('EditItemModalController',
                         updateFactors().then(function () {
                             NotificationProvider.success("Factor created");
                         });
-                    }).catch(() => {
-                        NotificationProvider.error("Error trying to save factor");
+                    }).catch((error) => {
+                        console.log("error: ", error);
+                        NotificationProvider.error(error.data.message || "Error trying to save factor");
                     });
                 } else {
                     NotificationProvider.error("Please fill out all the factor information");
@@ -224,9 +225,10 @@ powerdialerApp.controller('EditItemModalController',
                                 success: true
                             });
                         })
-                        .catch(function () {
+                        .catch(function (error) {
+                            console.log("error: ", error);
                             NotificationProvider.error({
-                                message: "Error Saving Item",
+                                message: error.data.message || "Error Saving Item",
                                 success: false
                             });
                         });
@@ -239,9 +241,10 @@ powerdialerApp.controller('EditItemModalController',
                                 success: true
                             });
                         })
-                        .catch(function () {
+                        .catch(function (error) {
+                            console.log("error: ", error);
                             NotificationProvider.error({
-                                message: "Error Creating Item",
+                                message: error.data.message || "Error Creating Item",
                                 success: false
                             });
                         });

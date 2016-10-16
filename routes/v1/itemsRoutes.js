@@ -89,7 +89,6 @@ router.route('/:itemId')
         debug("Put on id:%o, object: %o", req.params.itemId, req.body);
         if (req.validateItem()) {
             var body = req.body;
-            body.created_by_id = req.user.userId;
             itemsService.updateItem(req.params.itemId, body, req.user.userId)
                 .then((result) => {
                     res.json(result);

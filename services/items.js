@@ -170,6 +170,16 @@ items.addItem = (item) => {
 
 items.updateItem = (id, item, userId) => {
     debug("updateItem");
+    if (item.personal == true) {
+        console.log("item.created_by_id: ", item.created_by_id);
+        console.log("userId: ", userId);
+        if (item.created_by_id != userId) {
+            return Promise.reject({
+                showMessage: "You can not mark this item private, it was not created by you",
+                status: 400
+            })
+        }
+    }
     item.category_id = item.category_id || item.category.id || 4;
     return itemsTable.update(item, {
         where: {
