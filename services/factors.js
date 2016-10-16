@@ -10,6 +10,9 @@ factors.getAllFactors = () => {
             "id",
             "name",
             "type"
+        ],
+        order: [
+            ["name", "ASC"]
         ]
     })
         .then(function (allItemsResult) {

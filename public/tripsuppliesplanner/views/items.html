@@ -1,9 +1,9 @@
 <div class="jumbotron">
     <h1>Welcome to the Items Page</h1>
     <p>
-        This page is designed to help you create or modify what will be show for your vacations. You can specify which
-        items apply to which factors and you can specify if kids need to pack more than adults. You can also create
-        personal items that will be only seen by you (such as medication, or favorite teddy bear).
+        This page is designed to help you create or modify what will be shown for your vacation. You can specify which
+        items apply to which scenarios/factors and you can specify if kids need to pack differing quantities than the adults. You can also create
+        personal items that will be seen by only you (such as medication, or favorite teddy bear -- we won't tell).
     </p>
     <uib-accordion close-others="false" class="packing-list">
         <div uib-accordion-group class="panel-default" is-open="status.instructions">
@@ -15,8 +15,8 @@
             <ul>
                 <li>Click the Create Item Button below</li>
                 <li>Fill in the name of the item</li>
-                <li>Select if it is private (only seen by you) or an optional item to pack</li>
-                <li>Select which category the item will show up in</li>
+                <li>Select if it is private (only seen by you) or an optional item to pack (default: it is required)</li>
+                <li>Select which category the item will show up in (Clothing, Health, Electronics, etc...)</li>
                 <li>Select which age groups this item applies to</li>
                 <li>
                     Select how many of the item needs to be packed<br>
@@ -25,18 +25,25 @@
                             based on the days)
                         </li>
                         <li>Days (optional): Specifies how many days the specified item amount is good for</li>
+                        <li>
+                            ie:
+                            <ul>
+                                <li>Water bottles -- items: 4 water bottles, days: 1 day (4 water bottles per day)</li>
+                                <li>Pajamas -- items: 1 outfit, days: 7 days (1 outfit per 7 days)</li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li>
                     Select if the item applies to every vacation, or only specific types of vacations
                     <ul>
                         <li>If the item only applies to specific scenarios, select all that apply.</li>
-                        <li>ie: Sunscreen applies to sunny vacations, when you are hiking, at the beach. So you will
-                            select "Hiking" and "Beach" from the Activities tab, and "Sunny" from the other tab.
+                        <li>ie: Sunscreen applies to sunny vacations, when you are hiking, and at the beach. So you will
+                            select "Hiking" and "Beach" from the Activities tab, and "Sunny" from the Other tab.
                         </li>
                     </ul>
                 </li>
-                <li>If there is another scenario in which the item applies, click the "Create Factor" button
+                <li>If there is another scenario in which the item applies that has not been listed, click the "Create Factor" button
                     <ul>
                         <li>Specify the name for the factor</li>
                         <li>Type: Select what type of scenario this factor is
@@ -63,7 +70,7 @@
                         <div class="row">
                             <div class="col-sm-6"><h4>All Items</h4></div>
                             <div class="col-sm-6 text-right">
-                                <button type="button" class="btn btn-default" ng-click="vm.createItem()">
+                                <button type="button" class="btn btn-default btn-info" ng-click="vm.createItem()">
                                     Create Item
                                 </button>
                             </div>
