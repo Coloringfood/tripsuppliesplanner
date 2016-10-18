@@ -2,7 +2,9 @@
   .packing-list .checkbox input {
     display: none; }
   .packing-list .checkbox span:before {
-    content: "___  "; } }
+    content: "___  "; }
+  .packing-list .glyphicon {
+    display: none; } }
 
 body {
   padding-top: 70px; }
