@@ -10,25 +10,34 @@
         NOTE: This site is only in its alpha stages. So if you find any problems or have any questions please contact
         me.
     </p>
-    <p>
-        Working Features:
-    </p>
-    <ul>
-        <li>Creating of a Vacation</li>
-        <li>Generating a packing list for specified vacation</li>
-        <li>Create new items to use for vacations</li>
-        <li>Create Personal Items (only for you) to apply to vacations</li>
-    </ul>
-    <p>
-        Upcoming Features:
-    </p>
-    <ul>
-        <li>Ability to create family groups</li>
-        <li>Add children (people who can't log in) to family</li>
-        <li>Invite other people to your vacation</li>
-        <li>Create a vacation without signing in</li>
-        <li>Option to have an item only required once per family, not every person</li>
-    </ul>
+    <uib-accordion close-others="false" class="packing-list">
+        <div uib-accordion-group class="panel-default" is-open="status.instructions">
+            <uib-accordion-heading>
+                Feature Notes
+                <i class="pull-right glyphicon"
+                   ng-class="{'glyphicon-chevron-down': status.instructions, 'glyphicon-chevron-right': !status.instructions}"></i>
+            </uib-accordion-heading>
+            <p>
+                Working Features:
+            </p>
+            <ul>
+                <li>Creating of a Vacation</li>
+                <li>Generating a packing list for specified vacation</li>
+                <li>Create new items to use for vacations</li>
+                <li>Create Personal Items (only for you) to apply to vacations</li>
+            </ul>
+            <p>
+                Upcoming Features:
+            </p>
+            <ul>
+                <li>Ability to create family groups</li>
+                <li>Add children (people who can't log in) to family</li>
+                <li>Invite other people to your vacation</li>
+                <li>Create a vacation without signing in</li>
+                <li>Option to have an item only required once per family, not every person</li>
+            </ul>
+        </div>
+    </uib-accordion>
 </div>
 <div class="row row-offcanvas row-offcanvas-right" ng-if="vm.authenticated">
     <div class="col-xs-12">
