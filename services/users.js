@@ -74,7 +74,7 @@ users.createUser = (newUser) => {
                 })
                 .then(function (createResult) {
                     debug("createResult.dataValues: %o", createResult.dataValues);
-                    return Promise.resolve(generateToken(createResult.dataValues));
+                    return Promise.resolve(users.authenticate(newUser.username, newUser.password));
                 });
         });
 };
