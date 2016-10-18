@@ -30,14 +30,25 @@
         <li>Option to have an item only required once per family, not every person</li>
     </ul>
 </div>
-<div class="row row-offcanvas row-offcanvas-right">
+<div class="row row-offcanvas row-offcanvas-right" ng-if="vm.authenticated">
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h2 class="panel-title">Your Vacations</h2>
             </div>
             <div class="panel-body">
-                <a href="#/vacationspage">Vacations Page</a>
+                <table>
+                    <tr>
+                        <th class="col-md-2">Vacation</th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                    <tr ng-repeat="vacation in vm.vacationsList track by vacation.id">
+                        <td>{{vacation.name}}</td>
+                        <td>
+                            <a class="btn" href="#/packing/{{vacation.id}}">pack</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
