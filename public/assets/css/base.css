@@ -54,3 +54,10 @@ ul.no-bullet {
 
 .ng-cloak {
   display: none; }
+
+.tooltip.large-tooltip {
+  opacity: 1; }
+  .tooltip.large-tooltip .tooltip-inner {
+    max-width: 400px; }
+    .tooltip.large-tooltip .tooltip-inner .panel {
+      margin-bottom: auto; }

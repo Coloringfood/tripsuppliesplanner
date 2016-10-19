@@ -5,10 +5,75 @@ powerdialerApp.controller('EditItemModalController',
         'item',
         'DialerListApiService',
         'Notification',
-        function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider) {
+        '$sce',
+        function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider, $sce) {
             'use strict';
             var vm = this,
                 markedFactors = {};
+
+            vm.privateItemTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Private</label>
+                    Something that only you will be told to pack<br> 
+                    It is not shared with any other user.<br>
+                    ie: Personal Medication, favorite teddy bear, etc...
+                </div>
+            `);
+            vm.optionalItemTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Optional</label>
+                    An item that is not required, but people may want to pack.<br>
+                    Note: By default all items are required<br>
+                    ie: Water Shoes, Hat, Laptop  
+                </div>
+            `);
+            vm.itemCategoryTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Categories</label>
+                    Shows which section of the packing list this item will show up .<br>
+                    Note: By default all items are Misc
+                </div>
+            `);
+            vm.ageQuantityTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Age/Quantity</label>
+                    - Specifies which ages should pack this item.<br>
+                    - It also allows you to specify how many items will be needed on the vacation<br>
+                    - If you leave it blank we assume you only need 1 for the whole vacation
+                </div>
+            `);
+            vm.itemsAmountTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Items Amount</label>
+                    It also allows you to specify how many items will be needed on the vacation<br>
+                    Any numbers will be multiplied according to the length of the vacation(days)<br>
+                    ie: 4 water bottles, 1 outfit, 5, 2</li>
+                    </ul>
+                </div>
+            `);
+            vm.itemsDaysTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Items Days</label>
+                    For the specified amount of items, how many days is it good for.<br>
+                    Based on this number we calculate how many are needed to pack total for the vacation<br>
+                    ie: 4 Water Bottles are good for 1 day, 1 pair of Pajamas for 7 days.
+                </div>
+            `);
+            vm.factorsTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Factors or Scenario</label>
+                    Specify what type of vacation you will be having.<br>
+                    Specify what type of activities you will do on it.<br>
+                    Specify any scenarios that apply to your vacation.
+                </div>
+            `);
+            vm.neededEveryVacationTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Need on Every Vacation</label>
+                    Mark if this item is something that should always be packed.<br>
+                    ie: Shirts, Cell Phone, First-Aid kit
+                </div>
+            `);
 
             vm.newItem = angular.copy(item);
             vm.newItem.optional = !vm.newItem.required;

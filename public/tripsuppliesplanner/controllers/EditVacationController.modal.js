@@ -5,9 +5,19 @@ powerdialerApp.controller('EditVacationModalController',
         'vacation',
         'DialerListApiService',
         'Notification',
-        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider) {
+        '$sce',
+        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, $sce) {
             'use strict';
             var vm = this;
+
+            vm.factorsTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Factors or Scenario</label>
+                    Specify what type of vacation you will be having.<br>
+                    Specify what type of activities you will do on it.<br>
+                    Specify any scenarios that apply to your vacation.
+                </div>
+            `);
 
             vm.newVacation = angular.copy(vacation);
             if (!vm.newVacation.required) {

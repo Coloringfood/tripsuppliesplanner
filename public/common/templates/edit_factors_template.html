@@ -2,17 +2,23 @@
     <ul class="nav nav-tabs">
         <li ng-class="{active: view==types[0]}" class="pointer">
             <a ng-class="{active: view==types[0]}" ng-click="switchView(types[0], age)">
-                Vacation Type
+                Vacation Type &nbsp;
+                <i class="pull-right glyphicon glyphicon-question-sign" tooltip-placement="top-right"
+                   uib-tooltip-html="vacationTypeTooltip" tooltip-class="large-tooltip"></i>
             </a>
         </li>
         <li ng-class="{active: view==types[1]}" class="pointer">
             <a ng-class="{active: view==types[1]}" ng-click="switchView(types[1], age)">
-                Activities
+                Activities &nbsp;
+                <i class="pull-right glyphicon glyphicon-question-sign" tooltip-placement="top-right"
+                   uib-tooltip-html="activityTooltip" tooltip-class="large-tooltip"></i>
             </a>
         </li>
         <li ng-class="{active: view==types[2]}" class="pointer">
             <a ng-class="{active: view==types[2]}" ng-click="switchView(types[2], age)">
-                Other
+                Other &nbsp;
+                <i class="pull-right glyphicon glyphicon-question-sign" tooltip-placement="top-right"
+                   uib-tooltip-html="otherTooltip" tooltip-class="large-tooltip"></i>
             </a>
         </li>
     </ul>
@@ -29,7 +35,8 @@
                             {{factor.name}}
                         </label>
                         <input type="number" ng-if="settings.showDays" ng-model="factor.vacations_factors.days"
-                        class="float-right" placeholder="Days of this vacation type">
+                               class="float-right" placeholder="Days of this vacation type"
+                               tooltip-placement="top-right" uib-tooltip-html="factorVacTypeTooltip">
                     </div>
                 </div>
             </div>
@@ -45,7 +52,8 @@
                             {{factor.name}}
                         </label>
                         <input type="number" ng-if="settings.showDays" ng-model="factor.vacations_factors.days"
-                               class="float-right" placeholder="Days of this activity">
+                               class="float-right" placeholder="Days of this activity" tooltip-placement="top-right"
+                               uib-tooltip-html="factorActivityTooltip">
                     </div>
                 </div>
             </div>
