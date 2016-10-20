@@ -34,13 +34,11 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
             })
             .when('/vacationspage', {
                 templateUrl: '/static/tripsuppliesplanner/views/vacations.html',
-                controller: 'VacationsPageController as vm',
-                authorize: true
+                controller: 'VacationsPageController as vm'
             })
             .when('/packing/:vacationId', {
                 templateUrl: '/static/tripsuppliesplanner/views/packing.html',
-                controller: 'PackingController as vm',
-                authorize: true
+                controller: 'PackingController as vm'
             })
             .when('/login', {
                 templateUrl: '/static/tripsuppliesplanner/views/login.html',
@@ -150,6 +148,7 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $w
             });
     };
     this.signedIn = (token, reload) => {
+        localStorage.clear();
         var decodedToken = jwtHelper.decodeToken(token);
         this.authenticated = {
             tokenData: decodedToken,
@@ -171,7 +170,7 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $w
     };
     this.clearCredentials = () => {
         self.authenticated = false;
-        delete localStorage.token;
+        localStorage.clear();
 
         $timeout(()=> {
             $window.location.reload();

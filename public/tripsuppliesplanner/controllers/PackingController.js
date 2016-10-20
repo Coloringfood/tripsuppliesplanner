@@ -5,24 +5,33 @@ powerdialerApp.controller("PackingController",
         'DialerListApiService',
         '$routeParams',
         '$q',
-        function ($scope, NotificationProvider, DialerListApiService, $routeParams, $q) {
+        'authService',
+        function ($scope, NotificationProvider, DialerListApiService, $routeParams, $q, authService) {
             'use strict';
             var vm = this;
+            vm.authenticated = authService.authenticated ? true : false;
 
             vm.sortedItems = {};
             vm.dateFormat = "longDate";
+            vm.ageId = 4;
             $scope.status = {};
             // Get all packing items
-            var packingListPromise = DialerListApiService.getAllPackingItems($routeParams.vacationId);
-            var vacationPromise = DialerListApiService.getVacation($routeParams.vacationId);
+            var packingListPromise,
+                vacationPromise;
+            if (vm.authenticated) {
+                packingListPromise = DialerListApiService.getAllPackingItems($routeParams.vacationId);
+                vacationPromise = DialerListApiService.getVacation($routeParams.vacationId);
+            }else{
+                var vacation = JSON.parse(localStorage.vacations)[$routeParams.vacationId];
+                packingListPromise = DialerListApiService.generatePackingList(vacation, vm.ageId);
+                vacationPromise = $q.resolve(DialerListApiService.convertVacationForUi(vacation));
+            }
             $q.all([packingListPromise, vacationPromise])
                 .then(function (results) {
                     vm.vacation = results[1];
                     var oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
                     var diffDays = Math.abs((vm.vacation.start_date.getTime() - vm.vacation.end_date.getTime()) / (oneDay));
                     vm.vacation.totalDays = diffDays;
-                    console.log("vm.vacation: ", vm.vacation);
-                    console.log("items: ", results[0]);
                     createPackingList(results[0]);
                 });
 
@@ -41,20 +50,16 @@ powerdialerApp.controller("PackingController",
                     var required = item.required ? "required" : "optional";
                     vm.sortedItems[item.category.name][required].push(formatItem(item));
                 }
-                console.log("vm.sortedItems: ", vm.sortedItems);
             }
 
             function formatItem(item) {
-                console.log("item: ", item);
                 var newItem = {};
                 newItem.name = item.name;
                 //Calculate Quantity
                 var days = item.ages[0].items_per_age.days;
                 var items = item.ages[0].items_per_age.items;
                 if (days && days !== null) {
-                    console.log("parseFloat(days): ", parseFloat(days));
                     var rate = (vm.vacation.totalDays / parseFloat(days));
-                    console.log("items, rate: ", items, rate);
 
                     newItem.packingAmount = multiplyNumbersInString(items, rate);
                 } else {

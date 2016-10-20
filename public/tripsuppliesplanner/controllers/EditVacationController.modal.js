@@ -5,9 +5,21 @@ powerdialerApp.controller('EditVacationModalController',
         'vacation',
         'DialerListApiService',
         'Notification',
-        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider) {
+        '$sce',
+        'authService',
+        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, $sce, authService) {
             'use strict';
             var vm = this;
+            $scope.vacationName = vacation.name;
+
+            vm.factorsTooltip = $sce.trustAsHtml(`
+                <div>
+                    <label style="width: 200px">Factors or Scenario</label>
+                    Specify what type of vacation you will be having.<br>
+                    Specify what type of activities you will do on it.<br>
+                    Specify any scenarios that apply to your vacation.
+                </div>
+            `);
 
             vm.newVacation = angular.copy(vacation);
             if (!vm.newVacation.required) {
@@ -101,35 +113,82 @@ powerdialerApp.controller('EditVacationModalController',
                     NotificationProvider.error("You must select at least one Factor for the vacation");
                     return;
                 }
-                if (vacation.id) {
-                    DialerListApiService.saveVacation(vm.newVacation, vacation.id)
-                        .then(function (result) {
-                            $uibModalInstance.close({
-                                message: "Successfully saved " + vm.newVacation.name,
-                                success: true
+                if (typeof vacation.id !== "undefined") {
+                    if (authService.authenticated) {
+                        DialerListApiService.saveVacation(vm.newVacation, vacation.id)
+                            .then((result) => {
+                                $uibModalInstance.close({
+                                    message: "Successfully saved " + vm.newVacation.name,
+                                    success: true
+                                });
+                            })
+                            .catch(() => {
+                                NotificationProvider.error({
+                                    message: "Error Saving Vacation",
+                                    success: false
+                                });
                             });
-                        })
-                        .catch(function () {
-                            NotificationProvider.error({
-                                message: "Error Saving Vacation",
-                                success: false
+                    }
+                    else {
+                        DialerListApiService.generatePackingList(vm.newVacation, 4)
+                            .then((result) => {
+                                var vacations = [];
+                                try {
+                                    vacations = JSON.parse(localStorage.vacations);
+                                }catch(e){}
+                                vacations[vacation.id] = vm.newVacation;
+                                localStorage.vacations = JSON.stringify(vacations);
+                                $uibModalInstance.close({
+                                    message: "Successfully created " + vm.newVacation.name,
+                                    success: true
+                                });
+                            })
+                            .catch(() => {
+                                NotificationProvider.error({
+                                    message: "Error Creating Vacation",
+                                    success: false
+                                });
                             });
-                        });
+                    }
                 }
                 else {
-                    DialerListApiService.createVacation(vm.newVacation)
-                        .then(function (result) {
-                            $uibModalInstance.close({
-                                message: "Successfully created " + vm.newVacation.name,
-                                success: true
+                    if (authService.authenticated) {
+                        DialerListApiService.createVacation(vm.newVacation)
+                            .then((result) => {
+                                $uibModalInstance.close({
+                                    message: "Successfully created " + vm.newVacation.name,
+                                    success: true
+                                });
+                            })
+                            .catch(() => {
+                                NotificationProvider.error({
+                                    message: "Error Creating Vacation",
+                                    success: false
+                                });
                             });
-                        })
-                        .catch(function () {
-                            NotificationProvider.error({
-                                message: "Error Creating Vacation",
-                                success: false
+                    }
+                    else {
+                        DialerListApiService.generatePackingList(vm.newVacation, 4)
+                            .then((result) => {
+                                var vacations = [];
+                                try {
+                                    vacations = JSON.parse(localStorage.vacations);
+                                }catch(e){}
+                                vm.newVacation.id = vacations.length;
+                                vacations.push(vm.newVacation);
+                                localStorage.vacations = JSON.stringify(vacations);
+                                $uibModalInstance.close({
+                                    message: "Successfully created " + vm.newVacation.name,
+                                    success: true
+                                });
+                            })
+                            .catch(() => {
+                                NotificationProvider.error({
+                                    message: "Error Creating Vacation",
+                                    success: false
+                                });
                             });
-                        });
+                    }
                 }
             };
 

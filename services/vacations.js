@@ -169,6 +169,22 @@ vacations.packingListForVacation = (vacationId, userId) => {
         });
 };
 
+vacations.packingForAnonymous = (vacationData, ageId) => {
+    delete vacationData.id;
+    vacationData.created_by_id = 1;
+    return vacations.addVacation(vacationData)
+        .then((createResult) => {
+            vacationsTable.find({
+                where: {
+                    id: createResult.id
+                }
+            }).then((vacation) => {
+                vacation.destroy({ force: true });
+            });
+            return getAllItemsForVacation(createResult.id, ageId);
+        });
+};
+
 function updateVacationFactors(vacation, factors) {
     debug("updateVacationFactors");
     var factorIds = [];

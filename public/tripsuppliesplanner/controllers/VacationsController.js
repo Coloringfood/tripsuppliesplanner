@@ -6,7 +6,8 @@ powerdialerApp.controller('VacationsPageController',
         '$uibModal',
         '$q',
         '$window',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window) {
+        'authService',
+        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window, authService) {
             'use strict';
 
             var vm = this;
@@ -17,9 +18,24 @@ powerdialerApp.controller('VacationsPageController',
                 object: true,
                 showDays: true
             };
+            vm.authenticated = authService.authenticated ? true : false;
 
             function updateList() {
-                var vacationsPromise = DialerListApiService.getAllVacations().then(function (vacations) {
+                var vacationsPromise;
+                if (vm.authenticated) {
+                    vacationsPromise = DialerListApiService.getAllVacations();
+                }
+                else {
+                    try {
+                        vacationsPromise = $q.all(JSON.parse(localStorage.vacations).map((vacation) => {
+                            return DialerListApiService.convertVacationForUi(vacation);
+                        }));
+                    }
+                    catch (e) {
+                        vacationsPromise = $q.resolve();
+                    }
+                }
+                vacationsPromise = vacationsPromise.then(function (vacations) {
                     vm.vacationsList = vacations;
                 }).catch(function (error) {
                     console.log("Getting Vacations Error: ", error);
@@ -54,10 +70,10 @@ powerdialerApp.controller('VacationsPageController',
                     else {
                         NotificationProvider.error(result.message);
                     }
-                    $window.location.reload();
+                    updateList();
 
                 }).catch(function (reason) {
-                    NotificationProvider.info(reason);
+                    // NotificationProvider.info(reason);
                 });
             }
 
@@ -70,19 +86,36 @@ powerdialerApp.controller('VacationsPageController',
             };
 
             vm.deleteVacation = (vacation) => {
-                return DialerListApiService.deleteVacation(vacation.id)
-                    .then(function () {
-                        NotificationProvider.success({
-                            message: "Successfully removed " + vacation.name
+                if (authService.authenticated) {
+                    return DialerListApiService.deleteVacation(vacation.id)
+                        .then(function () {
+                            NotificationProvider.success({
+                                message: "Successfully removed " + vacation.name
+                            });
+                            updateList();
+                        })
+                        .catch(function (error) {
+                            console.log("Delete Error: ", error);
+                            NotificationProvider.error({
+                                title: "Error Deleting Vacation"
+                            });
                         });
-                        updateList();
-                    })
-                    .catch(function (error) {
-                        console.log("Delete Error: ", error);
-                        NotificationProvider.error({
-                            title: "Error Deleting Vacation"
-                        });
-                    });
+                }
+                else {
+                    var vacations = [];
+                    try {
+                        vacations = JSON.parse(localStorage.vacations);
+                    } catch (e) {
+                    }
+                    vacations.splice(vacation.id, 1);
+                    var vacationsLength = vacations.length;
+                    for (var i = 0; i < vacationsLength; i++) {
+                        var vacation = vacations[i];
+                        vacation.id = i;
+                    }
+                    localStorage.vacations = JSON.stringify(vacations);
+                    updateList();
+                }
             };
         }
     ]

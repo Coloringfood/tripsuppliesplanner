@@ -26,7 +26,7 @@ powerdialerApp.factory(
                 return vacationData;
             }
 
-            function convertVacationForUi(vacationData) {
+            DialerListApiService.convertVacationForUi = (vacationData) =>{
                 var format = "yyyy-MM-dd";
                 vacationData.start_date = uibDateParser.parse(vacationData.start_date.split("T")[0], format);
                 vacationData.end_date = uibDateParser.parse(vacationData.end_date.split("T")[0], format);
@@ -112,7 +112,7 @@ powerdialerApp.factory(
                         if (debugging) {
                             console.log("getAllVacations: ", returnedData);
                         }
-                        return $q.all(returnedData.map(convertVacationForUi))
+                        return $q.all(returnedData.map(DialerListApiService.convertVacationForUi))
                             .then(function (returnedData) {
                                 if (debugging) {
                                     console.log("Converted Vacation Data: ", returnedData);
@@ -125,7 +125,7 @@ powerdialerApp.factory(
             DialerListApiService.getVacation = (vacationId) => {
                 return restangularFactory.one('vacations', vacationId).get()
                     .then(function (returnedData) {
-                        var vacation = convertVacationForUi(returnedData);
+                        var vacation = DialerListApiService.convertVacationForUi(returnedData);
                         if (debugging) {
                             console.log("getVacation: ", vacation);
                         }
@@ -173,6 +173,19 @@ powerdialerApp.factory(
                     .then(function (returnedData) {
                         if (debugging) {
                             console.log("getAllPackingItems: ", returnedData);
+                        }
+                        return returnedData;
+                    });
+            };
+
+            DialerListApiService.generatePackingList = (vacationData, ageId) => {
+                var convertedVacation = convertVacationForApi(vacationData);
+                convertedVacation.ageId = ageId;
+
+                return restangularFactory.one('vacations').all('pack').post(convertedVacation)
+                    .then(function (returnedData) {
+                        if (debugging) {
+                            console.log("createVacation: ", returnedData);
                         }
                         return returnedData;
                     });

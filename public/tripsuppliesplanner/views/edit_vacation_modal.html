@@ -1,6 +1,6 @@
 <div class="modal-header">
     <div class="col-sm-12">
-        <h3 class="modal-title" id="modal-title">Editing Vacation {{vm.vacation.name}}</h3>
+        <h3 class="modal-title" id="modal-title">{{ vacationName != null ? "Editing " : "Creating "}}Vacation {{vacationName}}</h3>
     </div>
 </div>
 <div class="modal-body" id="modal-body">
@@ -40,7 +40,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3">Factors
+        <div class="col-sm-3">
+            Factors
+            <i class="pull-right glyphicon glyphicon-question-sign" tooltip-placement="top-right"
+               uib-tooltip-html="vm.factorsTooltip"></i>
         </div>
         <div class="col-sm-9" ng-hide="vm.newVacation.always_needed">
             <edit-factors factors="vm.factors" selected="vm.newVacation.factors"

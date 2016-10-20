@@ -127,4 +127,21 @@ router.route('/:vacationId/pack/:userId')
         }
     });
 
+router.route('/pack')
+    .post((req, res, next) => {
+        debug("Anonymous packing: %o", req.body);
+        req.assert('ageId', 'This field (ageId) should be an integer').isInt();
+        if (req.validateVacation()) {
+            var body = req.body;
+            return vacationService.packingForAnonymous(body, body.ageId)
+                .then((result) => {
+                    debug("post result: %o", result);
+                    res.status(200).send(result);
+                })
+                .catch((e) => {
+                    next(e);
+                });
+        }
+    });
+
 module.exports = router;

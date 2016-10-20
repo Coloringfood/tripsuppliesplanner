@@ -1,7 +1,8 @@
 powerdialerApp.directive('editFactors',
     [
         'ENV',
-        function (ENV) {
+        '$sce',
+        function (ENV, $sce) {
             return {
                 restrict: 'AE',
                 scope: {
@@ -20,6 +21,60 @@ powerdialerApp.directive('editFactors',
                     scope.switchView = function (newView) {
                         scope.view = newView;
                     };
+
+                    scope.vacationTypeTooltip = $sce.trustAsHtml(`
+                       <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Vacation Type</div>
+                                <div class="panel-body">
+                                    ie: If you are planning on taking an RV to the redwoods, then camping for 3 days you
+                                        may select RV and specify 2 days, and then select Camping and specify 3 days
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+                    `);
+                    scope.activityTooltip = $sce.trustAsHtml(`
+                       <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Activities</div>
+                                <div class="panel-body">
+                                Specify any activities you are planning on doing during this vacation, also specify how
+                                        many times/days you will be doing each activity
+                                <br><br>
+                                Note: the days is optional, if you don't specify the days we will assume it will
+                                        occur every day of the vacation
+                                </div>
+                            </div>
+                        </div>
+                       </div>
+                    `);
+                    scope.otherTooltip = $sce.trustAsHtml(`
+                       <div class="row">
+                        <div class="col-sm-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Other</div>
+                                <div class="panel-body">
+                                    Specify any of the other factors that could affect the vacation. There are no days
+                                        applied to these, so they will just span the whole vacation
+                                    <br><br>
+                                    ie: Summertime, snowing, raining, etc...
+                                </div>
+                            </div>             
+                        </div>
+                       </div>
+                    `);
+                    scope.factorVacTypeTooltip = $sce.trustAsHtml(`
+                      Optional: specify how many days of the vacation will be of this type<br>
+                      If left blank, we will assume it is the full length of the vacation
+                    `);
+                    scope.factorActivityTooltip = $sce.trustAsHtml(`
+                      Optional: specify how many days of the vacation you will do this activity<br>
+                      If left blank, we will assume it is the full length of the vacation
+                    `);
+
 
                     function preSelectFactors(factors, type) {
                         var selectedLength = factors.length,

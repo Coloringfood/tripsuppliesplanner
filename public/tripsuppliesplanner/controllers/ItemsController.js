@@ -56,7 +56,7 @@ powerdialerApp.controller('ItemsPageController',
                     $window.location.reload();
 
                 }).catch(function (reason) {
-                    NotificationProvider.info(reason);
+                    // NotificationProvider.info(reason);
                 });
             }
 
