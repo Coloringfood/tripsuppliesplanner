@@ -170,6 +170,7 @@ vacations.packingListForVacation = (vacationId, userId) => {
 };
 
 vacations.packingForAnonymous = (vacationData, ageId) => {
+    delete vacationData.id;
     vacationData.created_by_id = 1;
     return vacations.addVacation(vacationData)
         .then((createResult) => {

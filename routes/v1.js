@@ -36,7 +36,8 @@ router.use(expressJWT({
     path: [
         /^\/v1\/authentication$/,               // Allow Login Requests
         /^\/v1\/authentication\/create$/,       // Allow RegisterRequests
-        /^\/v1\/vacations\/pack/                // Allow Anonymous users to generate a packing list
+        /^\/v1\/vacations\/pack/,                // Allow Anonymous users to generate a packing list
+        /^\/v1\/factors/,               // Allow Anonymous users to generate a packing list
     ]
 }));
 router.use(function (err, req, res, next) {
