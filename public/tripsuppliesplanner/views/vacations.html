@@ -89,7 +89,7 @@
                                 <a class="btn" ng-click="vm.editVacation(vacation)">edit</a>
                                 <a class="btn" ng-click="vm.deleteVacation(vacation)">delete</a>
                                 <a class="btn" ng-if="vm.authenticated" href="#/packing/{{vacation.id}}">pack</a>
-                                <a class="btn" ng-if="!vm.authenticated" href="#/packing/{{$index}}">pack 2</a>
+                                <a class="btn" ng-if="!vm.authenticated" href="#/packing/{{$index}}">pack</a>
                             </td>
                             <td>{{vacation.name}}</td>
                             <td>
