@@ -37,8 +37,8 @@ powerdialerApp.controller('EditItemModalController',
             vm.ageQuantityTooltip = $sce.trustAsHtml(`
                 <div>
                     <label style="width: 200px">Age/Quantity</label>
-                    - Specifies which ages should pack this item.<br>
-                    - It also allows you to specify how many items will be needed on the vacation<br>
+                    - Specifies which ages should pack this item. And how much each age group may need to pack<br>
+                    - The number of items will be multiplied according to the amount of days<br>
                     - If you leave it blank we assume you only need 1 for the whole vacation
                 </div>
             `);
@@ -46,8 +46,12 @@ powerdialerApp.controller('EditItemModalController',
                 <div>
                     <label style="width: 200px">Items Amount</label>
                     It also allows you to specify how many items will be needed on the vacation<br>
-                    Any numbers will be multiplied according to the length of the vacation(days)<br>
-                    ie: 4 water bottles, 1 outfit, 5, 2</li>
+                    You can include text or it can just be a number.<br>
+                    Examples:
+                    <ul style="text-align: left">
+                        <li>4 water bottles</li>
+                        <li>1 outfit</li>
+                        <li>2</li>
                     </ul>
                 </div>
             `);
@@ -55,7 +59,7 @@ powerdialerApp.controller('EditItemModalController',
                 <div>
                     <label style="width: 200px">Items Days</label>
                     For the specified amount of items, how many days is it good for.<br>
-                    Based on this number we calculate how many are needed to pack total for the vacation<br>
+                    It must be a number.<br>
                     ie: 4 Water Bottles are good for 1 day, 1 pair of Pajamas for 7 days.
                 </div>
             `);
