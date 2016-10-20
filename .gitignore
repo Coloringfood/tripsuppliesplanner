@@ -44,4 +44,4 @@ jspm_packages
 /public/config/config.json
 /public/common/constants.js
 /config/ui-config.json
-/public/assets/css/base.css
+public/assets/css/base.css
