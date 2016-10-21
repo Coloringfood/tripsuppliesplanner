@@ -36,7 +36,8 @@ powerdialerApp.controller('EditVacationModalController',
                 formatYear: 'yy',
                 maxDate: new Date(2020, 5, 22),
                 minDate: new Date(),
-                startingDay: 1
+                startingDay: 0,
+                showWeeks: false
             };
             vm.startDate = {
                 opened: false
