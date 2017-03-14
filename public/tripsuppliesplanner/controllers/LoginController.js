@@ -5,12 +5,11 @@ powerdialerApp.controller("LoginController",
         'authService',
         'Notification',
         'DialerListApiService',
-        '$window',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $window) {
+        function ($scope, $location, authService, NotificationProvider, DialerListApiService) {
             'use strict';
-            var vm = this;
+            let vm = this;
 
-            var whereTo = $location.search().returnTo;
+            let whereTo = $location.search().returnTo;
             vm.login = () => {
                 vm.dataLoading = true;
 

@@ -9,7 +9,7 @@ powerdialerApp.controller('EditVacationModalController',
         'authService',
         function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, $sce, authService) {
             'use strict';
-            var vm = this;
+            let vm = this;
             $scope.vacationName = vacation.name;
 
             vm.factorsTooltip = $sce.trustAsHtml(`
@@ -67,10 +67,10 @@ powerdialerApp.controller('EditVacationModalController',
             function updateFactors() {
                 return DialerListApiService.getAllFactors()
                     .then(function (factors) {
-                        var markedFactors = {};
-                        var selectedLength = vm.newVacation.factors.length;
-                        for (var i = 0; i < selectedLength; i++) {
-                            var factor = vm.newVacation.factors[i];
+                        let markedFactors = {};
+                        let selectedLength = vm.newVacation.factors.length;
+                        for (let i = 0; i < selectedLength; i++) {
+                            let factor = vm.newVacation.factors[i];
                             markedFactors[factor.name] = factor.vacations_factors;
                         }
 
@@ -79,9 +79,9 @@ powerdialerApp.controller('EditVacationModalController',
                             'Activities': [],
                             'Other': []
                         };
-                        var factorsLength = factors.length;
-                        for (var i = 0; i < factorsLength; i++) {
-                            var factor = factors[i];
+                        let factorsLength = factors.length;
+                        for (let i = 0; i < factorsLength; i++) {
+                            let factor = factors[i];
                             factor.selected = markedFactors[factor.name] ? true : false;
                             factor.vacations_factors = {days: null};
                             factor.vacations_factors.days = markedFactors[factor.name] ? markedFactors[factor.name].days : null;
@@ -133,7 +133,7 @@ powerdialerApp.controller('EditVacationModalController',
                     else {
                         DialerListApiService.generatePackingList(vm.newVacation, 4)
                             .then((result) => {
-                                var vacations = [];
+                                let vacations = [];
                                 try {
                                     vacations = JSON.parse(localStorage.vacations);
                                 }catch(e){}
@@ -171,7 +171,7 @@ powerdialerApp.controller('EditVacationModalController',
                     else {
                         DialerListApiService.generatePackingList(vm.newVacation, 4)
                             .then((result) => {
-                                var vacations = [];
+                                let vacations = [];
                                 try {
                                     vacations = JSON.parse(localStorage.vacations);
                                 }catch(e){}

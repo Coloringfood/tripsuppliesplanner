@@ -5,13 +5,12 @@ powerdialerApp.controller("SettingsController",
         'authService',
         'Notification',
         'DialerListApiService',
-        '$window',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService, $window) {
+        function ($scope, $location, authService, NotificationProvider, DialerListApiService) {
             'use strict';
-            var vm = this;
+            let vm = this;
             vm.user = authService.authenticated.tokenData.user;
 
-            var index = vm.user.name.indexOf(" ");
+            let index = vm.user.name.indexOf(" ");
             vm.user.firstName = vm.user.name.substring(0, index).trim();
             vm.user.lastName = vm.user.name.substring(index).trim();
             delete vm.user.password;
@@ -69,7 +68,7 @@ powerdialerApp.controller("SettingsController",
                 if (vm.user.settings.cssTheme == "Default") {
                     delete vm.user.settings.cssTheme;
                 }
-                var updateCssData = {
+                let updateCssData = {
                     "id": vm.user.id,
                     "age": vm.user.age,
                     "settings": vm.user.settings

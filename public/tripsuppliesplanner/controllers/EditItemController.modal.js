@@ -8,7 +8,7 @@ powerdialerApp.controller('EditItemModalController',
         '$sce',
         function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider, $sce) {
             'use strict';
-            var vm = this,
+            let vm = this,
                 markedFactors = {};
 
             vm.privateItemTooltip = $sce.trustAsHtml(`
@@ -111,9 +111,9 @@ powerdialerApp.controller('EditItemModalController',
             };
 
 
-            var agesLength = vm.newItem.ages.length;
-            for (var i = 0; i < agesLength; i++) {
-                var age = vm.newItem.ages[i];
+            let agesLength = vm.newItem.ages.length;
+            for (let i = 0; i < agesLength; i++) {
+                let age = vm.newItem.ages[i];
                 vm.show[age.name] = true;
             }
 
@@ -140,7 +140,7 @@ powerdialerApp.controller('EditItemModalController',
                     }
                 }
                 else {
-                    var agesLength;
+                    let agesLength;
                     if (vm.show[selectedAge]) {
                         vm.newItem.ages.push({
                             name: selectedAge,
@@ -149,8 +149,8 @@ powerdialerApp.controller('EditItemModalController',
                     }
                     else {
                         agesLength = vm.newItem.ages.length;
-                        for (var i = 0; i < agesLength; i++) {
-                            var age = vm.newItem.ages[i];
+                        for (let i = 0; i < agesLength; i++) {
+                            let age = vm.newItem.ages[i];
                             if (age.name == selectedAge) {
                                 vm.newItem.ages.splice(i, 1);
                                 break;
@@ -159,12 +159,12 @@ powerdialerApp.controller('EditItemModalController',
                     }
                     // Check if vm.showAll should be checked
                     agesLength = vm.newItem.ages.length;
-                    var matching = agesLength === 4;
+                    let matching = agesLength === 4;
                     if (matching) {
-                        var matchingItem = vm.newItem.ages[0].items_per_age.items,
+                        let matchingItem = vm.newItem.ages[0].items_per_age.items,
                             matchingDay = vm.newItem.ages[0].items_per_age.days;
-                        for (var j = 0; j < agesLength && matching; j++) {
-                            var itemsPerAge = vm.newItem.ages[j].items_per_age;
+                        for (let j = 0; j < agesLength && matching; j++) {
+                            let itemsPerAge = vm.newItem.ages[j].items_per_age;
                             matching = (matchingDay == itemsPerAge.days);
                             if (matching) {
                                 matching = (matchingItem == itemsPerAge.items);
@@ -187,9 +187,9 @@ powerdialerApp.controller('EditItemModalController',
             vm.updateAges();
 
             vm.updateAllAges = () => {
-                var agesLength = vm.newItem.ages.length;
-                for (var i = 0; i < agesLength; i++) {
-                    var age = vm.newItem.ages[i];
+                let agesLength = vm.newItem.ages.length;
+                for (let i = 0; i < agesLength; i++) {
+                    let age = vm.newItem.ages[i];
                     age.items_per_age.items = vm.allItems;
                     age.items_per_age.days = vm.allDays;
                 }
@@ -215,15 +215,15 @@ powerdialerApp.controller('EditItemModalController',
                             'Activities': [],
                             'Other': []
                         };
-                        var factorsLength = factors.length;
-                        var useMarkedFactors = !Object.keys(markedFactors).length;
-                        for (var i = 0; i < factorsLength; i++) {
-                            var factor = factors[i];
+                        let factorsLength = factors.length;
+                        let useMarkedFactors = !Object.keys(markedFactors).length;
+                        for (let i = 0; i < factorsLength; i++) {
+                            let factor = factors[i];
                             if (!useMarkedFactors) {
                                 factor.selected = markedFactors[factor.name];
                             }
                             else {
-                                var index = vm.newItem.factors.indexOf(factor.id);
+                                let index = vm.newItem.factors.indexOf(factor.id);
                                 if (index > -1) {
                                     factor.selected = true;
                                 }
@@ -243,12 +243,12 @@ powerdialerApp.controller('EditItemModalController',
                 if (vm.newFactor.name && vm.newFactor.type) {
                     // Loop current factors and save which ones are selected
                     markedFactors = {};
-                    var factorsTypeLength = vm.types.length;
-                    for (var i = 0; i < factorsTypeLength; i++) {
-                        var factorType = vm.types[i];
-                        var factorsLength = vm.factors[factorType].length;
-                        for (var j = 0; j < factorsLength; j++) {
-                            var factor = vm.factors[factorType][j];
+                    let factorsTypeLength = vm.types.length;
+                    for (let i = 0; i < factorsTypeLength; i++) {
+                        let factorType = vm.types[i];
+                        let factorsLength = vm.factors[factorType].length;
+                        for (let j = 0; j < factorsLength; j++) {
+                            let factor = vm.factors[factorType][j];
                             if (factor.selected) {
                                 markedFactors[factor.name] = true;
                             }

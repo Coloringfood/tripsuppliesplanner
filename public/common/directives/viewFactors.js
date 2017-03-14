@@ -26,12 +26,12 @@ powerdialerApp.directive('viewFactors',
                             object: false
                         };
                     }
-                    var factorsLength = scope.factors.length;
-                    for (var i = 0; i < factorsLength; i++) {
-                        var factor = scope.factors[i];
-                        var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                    let factorsLength = scope.factors.length;
+                    for (let i = 0; i < factorsLength; i++) {
+                        let factor = scope.factors[i];
+                        let index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                         if (index > -1) {
-                            var pushedItem = factor;
+                            let pushedItem = factor;
                             if(scope.settings.showDays){
                                 pushedItem = scope.selected[index];
                             }
@@ -42,9 +42,9 @@ powerdialerApp.directive('viewFactors',
                         if (!scope.settings.object) {
                             return -1;
                         }
-                        var selectedLength = scope.selected.length;
-                        for (var i = 0; i < selectedLength; i++) {
-                            var selected = scope.selected[i];
+                        let selectedLength = scope.selected.length;
+                        for (let i = 0; i < selectedLength; i++) {
+                            let selected = scope.selected[i];
                             if (selected.id === id) {
                                 return i;
                             }

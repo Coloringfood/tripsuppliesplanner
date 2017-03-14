@@ -9,7 +9,7 @@ powerdialerApp.controller('ItemsPageController',
         function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window) {
             'use strict';
 
-            var vm = this;
+            let vm = this;
             vm.name = "Items";
             vm.itemsList = [];
             vm.factors = [];
@@ -18,7 +18,7 @@ powerdialerApp.controller('ItemsPageController',
             };
 
             function updateList() {
-                var itemsPromise = DialerListApiService.getAllItems().then(function (items) {
+                let itemsPromise = DialerListApiService.getAllItems().then(function (items) {
                     vm.itemsList = items;
                 }).catch(function (error) {
                     console.log("Getting Items Error: ", error);
@@ -26,7 +26,7 @@ powerdialerApp.controller('ItemsPageController',
                         message: "Error Getting All Items"
                     });
                 });
-                var factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
+                let factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                 });
                 return $q.all([itemsPromise, factorsPromise]);
@@ -35,7 +35,7 @@ powerdialerApp.controller('ItemsPageController',
             updateList();
 
             function openEditModal(item) {
-                var modalInstance = $uibModal.open({
+                let modalInstance = $uibModal.open({
                     templateUrl: '/public/tripsuppliesplanner/views/edit_item_modal.html',
                     controller: 'EditItemModalController',
                     controllerAs: 'vm',

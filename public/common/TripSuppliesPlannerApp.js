@@ -2,7 +2,7 @@
  * this is the main entry to the survey application
  * @module survey
  */
-var powerdialerApp = angular.module('tripsuppliesplannerApp',
+let powerdialerApp = angular.module('tripsuppliesplannerApp',
     [
         'constants',
         'ngSanitize',
@@ -64,7 +64,7 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
 
         $locationProvider.html5Mode({
             enabled: false,
-            requireBase: false
+            requireBase: true
         });
 
         NotificationProvider.setOptions({
@@ -130,7 +130,7 @@ powerdialerApp.run(['$rootScope', '$location', 'injectCSS', 'authService',
 // KEPT IN THIS FILE BECAUSE IT NEEDED ACCESS TO AuthorizationError
 //http://erraticdev.blogspot.com/2015/10/angular-ngroute-routing-authorization.html
 powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $window) {
-    var self = this;
+    let self = this;
     this.authenticated = false;
 
     this.authorize = () => {
@@ -138,7 +138,7 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $w
             .getInfo()
             .then(function (info) {
                 if (info.authenticated) {
-                    var decodedToken = jwtHelper.decodeToken(info.authenticated.token);
+                    let decodedToken = jwtHelper.decodeToken(info.authenticated.token);
                     if (decodedToken.iss === ENV.backend.iss) {
                         return true;
                     }
@@ -149,7 +149,7 @@ powerdialerApp.service("authService", function ($q, $timeout, jwtHelper, ENV, $w
     };
     this.signedIn = (token, reload) => {
         localStorage.clear();
-        var decodedToken = jwtHelper.decodeToken(token);
+        let decodedToken = jwtHelper.decodeToken(token);
         this.authenticated = {
             tokenData: decodedToken,
             token: token

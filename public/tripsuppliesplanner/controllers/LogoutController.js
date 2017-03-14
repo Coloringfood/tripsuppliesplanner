@@ -3,8 +3,7 @@ powerdialerApp.controller("LogoutController",
         '$location',
         'authService',
         'Notification',
-        '$window',
-        function ($location, authService, NotificationProvider, $window) {
+        function ($location, authService, NotificationProvider) {
             'use strict';
 
             authService.clearCredentials();

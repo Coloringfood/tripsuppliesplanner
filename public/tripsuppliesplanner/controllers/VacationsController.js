@@ -10,7 +10,7 @@ powerdialerApp.controller('VacationsPageController',
         function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window, authService) {
             'use strict';
 
-            var vm = this;
+            let vm = this;
             vm.name = "Vacations";
             vm.vacationsList = [];
             vm.factors = [];
@@ -18,10 +18,10 @@ powerdialerApp.controller('VacationsPageController',
                 object: true,
                 showDays: true
             };
-            vm.authenticated = authService.authenticated ? true : false;
+            vm.authenticated = !!authService.authenticated;
 
             function updateList() {
-                var vacationsPromise;
+                let vacationsPromise;
                 if (vm.authenticated) {
                     vacationsPromise = DialerListApiService.getAllVacations();
                 }
@@ -43,7 +43,7 @@ powerdialerApp.controller('VacationsPageController',
                         message: "Error Getting All Vacations"
                     });
                 });
-                var factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
+                let factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                 });
                 return $q.all([vacationsPromise, factorsPromise]);
@@ -52,7 +52,7 @@ powerdialerApp.controller('VacationsPageController',
             updateList();
 
             function openEditModal(vacation) {
-                var modalInstance = $uibModal.open({
+                let modalInstance = $uibModal.open({
                     templateUrl: '/public/tripsuppliesplanner/views/edit_vacation_modal.html',
                     controller: 'EditVacationModalController',
                     controllerAs: 'vm',
@@ -102,15 +102,15 @@ powerdialerApp.controller('VacationsPageController',
                         });
                 }
                 else {
-                    var vacations = [];
+                    let vacations = [];
                     try {
                         vacations = JSON.parse(localStorage.vacations);
                     } catch (e) {
                     }
                     vacations.splice(vacation.id, 1);
-                    var vacationsLength = vacations.length;
-                    for (var i = 0; i < vacationsLength; i++) {
-                        var vacation = vacations[i];
+                    let vacationsLength = vacations.length;
+                    for (let i = 0; i < vacationsLength; i++) {
+                        let vacation = vacations[i];
                         vacation.id = i;
                     }
                     localStorage.vacations = JSON.stringify(vacations);

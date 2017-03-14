@@ -4,12 +4,13 @@ powerdialerApp.controller('HomeController',
         '$window',
         'DialerListApiService',
         'authService',
-        function ($scope, $window, DialerListApiService, authService) {
+        'Notification',
+        function ($scope, $window, DialerListApiService, authService, NotificationProvider) {
             'use strict';
 
-            var vm = this;
+            let vm = this;
 
-            vm.authenticated = authService.authenticated ? true : false;
+            vm.authenticated = !!authService.authenticated;
 
             if (vm.authenticated) {
                 DialerListApiService.getAllVacations().then(function (vacations) {

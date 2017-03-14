@@ -77,12 +77,12 @@ powerdialerApp.directive('editFactors',
 
 
                     function preSelectFactors(factors, type) {
-                        var selectedLength = factors.length,
+                        let selectedLength = factors.length,
                             newFactors = [];
-                        for (var i = 0; i < selectedLength; i++) {
-                            var factor = factors[i];
+                        for (let i = 0; i < selectedLength; i++) {
+                            let factor = factors[i];
                             factor.vacations_factors = {days:null};
-                            var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                            let index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                             if (index > -1) {
                                 if (scope.settings.object && scope.settings.showDays) {
                                     factor = scope.selected[index];
@@ -98,9 +98,9 @@ powerdialerApp.directive('editFactors',
                         if (!scope.settings.object) {
                             return -1;
                         }
-                        var selectedLength = scope.selected.length;
-                        for (var i = 0; i < selectedLength; i++) {
-                            var selected = scope.selected[i];
+                        let selectedLength = scope.selected.length;
+                        for (let i = 0; i < selectedLength; i++) {
+                            let selected = scope.selected[i];
                             if (selected.id === id) {
                                 return i;
                             }
@@ -108,19 +108,19 @@ powerdialerApp.directive('editFactors',
                         return -1;
                     }
 
-                    var typesLength = scope.types.length;
-                    for (var i = 0; i < typesLength; i++) {
-                        var type = scope.types[i];
+                    let typesLength = scope.types.length;
+                    for (let i = 0; i < typesLength; i++) {
+                        let type = scope.types[i];
                         preSelectFactors(scope.factors[type], type);
                     }
 
                     scope.selectFactor = function (factor) {
-                        var index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                        let index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
                         if (index > -1) {
                             scope.selected.splice(index, 1);
                             factor.selected = false;
                         } else {
-                            var addedObject = scope.settings.object ? factor : factor.id;
+                            let addedObject = scope.settings.object ? factor : factor.id;
                             scope.selected.push(addedObject);
                             factor.selected = true;
                         }

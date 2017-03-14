@@ -8,38 +8,38 @@ powerdialerApp.controller("PackingController",
         'authService',
         function ($scope, NotificationProvider, DialerListApiService, $routeParams, $q, authService) {
             'use strict';
-            var vm = this;
-            vm.authenticated = authService.authenticated ? true : false;
+            let vm = this;
+            vm.authenticated = !!authService.authenticated;
 
             vm.sortedItems = {};
             vm.dateFormat = "longDate";
             vm.ageId = 4;
             $scope.status = {};
             // Get all packing items
-            var packingListPromise,
+            let packingListPromise,
                 vacationPromise;
             if (vm.authenticated) {
                 packingListPromise = DialerListApiService.getAllPackingItems($routeParams.vacationId);
                 vacationPromise = DialerListApiService.getVacation($routeParams.vacationId);
             }else{
-                var vacation = JSON.parse(localStorage.vacations)[$routeParams.vacationId];
+                let vacation = JSON.parse(localStorage.vacations)[$routeParams.vacationId];
                 packingListPromise = DialerListApiService.generatePackingList(vacation, vm.ageId);
                 vacationPromise = $q.resolve(DialerListApiService.convertVacationForUi(vacation));
             }
             $q.all([packingListPromise, vacationPromise])
                 .then(function (results) {
                     vm.vacation = results[1];
-                    var oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
-                    var diffDays = Math.abs((vm.vacation.start_date.getTime() - vm.vacation.end_date.getTime()) / (oneDay));
+                    let oneDay = 24 * 60 * 60 * 1000;	// hours*minutes*seconds*milliseconds
+                    let diffDays = Math.abs((vm.vacation.start_date.getTime() - vm.vacation.end_date.getTime()) / (oneDay));
                     vm.vacation.totalDays = diffDays;
                     createPackingList(results[0]);
                 });
 
             function createPackingList(packingItems) {
                 // Loop thorugh packingItems and sort by category
-                var itemsLength = packingItems.length;
-                for (var i = 0; i < itemsLength; i++) {
-                    var item = packingItems[i];
+                let itemsLength = packingItems.length;
+                for (let i = 0; i < itemsLength; i++) {
+                    let item = packingItems[i];
                     if (!vm.sortedItems[item.category.name]) {
                         vm.sortedItems[item.category.name] = {
                             required: [],
@@ -47,19 +47,19 @@ powerdialerApp.controller("PackingController",
                         };
                         $scope.status[item.category.name] = true;
                     }
-                    var required = item.required ? "required" : "optional";
+                    let required = item.required ? "required" : "optional";
                     vm.sortedItems[item.category.name][required].push(formatItem(item));
                 }
             }
 
             function formatItem(item) {
-                var newItem = {};
+                let newItem = {};
                 newItem.name = item.name;
                 //Calculate Quantity
-                var days = item.ages[0].items_per_age.days;
-                var items = item.ages[0].items_per_age.items;
+                let days = item.ages[0].items_per_age.days;
+                let items = item.ages[0].items_per_age.items;
                 if (days && days !== null) {
-                    var rate = (vm.vacation.totalDays / parseFloat(days));
+                    let rate = (vm.vacation.totalDays / parseFloat(days));
 
                     newItem.packingAmount = multiplyNumbersInString(items, rate);
                 } else {
@@ -71,12 +71,12 @@ powerdialerApp.controller("PackingController",
 
             function multiplyNumbersInString(stringToCheck, rate) {
                 //Regex matches an int or float, but no negatives
-                var matchingInfo = stringToCheck.match(/\d+(\.\d+)?/);
+                let matchingInfo = stringToCheck.match(/\d+(\.\d+)?/);
                 if (!matchingInfo) {
                     return stringToCheck;
                 }
 
-                var itemAmount = matchingInfo[0],
+                let itemAmount = matchingInfo[0],
                     index = matchingInfo.index,
                     length = itemAmount.length,
                     postText = stringToCheck.substr(length + index),
@@ -89,7 +89,7 @@ powerdialerApp.controller("PackingController",
                     postText = multiplyNumbersInString(postText, rate);
                 }
 
-                var quantity = Math.ceil(parseInt(itemAmount) * rate);
+                let quantity = Math.ceil(parseInt(itemAmount) * rate);
                 return preText + quantity + postText;
             }
         }

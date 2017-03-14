@@ -9,10 +9,10 @@ powerdialerApp.factory(
         'authService',
         function ($q, $location, restangularFactory, ENV, uibDateParser, authService) {
             'use strict';
-            var debugging = ENV.enviroment == 'dev';
+            let debugging = ENV.environment == 'dev';
             console.log("debugging: ", debugging);
 
-            var DialerListApiService = {};
+            let DialerListApiService = {};
 
             function convertItemForApi(itemData) {
                 return itemData;
@@ -27,11 +27,11 @@ powerdialerApp.factory(
             }
 
             DialerListApiService.convertVacationForUi = (vacationData) =>{
-                var format = "yyyy-MM-dd";
+                let format = "yyyy-MM-dd";
                 vacationData.start_date = uibDateParser.parse(vacationData.start_date.split("T")[0], format);
                 vacationData.end_date = uibDateParser.parse(vacationData.end_date.split("T")[0], format);
                 return vacationData;
-            }
+            };
 
             DialerListApiService.getAllItems = () => {
                 return restangularFactory.one('items').get()
@@ -44,7 +44,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.saveItem = (itemData, itemId) => {
-                var convertedItem = convertItemForApi(itemData);
+                let convertedItem = convertItemForApi(itemData);
                 return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + itemId)
                     .then(function (returnedData) {
                         if (debugging) {
@@ -55,7 +55,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.createItem = (itemData) => {
-                var convertedItem = convertItemForApi(itemData);
+                let convertedItem = convertItemForApi(itemData);
                 return restangularFactory.all('items').post(convertedItem)
                     .then(function (returnedData) {
                         if (debugging) {
@@ -86,7 +86,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.createFactor = (factorData) => {
-                var convertedFactor = convertFactorForApi(factorData);
+                let convertedFactor = convertFactorForApi(factorData);
                 return restangularFactory.all('factors').post([convertedFactor])
                     .then(function (returnedData) {
                         if (debugging) {
@@ -125,7 +125,7 @@ powerdialerApp.factory(
             DialerListApiService.getVacation = (vacationId) => {
                 return restangularFactory.one('vacations', vacationId).get()
                     .then(function (returnedData) {
-                        var vacation = DialerListApiService.convertVacationForUi(returnedData);
+                        let vacation = DialerListApiService.convertVacationForUi(returnedData);
                         if (debugging) {
                             console.log("getVacation: ", vacation);
                         }
@@ -134,7 +134,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.saveVacation = (vacationData, vacationId) => {
-                var convertedVacation = convertVacationForApi(vacationData);
+                let convertedVacation = convertVacationForApi(vacationData);
 
                 return restangularFactory.allUrl('.').customPUT(convertedVacation, "vacations/" + vacationId)
                     .then(function (returnedData) {
@@ -146,7 +146,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.createVacation = (vacationData) => {
-                var convertedVacation = convertVacationForApi(vacationData);
+                let convertedVacation = convertVacationForApi(vacationData);
 
                 return restangularFactory.all('vacations').post(convertedVacation)
                     .then(function (returnedData) {
@@ -168,7 +168,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.getAllPackingItems = (vacationId) => {
-                var userId = authService.authenticated.tokenData.userId;
+                let userId = authService.authenticated.tokenData.userId;
                 return restangularFactory.one('vacations', vacationId).one('pack', userId).get()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -179,7 +179,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.generatePackingList = (vacationData, ageId) => {
-                var convertedVacation = convertVacationForApi(vacationData);
+                let convertedVacation = convertVacationForApi(vacationData);
                 convertedVacation.ageId = ageId;
 
                 return restangularFactory.one('vacations').all('pack').post(convertedVacation)
@@ -192,7 +192,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.authenticate = (username, password) => {
-                var submitData = {
+                let submitData = {
                     username: username,
                     password: password
                 };
