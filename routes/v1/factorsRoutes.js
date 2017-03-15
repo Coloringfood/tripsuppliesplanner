@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var debug = require('debug')('tripsuppliesplanner:routes:v1:factors');
-var factorsService = require('./../../services/factors');
+let express = require('express');
+let router = express.Router();
+let debug = require('debug')('tripsuppliesplanner:routes:v1:factors');
+let factorsService = require('./../../services/factors');
 
 
 router.use((req, res, next) => {
@@ -10,8 +10,8 @@ router.use((req, res, next) => {
 
             if (Array.isArray(req.body)) {
                 if (typeof req.body === 'object' && Array.isArray(req.body)) {
-                    var featuresLength = req.body.length;
-                    for (var i = 0; i < featuresLength; i++) {
+                    let featuresLength = req.body.length;
+                    for (let i = 0; i < featuresLength; i++) {
                         validateFactorData('[' + i + '].');
                     }
 
@@ -54,7 +54,7 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateFactors()) {
-            var body = req.body;
+            let body = req.body;
             body.created_by = req.user.userId;
             return factorsService.addFactors(body)
                 .then((result) => {

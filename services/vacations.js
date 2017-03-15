@@ -1,5 +1,5 @@
-var vacations = module.exports = {};
-var Promise = require('bluebird'),
+let vacations = module.exports = {};
+let Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:vacations'),
     factorsTable = require('./../models/factors'),
     usersTable = require('./../models/users'),
@@ -8,8 +8,8 @@ var Promise = require('bluebird'),
     agesTable = require('./../models/ages'),
     categoriesTable = require('./../models/categories');
 
-var VACATION_NOT_FOUND = "vacation_not_found";
-var VACATION_INCLUDE = [
+let VACATION_NOT_FOUND = "vacation_not_found";
+let VACATION_INCLUDE = [
     {
         model: usersTable,
         attributes: [
@@ -34,7 +34,7 @@ var VACATION_INCLUDE = [
         }
     }
 ];
-var VACATION_ATTRIBUTES = [
+let VACATION_ATTRIBUTES = [
     "id",
     "name",
     "start_date",
@@ -60,9 +60,9 @@ vacations.addVacation = (vacation) => {
     debug("addVacation");
     return vacationsTable.create(vacation)
         .then(function (createVacationResult) {
-            var returnValue = createVacationResult.dataValues;
-            var participantsPromise = createVacationResult.addParticipants(vacation.created_by_id);
-            var factorsPromise = updateVacationFactors(createVacationResult, vacation.factors);
+            let returnValue = createVacationResult.dataValues;
+            let participantsPromise = createVacationResult.addParticipants(vacation.created_by_id);
+            let factorsPromise = updateVacationFactors(createVacationResult, vacation.factors);
 
             return Promise.all([participantsPromise, factorsPromise]).then(function (result) {
                 returnValue.factors = result[1];
@@ -108,7 +108,7 @@ vacations.updateVacation = (id, vacationData) => {
             });
         }
         return vacations.getVacation(id).then(function (vacationResult) {
-            var returnValue = vacationResult.dataValues;
+            let returnValue = vacationResult.dataValues;
 
             return updateVacationFactors(vacationResult, vacationData.factors).then(function (result) {
                 returnValue.factors = result;
@@ -157,13 +157,13 @@ vacations.packingListForVacation = (vacationId, userId) => {
         ]
     })
         .then((userResult) => {
-            var ageId = userResult.dataValues.age.id;
-            var publicItemsPromise = getAllItemsForVacation(vacationId, ageId);
-            var privateItemsPromise = getAllItemsForVacation(vacationId, ageId, userId);
+            let ageId = userResult.dataValues.age.id;
+            let publicItemsPromise = getAllItemsForVacation(vacationId, ageId);
+            let privateItemsPromise = getAllItemsForVacation(vacationId, ageId, userId);
 
             return Promise.all([publicItemsPromise, privateItemsPromise]).then(function (allResults) {
-                var publicItems = allResults[0];
-                var privateItems = allResults[1];
+                let publicItems = allResults[0];
+                let privateItems = allResults[1];
                 return publicItems.concat(privateItems);
             });
         });
@@ -187,15 +187,15 @@ vacations.packingForAnonymous = (vacationData, ageId) => {
 
 function updateVacationFactors(vacation, factors) {
     debug("updateVacationFactors");
-    var factorIds = [];
+    let factorIds = [];
 
-    var factorsLength = factors.length;
-    for (var i = 0; i < factorsLength; i++) {
-        var factor = factors[i];
+    let factorsLength = factors.length;
+    for (let i = 0; i < factorsLength; i++) {
+        let factor = factors[i];
         factorIds.push(factor.id);
     }
 
-    var updatedFactors = [];
+    let updatedFactors = [];
     return factorsTable.findAll({
         include: [{
             model: vacationsTable,
@@ -207,13 +207,13 @@ function updateVacationFactors(vacation, factors) {
         }]
     }).then(function (foundfactors) {
         return Promise.map(foundfactors, (factor) => {
-            var index = factorIds.indexOf(factor.id);
+            let index = factorIds.indexOf(factor.id);
             if (index === -1) {
                 debug("removing factor %o from item", factor.name);
                 return vacation.removeFactors(factor);
             } else {
                 debug("updating factor %o relationship with item", factor.name);
-                var updateAgeInfo = factors[index].vacations_factors;
+                let updateAgeInfo = factors[index].vacations_factors;
                 if (!updateAgeInfo.days) {
                     updateAgeInfo.days = null;
                 }
@@ -261,7 +261,7 @@ function addFactorToVacation(vacation, factorData) {
 }
 
 function getAllItemsForVacation(vacationId, ageId, userId) {
-    var AGES_INCLUDE = {
+    let AGES_INCLUDE = {
             model: agesTable,
             attributes: [
                 "id",
@@ -297,7 +297,7 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
     }
 
     // Get items that are not attached to any factors
-    var alwaysNeededItemsPromise = itemsTable.findAll({
+    let alwaysNeededItemsPromise = itemsTable.findAll({
         attributes: [
             "name",
             "personal",
@@ -315,7 +315,7 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
     });
 
     // Get Items related to factors on this Vacation
-    var relatedItemsPromise = itemsTable.findAll({
+    let relatedItemsPromise = itemsTable.findAll({
         attributes: [
             "name",
             "personal",
@@ -353,8 +353,8 @@ function getAllItemsForVacation(vacationId, ageId, userId) {
     });
 
     return Promise.all([alwaysNeededItemsPromise, relatedItemsPromise]).then(function (allResults) {
-        var alwaysNeededItems = allResults[0];
-        var relatedItems = allResults[1];
+        let alwaysNeededItems = allResults[0];
+        let relatedItems = allResults[1];
         return alwaysNeededItems.concat(relatedItems);
     });
 }

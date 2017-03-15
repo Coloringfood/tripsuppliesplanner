@@ -1,12 +1,12 @@
-var users = module.exports = {};
-var Promise = require('bluebird'),
+let users = module.exports = {};
+let Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:users'),
     usersTable = require('./../models/users'),
     agesTable = require('./../models/ages'),
     jwt = require('jsonwebtoken'),
     config = require('./../config/config.json');
 
-var USERS_INCLUDE = [
+let USERS_INCLUDE = [
     {
         model: agesTable,
         as: 'age',
@@ -129,16 +129,16 @@ function generateToken(user) {
     } else {
         user.settings = JSON.parse(user.settings);
     }
-    var tokenData = {
+    let tokenData = {
         userId: user.id,
         user: user
     };
-    var options = {
+    let options = {
         expiresIn: config.security.expiration, // 10 minutes
         issuer: config.security.issuer
     };
     debug(tokenData);
-    var token = jwt.sign(tokenData, config.security.secret, options);
+    let token = jwt.sign(tokenData, config.security.secret, options);
     return {
         id: 1,
         token: token

@@ -1,4 +1,4 @@
-var express = require('express'),
+let express = require('express'),
     router = express.Router(),
     path = require('path'),
     debug = require('debug')('tripsuppliesplanner:routes:default');

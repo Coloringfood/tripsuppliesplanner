@@ -1,5 +1,5 @@
-var factors = module.exports = {};
-var Promise = require('bluebird'),
+let factors = module.exports = {};
+let Promise = require('bluebird'),
     debug = require('debug')('tripsuppliesplanner:services:factors'),
     factorsTable = require('./../models/factors');
 

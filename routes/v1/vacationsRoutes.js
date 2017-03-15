@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var debug = require('debug')('tripsuppliesplanner:routes:v1:vacations');
-var vacationService = require('./../../services/vacations');
+let express = require('express');
+let router = express.Router();
+let debug = require('debug')('tripsuppliesplanner:routes:v1:vacations');
+let vacationService = require('./../../services/vacations');
 
 router.use((req, res, next) => {
         req.validateVacation = () => {
@@ -14,8 +14,8 @@ router.use((req, res, next) => {
             req.assert('factors', "This field should be an array").isArray();
 
             if (typeof req.body.factors === 'object' && Array.isArray(req.body.factors)) {
-                var featuresLength = req.body.factors.length;
-                for (var i = 0; i < featuresLength; i++) {
+                let featuresLength = req.body.factors.length;
+                for (let i = 0; i < featuresLength; i++) {
                     validateFactorData('factors[' + i + '].');
                 }
             }
@@ -38,7 +38,7 @@ router.route('/')
     .get((req, res, next) => {
         debug("Get All Vacations");
 
-        var userId = req.user.userId;
+        let userId = req.user.userId;
         return vacationService.getAllVacations(userId)
             .then((result) => {
                 debug("Get Result: %o", result);
@@ -51,7 +51,7 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateVacation()) {
-            var body = req.body;
+            let body = req.body;
             body.created_by_id = req.user.userId;
             return vacationService.addVacation(body)
                 .then((result) => {
@@ -79,7 +79,7 @@ router.route('/:vacationId')
     .put((req, res, next) => {
         debug("Put: %o", req.body);
         if (req.validateVacation()) {
-            var body = req.body;
+            let body = req.body;
             body.created_by_id = req.user.userId;
             // NOTE: THIS DOES NOT UPDATE PARTICIPANTS
             return vacationService.updateVacation(req.params.vacationId, body)
@@ -108,7 +108,7 @@ router.route('/:vacationId/pack/:userId')
     .get((req, res, next) => {
         debug("Pack Vacation id: %o, user id: %o", req.params.vacationId, req.params.userId);
 
-        var vacationId = req.params.vacationId,
+        let vacationId = req.params.vacationId,
             userId = req.params.userId;
 
         try {
@@ -132,7 +132,7 @@ router.route('/pack')
         debug("Anonymous packing: %o", req.body);
         req.assert('ageId', 'This field (ageId) should be an integer').isInt();
         if (req.validateVacation()) {
-            var body = req.body;
+            let body = req.body;
             return vacationService.packingForAnonymous(body, body.ageId)
                 .then((result) => {
                     debug("post result: %o", result);

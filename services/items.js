@@ -1,5 +1,5 @@
-var items = module.exports = {};
-var Promise = require('bluebird'),
+let items = module.exports = {};
+let Promise = require('bluebird'),
     Sequelize = require('sequelize'),
     debug = require('debug')('tripsuppliesplanner:services:items'),
     agesTable = require('./../models/ages'),
@@ -7,8 +7,8 @@ var Promise = require('bluebird'),
     factorsTable = require('./../models/factors'),
     categoriesTable = require('./../models/categories');
 
-var ITEM_NOT_FOUND = "item_not_found";
-var ITEM_INCLUDE = [
+let ITEM_NOT_FOUND = "item_not_found";
+let ITEM_INCLUDE = [
     {
         model: agesTable,
         attributes: [
@@ -36,7 +36,7 @@ var ITEM_INCLUDE = [
         as: 'category'
     }
 ];
-var ITEM_ATTRIBUTES = [
+let ITEM_ATTRIBUTES = [
     "id",
     "name",
     "personal",
@@ -46,11 +46,11 @@ var ITEM_ATTRIBUTES = [
 ];
 
 function convertItemForUI(item) {
-    var itemData = item.dataValues;
-    var convertedSelected = [];
-    var selectedLength = itemData.factors.length;
-    for (var i = 0; i < selectedLength; i++) {
-        var factor = itemData.factors[i];
+    let itemData = item.dataValues;
+    let convertedSelected = [];
+    let selectedLength = itemData.factors.length;
+    for (let i = 0; i < selectedLength; i++) {
+        let factor = itemData.factors[i];
         convertedSelected.push(factor.id);
     }
     itemData.factors = convertedSelected;
@@ -146,16 +146,16 @@ items.addItem = (item) => {
             });
         })
         .then(function (createResult) {
-            var returnValue = createResult.dataValues;
+            let returnValue = createResult.dataValues;
             returnValue.ages = [];
-            var agesPromise = Promise.map(item.ages, (age) => {
+            let agesPromise = Promise.map(item.ages, (age) => {
                 return addAgeToItem(createResult, age)
                     .then((result) => {
                         returnValue.ages.push(result);
                     });
             });
 
-            var factorsPromise = Promise.map(item.factors, (factor) => {
+            let factorsPromise = Promise.map(item.factors, (factor) => {
                 return addFactorToItem(createResult, factor)
                     .then((result) => {
                         returnValue.ages.push(result);
@@ -212,15 +212,15 @@ items.updateItem = (id, item, userId) => {
             });
         }
         return items.getItem(id, userId).then(function (itemResult) {
-            var returnValue = itemResult.dataValues;
+            let returnValue = itemResult.dataValues;
 
 
-            var agesPromise = updateItemAges(itemResult, item.ages)
+            let agesPromise = updateItemAges(itemResult, item.ages)
                 .then(function (newFactors) {
                     returnValue.factors = newFactors;
                 });
 
-            var factorsPromise = updateItemFactors(itemResult, item.factors)
+            let factorsPromise = updateItemFactors(itemResult, item.factors)
                 .then(function (newFactors) {
                     returnValue.factors = newFactors;
                 });
@@ -261,15 +261,15 @@ items.deleteItem = (id, userId) => {
 
 function updateItemAges(item, ages) {
     debug("updateItemAges");
-    var agesNames = [];
+    let agesNames = [];
 
-    var agesLength = ages.length;
-    for (var i = 0; i < agesLength; i++) {
-        var age = ages[i];
+    let agesLength = ages.length;
+    for (let i = 0; i < agesLength; i++) {
+        let age = ages[i];
         agesNames.push(age.name);
     }
 
-    var updatedAges = [];
+    let updatedAges = [];
     return agesTable.findAll({
         include: [{
             model: itemsTable,
@@ -281,13 +281,13 @@ function updateItemAges(item, ages) {
         }]
     }).then(function (foundAges) {
         return Promise.map(foundAges, (age) => {
-            var index = agesNames.indexOf(age.name);
+            let index = agesNames.indexOf(age.name);
             if (index === -1) {
                 debug("removing age %o from item", age.name);
                 return item.removeAges(age);
             } else {
                 debug("updating age %o relationship with item", age.name);
-                var updateAgeInfo = ages[index].items_per_age;
+                let updateAgeInfo = ages[index].items_per_age;
                 if (!updateAgeInfo.days) {
                     updateAgeInfo.days = null;
                 }
@@ -353,7 +353,7 @@ function addAgeToItem(item, age) {
 
 function updateItemFactors(item, factors) {
     debug("updateItemFactors");
-    var updatedFactors = [];
+    let updatedFactors = [];
     return factorsTable.findAll({
         attributes: ["id"],
         include: [{
@@ -366,7 +366,7 @@ function updateItemFactors(item, factors) {
         }]
     }).then(function (foundFactors) {
         return Promise.map(foundFactors, (factor) => {
-            var index = factors.indexOf(factor.id);
+            let index = factors.indexOf(factor.id);
             if (index === -1) {
                 debug("removing factor id %o from item", factor.id);
                 return item.removeFactors(factor);

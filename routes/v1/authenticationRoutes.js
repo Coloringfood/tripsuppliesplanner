@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var debug = require('debug')('tripsuppliesplanner:routes:v1:authentication');
-var userService = require('./../../services/users');
-var fs = require('fs');
-var path = require('path');
+let express = require('express');
+let router = express.Router();
+let debug = require('debug')('tripsuppliesplanner:routes:v1:authentication');
+let userService = require('./../../services/users');
+let fs = require('fs');
+let path = require('path');
 
 router.use((req, res, next) => {
         req.validateFactors = () => {
@@ -33,7 +33,7 @@ router.route('/create')
     .post((req, res, next) => {
         debug(req.body);
         if (req.validateFactors()) {
-            var body = req.body;
+            let body = req.body;
             return userService.createUser(body)
                 .then((result) => {
                     res.send(result);
@@ -66,7 +66,7 @@ router.route('/update')
 
 router.route('/themes')
     .get((req, res, next) => {
-        var location = path.join(__dirname, '..','..','public','assets','css','themes');
+        let location = path.join(__dirname, '..','..','public','assets','css','themes');
         fs.readdir(location, (err, results) => {
             res.send(results);
         });

@@ -1,17 +1,17 @@
-var express = require('express');
-var expressValidator = require('express-validator');
-var router = express.Router();
-var debug = require('debug')('tripsuppliesplanner:routes:v1');
-var itemsRoutes = require('./v1/itemsRoutes');
-var factorsRoutes = require('./v1/factorsRoutes');
-var vacationsRoutes = require('./v1/vacationsRoutes');
-var authenticationRoutes = require('./v1/authenticationRoutes');
-var config = require('./../config/config.json');
-var expressJWT = require('express-jwt');
+let express = require('express');
+let expressValidator = require('express-validator');
+let router = express.Router();
+let debug = require('debug')('tripsuppliesplanner:routes:v1');
+let itemsRoutes = require('./v1/itemsRoutes');
+let factorsRoutes = require('./v1/factorsRoutes');
+let vacationsRoutes = require('./v1/vacationsRoutes');
+let authenticationRoutes = require('./v1/authenticationRoutes');
+let config = require('./../config/config.json');
+let expressJWT = require('express-jwt');
 
-var secretCallback = function (req, payload, done) {
+let secretCallback = function (req, payload, done) {
     // This will change to an Consul call or storage check.
-    var issuer = payload.iss;
+    let issuer = payload.iss;
     switch (issuer) {
         case config.security.issuer:
             done(null, config.security.secret);
@@ -53,7 +53,7 @@ router.use(function (err, req, res, next) {
 router.use(expressValidator({
     customValidators: {
         isString: function (param) {
-            var isValid = true;
+            let isValid = true;
             try {
                 if (typeof param !== 'string') {
                     isValid = false;
@@ -66,9 +66,9 @@ router.use(expressValidator({
         isInList: function (param, list) {
             /* check if param is in the list of valid options passed to function, returns boolean */
             try {
-                var isValid = false;
-                var i = 0;
-                var listLength = list.length;
+                let isValid = false;
+                let i = 0;
+                let listLength = list.length;
                 while (i < listLength && isValid === false) {
                     isValid = (list[i] === param);
                     ++i;
@@ -79,10 +79,10 @@ router.use(expressValidator({
             }
         },
         isObject: function (param) {
-            var isValid = true;
+            let isValid = true;
             try {
                 if (typeof param !== 'object') {
-                    var jsonVersion = JSON.parse(param);
+                    let jsonVersion = JSON.parse(param);
                     if (jsonVersion !== 'object') {
                         isValid = false;
                     }
@@ -93,7 +93,7 @@ router.use(expressValidator({
             return isValid;
         },
         isArray: function (param) {
-            var isValid;
+            let isValid;
             try {
                 isValid = Array.isArray(param);
             } catch (err) {
@@ -104,11 +104,12 @@ router.use(expressValidator({
     }
 }));
 router.use((req, res, next) => {
+	debug(req.user);
 
     req.checkErrors = () => {
         debug('checkErrors');
-        var valid = true;
-        var errors = req.validationErrors();
+        let valid = true;
+        let errors = req.validationErrors();
         if (errors) {
             valid = false;
             debug("Validation Errors: %o", errors);

@@ -1,16 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var debug = require('debug')('tripsuppliesplanner:routes:v1:items');
-var itemsService = require('./../../services/items');
-var categoryService = require('./../../services/categories');
+let express = require('express');
+let router = express.Router();
+let debug = require('debug')('tripsuppliesplanner:routes:v1:items');
+let itemsService = require('./../../services/items');
+let categoryService = require('./../../services/categories');
 
 router.use((req, res, next) => {
     req.validateItem = () => {
         debug('validateItem');
         validateItemData();
         if (typeof req.body.factors === 'object' && Array.isArray(req.body.factors)) {
-            var featuresLength = req.body.factors.length;
-            for (var i = 0; i < featuresLength; i++) {
+            let featuresLength = req.body.factors.length;
+            for (let i = 0; i < featuresLength; i++) {
                 validateFactorData('factors[' + i + ']');
             }
         }
@@ -49,7 +49,7 @@ router.route('/')
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateItem()) {
-            var body = req.body;
+            let body = req.body;
             body.created_by_id = req.user.userId;
             return itemsService.addItem(body)
                 .then((result) => {
@@ -88,7 +88,7 @@ router.route('/:itemId')
     .put((req, res, next) => {
         debug("Put on id:%o, object: %o", req.params.itemId, req.body);
         if (req.validateItem()) {
-            var body = req.body;
+            let body = req.body;
             itemsService.updateItem(req.params.itemId, body, req.user.userId)
                 .then((result) => {
                     res.json(result);
