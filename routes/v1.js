@@ -24,6 +24,7 @@ let secretCallback = function (req, payload, done) {
 router.use(expressJWT({
     secret: secretCallback,
     getToken: function fromHeaderOrQuerystring(req) {
+        debug("Getting Token, AUTH REQUIRED");
         if (req.headers.Authorization && req.headers.Authorization.split(' ')[0] === 'Bearer') {
             req.userToken = req.headers.Authorization.split(' ')[1];
         }
@@ -36,8 +37,8 @@ router.use(expressJWT({
     path: [
         /^\/v1\/authentication$/,               // Allow Login Requests
         /^\/v1\/authentication\/create$/,       // Allow RegisterRequests
-        /^\/v1\/vacations\/pack/,                // Allow Anonymous users to generate a packing list
-        /^\/v1\/factors/,               // Allow Anonymous users to generate a packing list
+        /^\/v1\/vacations\/pack/,               // Allow Anonymous users to generate a packing list
+        /^\/v1\/factors\/list/,                 // Allow Anonymous users to generate a packing list
     ]
 }));
 router.use(function (err, req, res, next) {
@@ -105,6 +106,7 @@ router.use(expressValidator({
 }));
 router.use((req, res, next) => {
 	debug(req.user);
+	debug(req.originalUrl);
 
     req.checkErrors = () => {
         debug('checkErrors');

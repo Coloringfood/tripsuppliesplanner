@@ -39,18 +39,20 @@ router.use((req, res, next) => {
     }
 );
 
+router.route('/list')
+	.get((req, res, next) => {
+		debug("Get Factors");
+		factorsService.getAllFactors()
+			.then((result) => {
+				debug("Get Result: %o", result);
+				res.json(result);
+			})
+			.catch((e) => {
+				next(e);
+			});
+	});
+
 router.route('/')
-    .get((req, res, next) => {
-        debug("Get Factors");
-        factorsService.getAllFactors()
-            .then((result) => {
-                debug("Get Result: %o", result);
-                res.json(result);
-            })
-            .catch((e) => {
-                next(e);
-            });
-    })
     .post((req, res, next) => {
         debug("Post: %o", req.body);
         if (req.validateFactors()) {

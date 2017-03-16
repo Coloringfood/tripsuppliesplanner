@@ -76,7 +76,7 @@ powerdialerApp.factory(
             };
 
             DialerListApiService.getAllFactors = () => {
-                return restangularFactory.one('factors').get()
+                return restangularFactory.one('factors').one("list").get()
                     .then(function (returnedData) {
                         if (debugging) {
                             console.log("getAllFactors: ", returnedData);
