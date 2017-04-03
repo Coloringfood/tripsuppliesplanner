@@ -11,33 +11,37 @@ powerdialerApp.directive('viewFactors',
                 },
                 templateUrl: '/public/common/templates/view_factors_template.html',
                 link: function (scope, element, attrs) {
-                    scope.types = [
-                        'Vacation Type',
-                        'Activities',
-                        'Other'
-                    ];
-                    scope.filteredFactors = {
-                        'Vacation Type': [],
-                        'Activities': [],
-                        'Other': []
-                    };
-                    if(!scope.settings){
-                        scope.settings = {
-                            object: false
+                    function renderView() {
+                        scope.types = [
+                            'Vacation Type',
+                            'Activities',
+                            'Other'
+                        ];
+
+                        scope.filteredFactors = {
+                            'Vacation Type': [],
+                            'Activities': [],
+                            'Other': []
                         };
-                    }
-                    let factorsLength = scope.factors.length;
-                    for (let i = 0; i < factorsLength; i++) {
-                        let factor = scope.factors[i];
-                        let index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
-                        if (index > -1) {
-                            let pushedItem = factor;
-                            if(scope.settings.showDays){
-                                pushedItem = scope.selected[index];
+                        if (!scope.settings) {
+                            scope.settings = {
+                                object: false
+                            };
+                        }
+                        let factorsLength = scope.factors.length;
+                        for (let i = 0; i < factorsLength; i++) {
+                            let factor = scope.factors[i];
+                            let index = scope.settings.object ? findFactorId(factor.id) : scope.selected.indexOf(factor.id);
+                            if (index > -1) {
+                                let pushedItem = factor;
+                                if (scope.settings.showDays) {
+                                    pushedItem = scope.selected[index];
+                                }
+                                scope.filteredFactors[factor.type].push(pushedItem);
                             }
-                            scope.filteredFactors[factor.type].push(pushedItem);
                         }
                     }
+
                     function findFactorId(id) {
                         if (!scope.settings.object) {
                             return -1;
@@ -51,8 +55,15 @@ powerdialerApp.directive('viewFactors',
                         }
                         return -1;
                     }
+
+                    scope.$watch('selected', function (oldValue, newValue) {
+                        if (newValue) {
+                            renderView();
+                        }
+                    });
                 }
             };
         }
     ]
-);
+)
+;

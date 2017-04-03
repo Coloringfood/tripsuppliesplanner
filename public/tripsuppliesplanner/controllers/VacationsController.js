@@ -7,10 +7,12 @@ powerdialerApp.controller('VacationsPageController',
         '$q',
         '$window',
         'authService',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window, authService) {
+        'ENV',
+        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window, authService, ENV) {
             'use strict';
 
             let vm = this;
+            let debugging = ENV.environment == 'dev';
             vm.name = "Vacations";
             vm.vacationsList = [];
             vm.factors = [];
@@ -21,7 +23,7 @@ powerdialerApp.controller('VacationsPageController',
             vm.authenticated = !!authService.authenticated;
 
             function updateList() {
-                let vacationsPromise;
+                let vacationsPromise, factorsPromise;
                 if (vm.authenticated) {
                     vacationsPromise = DialerListApiService.getAllVacations();
                 }
@@ -37,14 +39,16 @@ powerdialerApp.controller('VacationsPageController',
                 }
                 vacationsPromise = vacationsPromise.then(function (vacations) {
                     vm.vacationsList = vacations;
+                    return vacations;
                 }).catch(function (error) {
                     console.log("Getting Vacations Error: ", error);
                     NotificationProvider.error({
                         message: "Error Getting All Vacations"
                     });
                 });
-                let factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
+                factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
+                    return factors;
                 });
                 return $q.all([vacationsPromise, factorsPromise]);
             }
@@ -73,6 +77,9 @@ powerdialerApp.controller('VacationsPageController',
                     updateList();
 
                 }).catch(function (reason) {
+                    if (debugging) {
+                        console.log("error: ", reason);
+                    }
                     // NotificationProvider.info(reason);
                 });
             }
