@@ -12,7 +12,7 @@ module.exports = function (grunt) {
             not: {
                 autogen: [
                     '!public/common/constants.js',
-                    '!public/tripsuppliesplanner.min.js'
+                    '!public/TripSuppliesPlanner.min.js'
                 ],
                 external: [
                     '!public/assets/ext/**/*.js',
