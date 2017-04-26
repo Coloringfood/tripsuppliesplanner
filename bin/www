@@ -6,9 +6,13 @@
 
 var app = require('../app');
 var debug = require('debug')('tripsuppliesplanner:server:www');
-var http = require('http');
+var fs = require('fs');
+var config = require('../config/config.json');
 debug("Starting");
 
+/**
+ * Migrations
+ */
 var db = require('./../models/database');
 var Umzug = require('umzug');
 var umzug = new Umzug({
@@ -33,11 +37,37 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTP or HTTPS server.
  */
+function setup() {
+    try {
+        var options = {
+            key: fs.readFileSync(config.ssl.key),
+            cert: fs.readFileSync(config.ssl.cert),
+            passphrase: config.ssl.passphrase
+        };
+        debug("SSL Options");
+        debug(options);
+        return options;
+    }
+    catch (e) {
+        debug("No SSL Configured");
+    }
+}
 
-var server = http.createServer(app);
+function start(app, options) {
+    if (options)
+        return require('https').createServer(options, app);
 
+    return require('http').createServer(app);
+}
+
+var options = setup();
+var server = start(app, options);
+
+/**
+ * Run Migrations.
+ */
 
 debug("Starting Migrations");
 umzug.up()

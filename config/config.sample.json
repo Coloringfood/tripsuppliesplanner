@@ -12,5 +12,10 @@
     "issuer": "SELF",
     "expiration": 6000
   },
-  "logger": "dev"
+  "ssl": {
+    "key": "./ssl/server.key",
+    "cert": "./ssl/server.crt",
+    "passphrase": "mypassphrase"
+  },
+  "logger": "combined"
 }
