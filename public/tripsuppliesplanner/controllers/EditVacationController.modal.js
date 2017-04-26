@@ -3,11 +3,11 @@ powerdialerApp.controller('EditVacationModalController',
         '$scope',
         '$uibModalInstance',
         'vacation',
-        'DialerListApiService',
+        'TripSuppliesPlannerService',
         'Notification',
         '$sce',
         'authService',
-        function ($scope, $uibModalInstance, vacation, DialerListApiService, NotificationProvider, $sce, authService) {
+        function ($scope, $uibModalInstance, vacation, TripSuppliesPlannerService, NotificationProvider, $sce, authService) {
             'use strict';
             let vm = this;
             $scope.vacationName = vacation.name;
@@ -65,7 +65,7 @@ powerdialerApp.controller('EditVacationModalController',
                 'Other': []
             };
             function updateFactors() {
-                return DialerListApiService.getAllFactors()
+                return TripSuppliesPlannerService.getAllFactors()
                     .then(function (factors) {
                         let markedFactors = {};
                         let selectedLength = vm.newVacation.factors.length;
@@ -116,7 +116,7 @@ powerdialerApp.controller('EditVacationModalController',
                 }
                 if (typeof vacation.id !== "undefined") {
                     if (authService.authenticated) {
-                        DialerListApiService.saveVacation(vm.newVacation, vacation.id)
+                        TripSuppliesPlannerService.saveVacation(vm.newVacation, vacation.id)
                             .then((result) => {
                                 $uibModalInstance.close({
                                     message: "Successfully saved " + vm.newVacation.name,
@@ -131,7 +131,7 @@ powerdialerApp.controller('EditVacationModalController',
                             });
                     }
                     else {
-                        DialerListApiService.generatePackingList(vm.newVacation, 4)
+                        TripSuppliesPlannerService.generatePackingList(vm.newVacation, 4)
                             .then((result) => {
                                 let vacations = [];
                                 try {
@@ -154,7 +154,7 @@ powerdialerApp.controller('EditVacationModalController',
                 }
                 else {
                     if (authService.authenticated) {
-                        DialerListApiService.createVacation(vm.newVacation)
+                        TripSuppliesPlannerService.createVacation(vm.newVacation)
                             .then((result) => {
                                 $uibModalInstance.close({
                                     message: "Successfully created " + vm.newVacation.name,
@@ -169,7 +169,7 @@ powerdialerApp.controller('EditVacationModalController',
                             });
                     }
                     else {
-                        DialerListApiService.generatePackingList(vm.newVacation, 4)
+                        TripSuppliesPlannerService.generatePackingList(vm.newVacation, 4)
                             .then((result) => {
                                 let vacations = [];
                                 try {

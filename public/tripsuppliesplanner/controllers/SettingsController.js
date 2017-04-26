@@ -4,8 +4,8 @@ powerdialerApp.controller("SettingsController",
         '$location',
         'authService',
         'Notification',
-        'DialerListApiService',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService) {
+        'TripSuppliesPlannerService',
+        function ($scope, $location, authService, NotificationProvider, TripSuppliesPlannerService) {
             'use strict';
             let vm = this;
             vm.user = authService.authenticated.tokenData.user;
@@ -34,7 +34,7 @@ powerdialerApp.controller("SettingsController",
                 },
             ];
 
-            DialerListApiService.getThemes().then((themes)=> {
+            TripSuppliesPlannerService.getThemes().then((themes)=> {
                 vm.themes = themes;
                 if (!vm.user.settings.cssTheme) {
                     vm.user.settings.cssTheme = "Default";
@@ -48,7 +48,7 @@ powerdialerApp.controller("SettingsController",
                     delete vm.user.settings.cssTheme;
                 }
 
-                DialerListApiService.updateUser(vm.user)
+                TripSuppliesPlannerService.updateUser(vm.user)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
                         NotificationProvider.success("Successfully Updated Settings. Please wait while we reload the app");
@@ -74,7 +74,7 @@ powerdialerApp.controller("SettingsController",
                     "settings": vm.user.settings
                 };
 
-                DialerListApiService.updateUser(updateCssData)
+                TripSuppliesPlannerService.updateUser(updateCssData)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
                         NotificationProvider.success("Successfully Selected Theme. Please wait while we reload the app");

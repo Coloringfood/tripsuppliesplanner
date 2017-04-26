@@ -1,14 +1,14 @@
 powerdialerApp.controller('VacationsPageController',
     [
         '$scope',
-        'DialerListApiService',
+        'TripSuppliesPlannerService',
         'Notification',
         '$uibModal',
         '$q',
         '$window',
         'authService',
         'ENV',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window, authService, ENV) {
+        function ($scope, TripSuppliesPlannerService, NotificationProvider, $uibModal, $q, $window, authService, ENV) {
             'use strict';
 
             let vm = this;
@@ -25,12 +25,12 @@ powerdialerApp.controller('VacationsPageController',
             function updateList() {
                 let vacationsPromise, factorsPromise;
                 if (vm.authenticated) {
-                    vacationsPromise = DialerListApiService.getAllVacations();
+                    vacationsPromise = TripSuppliesPlannerService.getAllVacations();
                 }
                 else {
                     try {
                         vacationsPromise = $q.all(JSON.parse(localStorage.vacations).map((vacation) => {
-                            return DialerListApiService.convertVacationForUi(vacation);
+                            return TripSuppliesPlannerService.convertVacationForUi(vacation);
                         }));
                     }
                     catch (e) {
@@ -46,7 +46,7 @@ powerdialerApp.controller('VacationsPageController',
                         message: "Error Getting All Vacations"
                     });
                 });
-                factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
+                factorsPromise = TripSuppliesPlannerService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                     return factors;
                 });
@@ -94,7 +94,7 @@ powerdialerApp.controller('VacationsPageController',
 
             vm.deleteVacation = (vacation) => {
                 if (authService.authenticated) {
-                    return DialerListApiService.deleteVacation(vacation.id)
+                    return TripSuppliesPlannerService.deleteVacation(vacation.id)
                         .then(function () {
                             NotificationProvider.success({
                                 message: "Successfully removed " + vacation.name

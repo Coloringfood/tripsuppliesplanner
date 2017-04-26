@@ -1,5 +1,5 @@
 powerdialerApp.factory(
-    'DialerListApiService',
+    'TripSuppliesPlannerService',
     [
         '$q',
         '$location',
@@ -12,7 +12,7 @@ powerdialerApp.factory(
             let debugging = ENV.environment == 'dev';
             console.log("debugging: ", debugging);
 
-            let DialerListApiService = {};
+            let TripSuppliesPlannerService = {};
 
             function convertItemForApi(itemData) {
                 return itemData;
@@ -26,14 +26,14 @@ powerdialerApp.factory(
                 return vacationData;
             }
 
-            DialerListApiService.convertVacationForUi = (vacationData) =>{
+            TripSuppliesPlannerService.convertVacationForUi = (vacationData) =>{
                 let format = "yyyy-MM-dd";
                 vacationData.start_date = uibDateParser.parse(vacationData.start_date.split("T")[0], format);
                 vacationData.end_date = uibDateParser.parse(vacationData.end_date.split("T")[0], format);
                 return vacationData;
             };
 
-            DialerListApiService.getAllItems = () => {
+            TripSuppliesPlannerService.getAllItems = () => {
                 return restangularFactory.one('items').get()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -43,7 +43,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.saveItem = (itemData, itemId) => {
+            TripSuppliesPlannerService.saveItem = (itemData, itemId) => {
                 let convertedItem = convertItemForApi(itemData);
                 return restangularFactory.allUrl('.').customPUT(convertedItem, "items/" + itemId)
                     .then(function (returnedData) {
@@ -54,7 +54,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.createItem = (itemData) => {
+            TripSuppliesPlannerService.createItem = (itemData) => {
                 let convertedItem = convertItemForApi(itemData);
                 return restangularFactory.all('items').post(convertedItem)
                     .then(function (returnedData) {
@@ -65,7 +65,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.deleteItem = (itemId) => {
+            TripSuppliesPlannerService.deleteItem = (itemId) => {
                 return restangularFactory.one('items').all(itemId).remove()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -75,7 +75,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getAllFactors = () => {
+            TripSuppliesPlannerService.getAllFactors = () => {
                 return restangularFactory.one('factors').one("list").get()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -85,7 +85,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.createFactor = (factorData) => {
+            TripSuppliesPlannerService.createFactor = (factorData) => {
                 let convertedFactor = convertFactorForApi(factorData);
                 return restangularFactory.all('factors').post([convertedFactor])
                     .then(function (returnedData) {
@@ -96,7 +96,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getAllCategories = () => {
+            TripSuppliesPlannerService.getAllCategories = () => {
                 return restangularFactory.one('items').one('categories').get()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -106,13 +106,13 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getAllVacations = () => {
+            TripSuppliesPlannerService.getAllVacations = () => {
                 return restangularFactory.one('vacations').get()
                     .then(function (returnedData) {
                         if (debugging) {
                             console.log("getAllVacations: ", returnedData);
                         }
-                        return $q.all(returnedData.map(DialerListApiService.convertVacationForUi))
+                        return $q.all(returnedData.map(TripSuppliesPlannerService.convertVacationForUi))
                             .then(function (returnedData) {
                                 if (debugging) {
                                     console.log("Converted Vacation Data: ", returnedData);
@@ -122,10 +122,10 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getVacation = (vacationId) => {
+            TripSuppliesPlannerService.getVacation = (vacationId) => {
                 return restangularFactory.one('vacations', vacationId).get()
                     .then(function (returnedData) {
-                        let vacation = DialerListApiService.convertVacationForUi(returnedData);
+                        let vacation = TripSuppliesPlannerService.convertVacationForUi(returnedData);
                         if (debugging) {
                             console.log("getVacation: ", vacation);
                         }
@@ -133,7 +133,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.saveVacation = (vacationData, vacationId) => {
+            TripSuppliesPlannerService.saveVacation = (vacationData, vacationId) => {
                 let convertedVacation = convertVacationForApi(vacationData);
 
                 return restangularFactory.allUrl('.').customPUT(convertedVacation, "vacations/" + vacationId)
@@ -145,7 +145,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.createVacation = (vacationData) => {
+            TripSuppliesPlannerService.createVacation = (vacationData) => {
                 let convertedVacation = convertVacationForApi(vacationData);
 
                 return restangularFactory.all('vacations').post(convertedVacation)
@@ -157,7 +157,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.deleteVacation = (vacationId) => {
+            TripSuppliesPlannerService.deleteVacation = (vacationId) => {
                 return restangularFactory.one('vacations').all(vacationId).remove()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -167,7 +167,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getAllPackingItems = (vacationId) => {
+            TripSuppliesPlannerService.getAllPackingItems = (vacationId) => {
                 let userId = authService.authenticated.tokenData.userId;
                 return restangularFactory.one('vacations', vacationId).one('pack', userId).get()
                     .then(function (returnedData) {
@@ -178,7 +178,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.generatePackingList = (vacationData, ageId) => {
+            TripSuppliesPlannerService.generatePackingList = (vacationData, ageId) => {
                 let convertedVacation = convertVacationForApi(vacationData);
                 convertedVacation.ageId = ageId;
 
@@ -191,7 +191,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.authenticate = (username, password) => {
+            TripSuppliesPlannerService.authenticate = (username, password) => {
                 let submitData = {
                     username: username,
                     password: password
@@ -205,7 +205,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.register = (signUpData) => {
+            TripSuppliesPlannerService.register = (signUpData) => {
                 return restangularFactory.one('authentication').all('create').post(signUpData)
                     .then(function (result) {
                         if (debugging) {
@@ -215,7 +215,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.updateUser = (userData) => {
+            TripSuppliesPlannerService.updateUser = (userData) => {
                 return restangularFactory.allUrl('.').customPUT(userData, "authentication/update")
                     .then(function (returnedData) {
                         if (debugging) {
@@ -225,7 +225,7 @@ powerdialerApp.factory(
                     });
             };
 
-            DialerListApiService.getThemes = () => {
+            TripSuppliesPlannerService.getThemes = () => {
                 return restangularFactory.one('authentication').one('themes').get()
                     .then(function (returnedData) {
                         if (debugging) {
@@ -235,7 +235,7 @@ powerdialerApp.factory(
                     });
             };
 
-            return DialerListApiService;
+            return TripSuppliesPlannerService;
         }
     ]
 );

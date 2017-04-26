@@ -3,10 +3,10 @@ powerdialerApp.controller('EditItemModalController',
         '$scope',
         '$uibModalInstance',
         'item',
-        'DialerListApiService',
+        'TripSuppliesPlannerService',
         'Notification',
         '$sce',
-        function ($scope, $uibModalInstance, item, DialerListApiService, NotificationProvider, $sce) {
+        function ($scope, $uibModalInstance, item, TripSuppliesPlannerService, NotificationProvider, $sce) {
             'use strict';
             let vm = this,
                 markedFactors = {};
@@ -199,7 +199,7 @@ powerdialerApp.controller('EditItemModalController',
                 age.view = newView;
             };
 
-            DialerListApiService.getAllCategories()
+            TripSuppliesPlannerService.getAllCategories()
                 .then((categories) => {
                     vm.categories = categories;
                 });
@@ -208,7 +208,7 @@ powerdialerApp.controller('EditItemModalController',
                 vm.newItem.category = choice;
             };
             function updateFactors() {
-                return DialerListApiService.getAllFactors()
+                return TripSuppliesPlannerService.getAllFactors()
                     .then(function (factors) {
                         vm.factors = {
                             'Vacation Type': [],
@@ -255,7 +255,7 @@ powerdialerApp.controller('EditItemModalController',
                         }
                     }
 
-                    DialerListApiService.createFactor(vm.newFactor).then(function () {
+                    TripSuppliesPlannerService.createFactor(vm.newFactor).then(function () {
                         vm.showNewFactor = false;
                         updateFactors().then(function () {
                             NotificationProvider.success("Factor created");
@@ -287,7 +287,7 @@ powerdialerApp.controller('EditItemModalController',
                 }
                 vm.newItem.required = !vm.newItem.optional;
                 if (item.id) {
-                    DialerListApiService.saveItem(vm.newItem, item.id)
+                    TripSuppliesPlannerService.saveItem(vm.newItem, item.id)
                         .then(function (result) {
                             $uibModalInstance.close({
                                 message: "Successfully saved " + vm.newItem.name,
@@ -303,7 +303,7 @@ powerdialerApp.controller('EditItemModalController',
                         });
                 }
                 else {
-                    DialerListApiService.createItem(vm.newItem)
+                    TripSuppliesPlannerService.createItem(vm.newItem)
                         .then(function (result) {
                             $uibModalInstance.close({
                                 message: "Successfully created " + vm.newItem.name,

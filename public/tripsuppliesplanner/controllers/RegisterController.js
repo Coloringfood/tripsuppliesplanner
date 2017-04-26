@@ -4,8 +4,8 @@ powerdialerApp.controller("RegisterController",
         '$location',
         'authService',
         'Notification',
-        'DialerListApiService',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService) {
+        'TripSuppliesPlannerService',
+        function ($scope, $location, authService, NotificationProvider, TripSuppliesPlannerService) {
             'use strict';
             let vm = this;
 
@@ -32,7 +32,7 @@ powerdialerApp.controller("RegisterController",
                 vm.dataLoading = true;
                 vm.user.name = vm.user.firstName + " " + vm.user.lastName;
 
-                DialerListApiService.register(vm.user)
+                TripSuppliesPlannerService.register(vm.user)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
                         NotificationProvider.success("Successfully Logged In. Please wait while we reload the app");

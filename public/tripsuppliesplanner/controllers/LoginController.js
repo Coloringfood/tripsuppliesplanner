@@ -4,8 +4,8 @@ powerdialerApp.controller("LoginController",
         '$location',
         'authService',
         'Notification',
-        'DialerListApiService',
-        function ($scope, $location, authService, NotificationProvider, DialerListApiService) {
+        'TripSuppliesPlannerService',
+        function ($scope, $location, authService, NotificationProvider, TripSuppliesPlannerService) {
             'use strict';
             let vm = this;
 
@@ -13,7 +13,7 @@ powerdialerApp.controller("LoginController",
             vm.login = () => {
                 vm.dataLoading = true;
 
-                DialerListApiService.authenticate(vm.username, vm.password)
+                TripSuppliesPlannerService.authenticate(vm.username, vm.password)
                     .then(function (result) {
                         authService.signedIn(result.token, true);
 

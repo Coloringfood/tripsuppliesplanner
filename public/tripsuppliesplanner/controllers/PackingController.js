@@ -2,11 +2,11 @@ powerdialerApp.controller("PackingController",
     [
         '$scope',
         'Notification',
-        'DialerListApiService',
+        'TripSuppliesPlannerService',
         '$routeParams',
         '$q',
         'authService',
-        function ($scope, NotificationProvider, DialerListApiService, $routeParams, $q, authService) {
+        function ($scope, NotificationProvider, TripSuppliesPlannerService, $routeParams, $q, authService) {
             'use strict';
             let vm = this;
             vm.authenticated = !!authService.authenticated;
@@ -19,12 +19,12 @@ powerdialerApp.controller("PackingController",
             let packingListPromise,
                 vacationPromise;
             if (vm.authenticated) {
-                packingListPromise = DialerListApiService.getAllPackingItems($routeParams.vacationId);
-                vacationPromise = DialerListApiService.getVacation($routeParams.vacationId);
+                packingListPromise = TripSuppliesPlannerService.getAllPackingItems($routeParams.vacationId);
+                vacationPromise = TripSuppliesPlannerService.getVacation($routeParams.vacationId);
             }else{
                 let vacation = JSON.parse(localStorage.vacations)[$routeParams.vacationId];
-                packingListPromise = DialerListApiService.generatePackingList(vacation, vm.ageId);
-                vacationPromise = $q.resolve(DialerListApiService.convertVacationForUi(vacation));
+                packingListPromise = TripSuppliesPlannerService.generatePackingList(vacation, vm.ageId);
+                vacationPromise = $q.resolve(TripSuppliesPlannerService.convertVacationForUi(vacation));
             }
             $q.all([packingListPromise, vacationPromise])
                 .then(function (results) {

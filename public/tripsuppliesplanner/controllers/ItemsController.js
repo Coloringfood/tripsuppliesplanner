@@ -1,12 +1,12 @@
 powerdialerApp.controller('ItemsPageController',
     [
         '$scope',
-        'DialerListApiService',
+        'TripSuppliesPlannerService',
         'Notification',
         '$uibModal',
         '$q',
         '$window',
-        function ($scope, DialerListApiService, NotificationProvider, $uibModal, $q, $window) {
+        function ($scope, TripSuppliesPlannerService, NotificationProvider, $uibModal, $q, $window) {
             'use strict';
 
             let vm = this;
@@ -18,7 +18,7 @@ powerdialerApp.controller('ItemsPageController',
             };
 
             function updateList() {
-                let itemsPromise = DialerListApiService.getAllItems().then(function (items) {
+                let itemsPromise = TripSuppliesPlannerService.getAllItems().then(function (items) {
                     vm.itemsList = items;
                 }).catch(function (error) {
                     console.log("Getting Items Error: ", error);
@@ -26,7 +26,7 @@ powerdialerApp.controller('ItemsPageController',
                         message: "Error Getting All Items"
                     });
                 });
-                let factorsPromise = DialerListApiService.getAllFactors().then(function (factors) {
+                let factorsPromise = TripSuppliesPlannerService.getAllFactors().then(function (factors) {
                     vm.factors = factors;
                 });
                 return $q.all([itemsPromise, factorsPromise]);
@@ -69,7 +69,7 @@ powerdialerApp.controller('ItemsPageController',
             };
 
             vm.deleteItem = (item) => {
-                return DialerListApiService.deleteItem(item.id)
+                return TripSuppliesPlannerService.deleteItem(item.id)
                     .then(function () {
                         NotificationProvider.success({
                             message: "Successfully removed " + item.name
