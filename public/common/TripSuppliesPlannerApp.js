@@ -57,9 +57,12 @@ powerdialerApp.config(['$compileProvider', '$httpProvider', '$locationProvider',
                 controller: 'SettingsController as vm',
                 authorize: true
             })
-            .otherwise({
+            .when('/', {
                 templateUrl: '/static/tripsuppliesplanner/views/home.html',
                 controller: 'HomeController as vm'
+            })
+            .otherwise({
+                templateUrl: '/static/tripsuppliesplanner/views/404.html'
             });
 
         $locationProvider.html5Mode({
